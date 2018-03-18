@@ -1,70 +1,77 @@
--- ´´½¨Êı¾İ¿â
+ï»¿-- åˆ›å»ºæ•°æ®åº“
 drop database if exists answerWeb;
 create database answerWeb;
 use answerWeb;
 
--- ´´½¨ÓÃ»§±í
+drop table if exists options;
+drop table if exists records;
+drop table if exists question;
+drop table if exists questiontype;
+drop table if exists user;
+drop table if exists admin;
+
+-- åˆ›å»ºç”¨æˆ·è¡¨
 create table user(
-	userno int auto_increment primary key, --×ÔÔöÖ÷¼üid
-	username varchar(20) not null,	--ÓÃ»§Ãû
-	password varchar(40) not null,	--ÓÃ»§ÃÜÂë
-	email varchar(50),	--ÓÃ»§ÓÊÏä
-	sex varchar(2),		--ÓÃ»§ĞÔ±ğ
-	status int 			--ÓÃ»§ÊÇ·ñÍ¨¹ıÓÊÏäÑéÖ¤ , 0Î´Í¨¹ı, 1Í¨¹ı
+	userno int auto_increment primary key, -- è‡ªå¢ä¸»é”®id
+	username varchar(20) UNIQUE KEY not null,	-- ç”¨æˆ·å
+	password varchar(40) not null,	-- ç”¨æˆ·å¯†ç 
+	email varchar(50),	-- ç”¨æˆ·é‚®ç®±
+	sex varchar(2),		-- ç”¨æˆ·æ€§åˆ«
+	status int default 0 -- ç”¨æˆ·æ˜¯å¦é€šè¿‡é‚®ç®±éªŒè¯ , 0æœªé€šè¿‡, 1é€šè¿‡
 );
 
--- ´´½¨ÌâÄ¿ÀàĞÍ±í
+-- åˆ›å»ºé¢˜ç›®ç±»å‹è¡¨
 create table questiontype(
-	typeno int auto_increment primary key,	-- ×ÔÔöÖ÷¼üid
-	typename varchar(30) not null,		-- ÌâÄ¿ÀàĞÍId
-	belongtypeno int,		-- ÊôÓÚÄÄ¸öÌâÄ¿ÀàĞÍid
+	typeno int auto_increment primary key,	-- è‡ªå¢ä¸»é”®id
+	typename varchar(30) not null,		-- é¢˜ç›®ç±»å‹Id
+	belongtypeno int,		-- å±äºå“ªä¸ªé¢˜ç›®ç±»å‹id
 	constraint fk_questiontype_belongtypeno foreign key(belongtypeno) 
-		references questiontype(typeno)
+		references questiontype(typeno) on delete cascade
 );
 
--- ´´½¨ÌâÄ¿±í
+-- åˆ›å»ºé¢˜ç›®è¡¨
 create table question(
-	questionno int auto_increment primary key,	-- ×ÔÔöÖ÷¼üid
-	content varchar(200) not null,	-- ÌâÄ¿ÄÚÈİ,¿ÉÄÜÊÇÎÄ±¾»òÁ´½Ó
-	description varchar(200),		-- ÌâÄ¿Éæ¼°ÖªÊ¶ÃèÊö,ÓÃÓÚ´ğÌâºó, ÎÄ±¾»òÁ´½Ó
-	constatus int not null,	-- ÄÚÈİÀàĞÍ, 1ÎÄ±¾, 2Í¼Æ¬, 3ÊÓÆµ, 4ÒôÀÖ
-	desstatus int,	-- ÃèÊöÀàĞÍ, 1ÎÄ±¾, 2Í¼Æ¬
-	typeno int not null,		-- ÌâÄ¿ÀàĞÍid
+	questionno int auto_increment primary key,	-- è‡ªå¢ä¸»é”®id
+	content varchar(200) not null,	-- é¢˜ç›®å†…å®¹,å¯èƒ½æ˜¯æ–‡æœ¬æˆ–é“¾æ¥
+	description varchar(200),		-- é¢˜ç›®æ¶‰åŠçŸ¥è¯†æè¿°,ç”¨äºç­”é¢˜å, æ–‡æœ¬æˆ–é“¾æ¥
+	constatus int not null,	-- å†…å®¹ç±»å‹, 1æ–‡æœ¬, 2å›¾ç‰‡, 3è§†é¢‘, 4éŸ³ä¹
+	desstatus int,	-- æè¿°ç±»å‹, 1æ–‡æœ¬, 2å›¾ç‰‡
+	typeno int not null,		-- é¢˜ç›®ç±»å‹id
 	constraint fk_question_typeno foreign key(typeno)
-		references questiontype(typeno)
+		references questiontype(typeno) on delete cascade
 );
 
--- ´´½¨ÌâÄ¿Ñ¡Ïî±í
+-- åˆ›å»ºé¢˜ç›®é€‰é¡¹è¡¨
 create table options(
-	optionsno int auto_increment primary key, -- ×ÔÔöÖ÷¼üid
-	questionno int not null, -- ÌâÄ¿id
-	content varchar(200) not null, -- Ñ¡ÏîÄÚÈİ
-	status int,	-- Ñ¡Ïî¶Ô´í, 1¶Ô 0´í
+	optionsno int auto_increment primary key, -- è‡ªå¢ä¸»é”®id
+	questionno int not null, -- é¢˜ç›®id
+	content varchar(200) not null, -- é€‰é¡¹å†…å®¹
+	status int,	-- é€‰é¡¹å¯¹é”™, 1å¯¹ 0é”™
 	constraint fk_options_questionno foreign key(questionno)
-		references question(questionno)
+		references question(questionno) on delete cascade
 );
 
--- ´´½¨¼ÇÂ¼±í
+-- åˆ›å»ºè®°å½•è¡¨
 create table records(
-	recordsno int auto_increment primary key, -- ×ÔÔöÖ÷¼üid
-	userno int not null, -- ÓÃ»§id
-	typeno int not null, -- ÀàĞÍid
-	acnumber int default 0,	-- ´ğ¶ÔÌâÊı
-	erunmber int default 0, -- ´ğ´íÌâÊı
+	recordsno int auto_increment primary key, -- è‡ªå¢ä¸»é”®id
+	userno int not null, -- ç”¨æˆ·id
+	typeno int not null, -- ç±»å‹id
+	acnumber int default 0,	-- ç­”å¯¹é¢˜æ•°
+	erunmber int default 0, -- ç­”é”™é¢˜æ•°
 	constraint fk_records_userno foreign key(userno)
-		references user(userno),
+		references user(userno) on delete cascade,
 	constraint fk_records_typeno foreign key(typeno)
-		references questiontype(typeno)
+		references questiontype(typeno) on delete cascade
 );
 
--- ´´½¨¹ÜÀíÔ±±í
+-- åˆ›å»ºç®¡ç†å‘˜è¡¨
 create table admins(
-	adminid int auto_increment primary key, -- ×ÔÔöÖ÷¼üid
-	adminname varchar(30) not null,	-- ¹ÜÀíÔ±Ãû³Æ
-	password varchar(40) not null,	-- ¹ÜÀíÔ±ÃÜÂë
-	adminflag int	-- ¹ÜÀíÔ±È¨ÏŞ, 1ÆÕÍ¨ 2³¬¼¶
+	adminid int auto_increment primary key, -- è‡ªå¢ä¸»é”®id
+	adminname varchar(30) not null,	-- ç®¡ç†å‘˜åç§°
+	password varchar(40) not null,	-- ç®¡ç†å‘˜å¯†ç 
+	adminflag int default 1	-- ç®¡ç†å‘˜æƒé™, 1æ™®é€š 2è¶…çº§
 );
 
--- ²åÈëÊı¾İ
-insert into user(username,password,email,sex,status) values('yuan','yuan','123','ÄĞ',1);
+-- æ’å…¥æ•°æ®
+insert into user(username,password,email,sex,status) values('yuan','yuan','123','ç”·',1);
 
