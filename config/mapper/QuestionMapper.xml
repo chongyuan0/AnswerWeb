@@ -225,5 +225,4 @@
       typeno = #{typeno,jdbcType=INTEGER}
     where questionno = #{questionno,jdbcType=INTEGER}
   </update>
- 
 </mapper>

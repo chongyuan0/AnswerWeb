@@ -223,5 +223,4 @@
       status = #{status,jdbcType=INTEGER}
     where userno = #{userno,jdbcType=INTEGER}
   </update>
- 
 </mapper>

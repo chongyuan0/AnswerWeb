@@ -193,5 +193,4 @@
       status = #{status,jdbcType=INTEGER}
     where optionsno = #{optionsno,jdbcType=INTEGER}
   </update>
- 
 </mapper>

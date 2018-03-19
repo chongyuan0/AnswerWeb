@@ -178,5 +178,4 @@
       belongtypeno = #{belongtypeno,jdbcType=INTEGER}
     where typeno = #{typeno,jdbcType=INTEGER}
   </update>
- 
 </mapper>

@@ -208,5 +208,4 @@
       erunmber = #{erunmber,jdbcType=INTEGER}
     where recordsno = #{recordsno,jdbcType=INTEGER}
   </update>
- 
 </mapper>
