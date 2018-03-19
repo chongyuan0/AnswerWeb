@@ -25,7 +25,7 @@ public class UserController extends BaseController {
 	private UserService userService;
 
 	// 用户登录
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
 	public String login(User user, ModelMap model) {
 		List<User> userlist = userService.login(user);
 		// 不存在用户
@@ -47,7 +47,7 @@ public class UserController extends BaseController {
 	}
 
 	// 用户注册
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/register", method = RequestMethod.POST)
 	public String register(User user) {
 		// 注册用户
 		int flag = userService.register(user);
