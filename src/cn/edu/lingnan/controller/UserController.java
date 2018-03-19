@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.edu.lingnan.pojo.User;
@@ -65,7 +66,8 @@ public class UserController extends BaseController {
 
 	// 多条件查询用户
 	@RequestMapping("/selectUserByExample")
-	public String selectUserByExample(Map<String, Object> map, UserExample user) {
+	public String selectUserByExample(Map<String, Object> map, UserExample user,@RequestParam(value="pn",defaultValue="1")Integer pn) {
+		PageHelper.startPage(pn,5);
 		List<User> list = userService.selectUserByExample(user);
 		// 对数据进行分页处理
 		PageInfo pageInfo = new PageInfo(list);

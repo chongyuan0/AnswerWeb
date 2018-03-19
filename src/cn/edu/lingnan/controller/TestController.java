@@ -21,7 +21,7 @@ public class TestController {
 		List<Test> list = testService.selectTest();
 		//springmvc会自动把map中的数据放到请求域中
 		map.put("testList",list);
-		return "test";
+		return "forward:test";
 	}
 	
 }

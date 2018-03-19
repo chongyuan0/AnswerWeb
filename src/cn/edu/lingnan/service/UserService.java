@@ -29,8 +29,7 @@ public class UserService {
 	}
 	
 	public void updateUser(User user) {
-		// TODO Auto-generated method stub
-		
+		userMapper.updateByPrimaryKeySelective(user);
 	}
 	
 	/*
