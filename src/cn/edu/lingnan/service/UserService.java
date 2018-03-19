@@ -12,9 +12,26 @@ import cn.edu.lingnan.pojo.UserExample.Criteria;
 
 @Service
 public class UserService {
-
+	
 	@Autowired
 	private UserMapper userMapper;
+	
+	public List<User> selectUserByExample(UserExample user){
+		return userMapper.selectByExample(user);
+	}
+
+	public void deleteUser(Integer id) {
+		userMapper.deleteByPrimaryKey(id);
+	}
+
+	public void addUser(User user) {
+		userMapper.insertSelective(user);
+	}
+	
+	public void updateUser(User user) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	/*
 	 * 登录
@@ -32,4 +49,6 @@ public class UserService {
 	public int register(User user) {
 		return userMapper.insertSelective(user);
 	}
+
+	
 }
