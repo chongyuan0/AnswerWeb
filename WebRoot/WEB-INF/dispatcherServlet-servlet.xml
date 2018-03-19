@@ -19,6 +19,10 @@
 		<property name="prefix" value="/"></property>
 		<property name="suffix" value=".jsp"></property>
 	</bean>
+	
+	<!-- 使用Bean Validator -->
+	<bean id="validator" 
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
 
 	<!-- 支持更高级的功能，比如映射动态请求 网上解释： 1：要使用spring mvc中的@Controller注解，就必须要配置<mvc:annotation-driven 
 		/>， 否则org.springframework.web.servlet.DispatcherServlet无法找到控制器并把请求分发到控制器 
@@ -28,6 +32,7 @@
 		MVC为@Controllers分发请求所必须的， 即解决了@Controller注解使用的前提配置。 同时它还提供了：数据绑定支持，@NumberFormatannotation支持，@DateTimeFormat支持，@Valid支持， 
 		读写XML的支持（JAXB，读写JSON的支持（Jackson）。我们处理响应ajax请求时， 就使用到了对json的支持（配置之后，在加入了jackson的core和mapper包之后，不写配置文件也能自动转换成json）。 
 		而且，当对action写JUnit单元测试时，要从spring IOC容器中取DefaultAnnotat -->
+	
 	<mvc:annotation-driven></mvc:annotation-driven>
 
 	<!-- 将springmvc不能处理的资源交给tomcat来处理 -->

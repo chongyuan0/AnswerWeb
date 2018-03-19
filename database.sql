@@ -8,14 +8,14 @@ drop table if exists records;
 drop table if exists question;
 drop table if exists questiontype;
 drop table if exists user;
-drop table if exists admin;
+drop table if exists admins;
 
 -- 创建用户表
 create table user(
 	userno int auto_increment primary key, -- 自增主键id
-	username varchar(20) UNIQUE KEY not null,	-- 用户名
+	username varchar(20),	-- 用户名
 	password varchar(40) not null,	-- 用户密码
-	email varchar(50),	-- 用户邮箱
+	email varchar(50) UNIQUE KEY not null,	-- 用户邮箱
 	sex varchar(2),		-- 用户性别
 	status int default 0 -- 用户是否通过邮箱验证 , 0未通过, 1通过
 );
@@ -73,5 +73,5 @@ create table admins(
 );
 
 -- 插入数据
-insert into user(username,password,email,sex,status) values('yuan','yuan','123','男',1);
+insert into user(username,password,email,sex,status) values('yuan','yuan','15017391266@163.com','男',1);
 
