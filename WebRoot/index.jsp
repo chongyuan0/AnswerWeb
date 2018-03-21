@@ -43,5 +43,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<input type="submit" value="提交">
 		</form>
 	</div>
+		
+	<div>
+		<a href="${pageContext.request.contextPath}/yuantest/answer.jsp" >获取题目类型</a>
+	</div>
+
   </body>
 </html>
