@@ -13,15 +13,22 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 public class MailUtil {
 	
 	private static String myEmailAccount = "chongyuan1997@qq.com";
-	private static String myEmailPassword = "foreverhuang520";
+	private static String myEmailPassword = "phdpwsfzgbhteafg";
 	
-	private static String myEmailSMTPHost = "stmp.qq.com";
+	private static String myEmailSMTPHost = "smtp.qq.com";
 	private static String SMTP = "smtp";
 	private static int port = 587;
 	private static String defaultEncoding = "UTF-8";
 	
 	private static JavaMailSenderImpl senderImpl = new JavaMailSenderImpl();
 	private static Properties prop = new Properties();
+	
+//	验证邮箱
+//	 String html = "<html><head>"
+//			+ "<a href='http://localhost:8080/AnswerWeb/"+ id + "/validatorMail' >点击验证邮箱</a>"
+//			+ "</head></html>";
+	
+//	修改验证邮箱
 	
 	static {
 		senderImpl.setHost(myEmailSMTPHost);
@@ -46,29 +53,24 @@ public class MailUtil {
 		mailMessage.setSubject("找回密码");
 		mailMessage.setText("您的密码是：" + content);
 		try {
-			senderImpl.send(mailMessage);
+		senderImpl.send(mailMessage);
 		} catch(MailException e) {
-			e.printStackTrace();
 			flag = false;
 		}
 		return flag;
 	}
 	
-	public static boolean sendValidatorMail(String to, String id) {
+	public static boolean sendValidatorMail(String to,String html) {
 		boolean flag = true;
 		MimeMessage mailMessage = senderImpl.createMimeMessage();
 		MimeMessageHelper messageHelper = new MimeMessageHelper(mailMessage);
-		String html = "<html><head>"
-				+ "<a href='http://localhost:8080/AnswerWeb/"+ id + "/validatorMail' >点击验证邮箱</a>"
-				+ "</head></html>";
 		try {
-			messageHelper.setTo(to);
-			messageHelper.setFrom(myEmailAccount);
-			messageHelper.setSubject("邮箱雁阵");
-			messageHelper.setText(html, true);
-			senderImpl.send(mailMessage);
-		} catch(MessagingException e) {
-			e.printStackTrace();
+		messageHelper.setTo(to);
+		messageHelper.setFrom(myEmailAccount);
+		messageHelper.setSubject("邮箱验证");
+		messageHelper.setText(html, true);
+		senderImpl.send(mailMessage);
+		} catch(Exception e) {
 			flag = false;
 		}
 		return flag;

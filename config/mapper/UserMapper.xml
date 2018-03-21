@@ -88,7 +88,7 @@
     select 
     <include refid="Base_Column_List" />
     from user
-    where userno = #{userno,jdbcType=INTEGER}
+    where userno = #{userno,jdbcType=INTEGER} order by userno
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from user

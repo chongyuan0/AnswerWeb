@@ -24,14 +24,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     This is my JSP page. <br>
     <a href="test">用于测试是否搭建成功：点击链接查询answerWeb数据库中的test表</a>
-    <form action="login" method="post">
-    	<input name="username" value="" type="text">
+    <form action="user/login" method="post">
+    	<input name="email" value="" type="text">
     	<input name="password" value="" type="text">
     	<input type="submit" value="提交">
     </form>
     <c:if test="${not empty loginerror}">登录失败</c:if>
 	<c:if test="${not empty validationerror}">
-		<a href="" >未通过验证，请点击获取验证邮件</a>
+		<a href="${userno}/sendValidatorEmail" >未通过验证，请点击获取验证邮件</a>
 	</c:if>
+	<div>
+		<a href="${pageContext.request.contextPath }/yuantest/register.jsp">注册</a>
+	</div>
+	<div>
+		<form action="${pageContext.request.contextPath }/user/findpassword" method="post">
+			找回密码：请输入邮箱
+			<input type="text" name="email">
+			<input type="submit" value="提交">
+		</form>
+	</div>
   </body>
 </html>

@@ -38,7 +38,7 @@
 	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactoryBean"></constructor-arg>
 		<!-- 当设置为batch的时候，所有的操作默认返回值为-2147482646 -->
-		<constructor-arg name="executorType" value="BATCH"></constructor-arg>
+		<constructor-arg name="executorType" value="SIMPLE"></constructor-arg>
 	</bean>
 
 	<!-- 配置扫描器，把mybatis接口的实现加入到IOC容器中 -->
