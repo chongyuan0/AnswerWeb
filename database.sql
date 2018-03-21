@@ -16,7 +16,7 @@ create table user(
 	username varchar(20),	-- 用户名
 	password varchar(40) not null,	-- 用户密码
 	email varchar(50) UNIQUE KEY not null,	-- 用户邮箱
-	sex varchar(2),		-- 用户性别
+	sex varchar(4),		-- 用户性别
 	status int default 0 -- 用户是否通过邮箱验证 , 0未通过, 1通过
 );
 
@@ -74,4 +74,23 @@ create table admins(
 
 -- 插入数据
 insert into user(username,password,email,sex,status) values('yuan','yuan','15017391266@163.com','男',1);
+
+insert into questiontype(typename) values('计算机科学与技术');
+insert into questiontype(typename) values('高中');
+insert into questiontype(typename) values('医学');
+insert into questiontype(typename) values('法学');
+
+insert into questiontype(typename,belongtypeno) values('JAVA',1);
+insert into questiontype(typename,belongtypeno) values('C++',1);
+insert into questiontype(typename,belongtypeno) values('计算机网络',1);
+insert into questiontype(typename,belongtypeno) values('计算机操作系统',1);
+insert into questiontype(typename,belongtypeno) values('数据挖掘',1);
+insert into questiontype(typename,belongtypeno) values('大数据',1);
+
+insert into questiontype(typename,belongtypeno) values('理科政治',2);
+insert into questiontype(typename,belongtypeno) values('理科地理',2);
+insert into questiontype(typename,belongtypeno) values('理科历史',2);
+insert into questiontype(typename,belongtypeno) values('文科物理',2);
+insert into questiontype(typename,belongtypeno) values('文科化学',2);
+insert into questiontype(typename,belongtypeno) values('文科生物',2);
 

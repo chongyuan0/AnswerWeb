@@ -23,6 +23,23 @@
 	<!-- 使用Bean Validator -->
 	<bean id="validator" 
 		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+		
+	<!-- JSON支持 -->
+	<bean id="messageAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+			</list>
+		</property>		
+	</bean>
+	<bean id="exceptionMessageAdapter" 
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerExceptionResolver">
+		<property name="messageConverters">
+			<list>
+				<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"></bean>
+			</list>
+		</property>
+	</bean>
 
 	<!-- 支持更高级的功能，比如映射动态请求 网上解释： 1：要使用spring mvc中的@Controller注解，就必须要配置<mvc:annotation-driven 
 		/>， 否则org.springframework.web.servlet.DispatcherServlet无法找到控制器并把请求分发到控制器 
