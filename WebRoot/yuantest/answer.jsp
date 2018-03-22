@@ -23,7 +23,7 @@
 	<div id="div2">
 		<ul>
 			<li v-for="ss in datas">
-				<div>{{ss.typename}}</div>
+				<div v-on:click="loadQuestion(ss.typeno)">{{ss.typename}}</div>
 			</li>
 		</ul>
 	</div>
@@ -44,6 +44,9 @@
 						v2.datas = data.secondlist;
 					} 
 				});
+			}
+			loadQuestion: function(id) {
+				window.location = "${pageContext.request.contextPath}/user/getQuestion/"+id;
 			}
 		}
 	});
