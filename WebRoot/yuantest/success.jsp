@@ -9,5 +9,8 @@
 </head>
 <body>
 <h3>${success}</h3>
+<script type="text/javascript">
+	
+</script>
 </body>
 </html>
