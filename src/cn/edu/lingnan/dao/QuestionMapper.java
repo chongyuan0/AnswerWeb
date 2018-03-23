@@ -27,4 +27,6 @@ public interface QuestionMapper {
     int updateByPrimaryKeySelective(Question record);
 
     int updateByPrimaryKey(Question record);
+    //从数据库随机获取数据
+    List<Question> randSelectQuestion(@Param("typeno")int typeno, @Param("number")int number);
 }

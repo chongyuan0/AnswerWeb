@@ -94,3 +94,16 @@ insert into questiontype(typename,belongtypeno) values('文科物理',2);
 insert into questiontype(typename,belongtypeno) values('文科化学',2);
 insert into questiontype(typename,belongtypeno) values('文科生物',2);
 
+insert into question(content,description,constatus,desstatus,typeno)
+	 values('第一题','测试题',1,1,5),
+	 ('第二题','测试2',1,1,5),
+	 ('第3题','测试3',1,1,5),
+	 ('第4题','测试4',1,1,5),
+	 ('第5题','测试5',1,1,5),
+	 ('第6题','测试6',1,1,5),
+	 ('第7题','测试7',1,1,5),
+	 ('第8题','测试8',1,1,5);
+	 
+insert into options(questionno,content,status) values
+	(1,'1',1),(1,'2',0),(1,'3',0),(1,'4',0),
+	(2,'1',1),(2,'2',1),(2,'3',0),(2,'4',0);

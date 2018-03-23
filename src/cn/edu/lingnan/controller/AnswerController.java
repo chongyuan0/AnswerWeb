@@ -1,5 +1,6 @@
 package cn.edu.lingnan.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,11 +13,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import cn.edu.lingnan.pojo.Options;
+import cn.edu.lingnan.pojo.Question;
+import cn.edu.lingnan.pojo.QuestionOption;
 import cn.edu.lingnan.pojo.QuestionType;
 import cn.edu.lingnan.service.AnswerService;
 
 @Controller
 public class AnswerController extends BaseController {
+	
+	public static final int QUESTION_NUMBER = 10;
 	
 	@Autowired
 	private AnswerService answerService;
@@ -55,5 +61,23 @@ public class AnswerController extends BaseController {
 		return map;
 	}
 	
+	/**
+	 * @author huang
+	 * 根据类型获取题目
+	 */
+	@ResponseBody
+	@RequestMapping(value="user/getQuestion/{typeno}")
+	public Map<String, Object> getQuestion(@PathVariable int typeno) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		List<Question> questionList = answerService.getQuestionByType(typeno);
+		List<QuestionOption> questionOptionsList = new ArrayList<QuestionOption>();
+		for (Question q : questionList) {
+			List<Options> optionlist = answerService.getOptionsByQuestion(q.getQuestionno());
+			QuestionOption questionOption = new QuestionOption(q,optionlist);
+			questionOptionsList.add(questionOption);
+		}
+		map.put("question",questionOptionsList);
+		return map;
+	}
 	
 }

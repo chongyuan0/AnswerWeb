@@ -56,12 +56,24 @@ a:hover{
 	text-align: center;
 	font-size: 20px;
 	font-weight: bold;
+	margin-bottom: 11px;
 }
+
+.error_m{
+	/*display: none;*/
+	font-size: 12px;
+    margin-left: 107px;
+    color: red;
+}
+.error_m a{
+	color: blue;
+}
+
 .form{
 	width: 330px;
 	height: 300px;
 	margin: auto;
-	margin-top: 22px;
+	/*margin-top: 22px;*/
 }
 .input{
 	line-height: 40px;

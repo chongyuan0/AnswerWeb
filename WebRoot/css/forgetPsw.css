@@ -37,8 +37,13 @@
 	text-align: center;
 
 }
+.email_error{
+	text-align: center;
+	color: red;
+	margin-left: 134px;
+}
 input{
-	width: 330px;
+	width: 318px;
     height: 38px;
     font-size: 16px; 
 	margin: 0 auto;

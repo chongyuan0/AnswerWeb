@@ -20,10 +20,13 @@
 			<div class="topic">
 				登录
 			</div>
+			<div class="error_m">  <!--显示信息错误-->
+					${loginerror}
+			</div>
 			<form action="${pageContext.request.contextPath }/user/login" method="post">
 				<div class="form">
 					<div class="input">
-						<label for="">邮箱</label>
+						<label for="">邮&nbsp;&nbsp;&nbsp;箱</label>
 						<input type="text" id="user" placeholder="用户名" name="email" />
 					</div>
 					<div class="input">
@@ -36,7 +39,7 @@
 					<div class="bottom">
 						<ul>
 							<li><a href="${pageContext.request.contextPath }/register.jsp">注册</a></li><b></b>							
-							<li><a href="#">忘记密码</a></li>							
+							<li><a href="${pageContext.request.contextPath }/forgetPsw.jsp">忘记密码</a></li>							
 						</ul>
 					</div>
 				</div>

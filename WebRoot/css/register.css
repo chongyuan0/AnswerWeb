@@ -106,6 +106,13 @@ input[type="radio"]{
     box-shadow: none;
     margin-left: 49px;
 }
+
+.email_error{
+	color: red;
+    font-size: 16px;
+    margin-left: 73px;
+}
+
 .bottom ul{
 	float: right;
 }
