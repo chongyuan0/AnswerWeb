@@ -42,7 +42,7 @@
 		</javaClientGenerator>
 
 		<table tableName="user" domainObjectName="User"></table>
-		<table tableName="admin" domainObjectName="Admin"></table>
+		<table tableName="admins" domainObjectName="Admins"></table>
 		<table tableName="options" domainObjectName="Options"></table>
 		<table tableName="question" domainObjectName="Question"></table>
 		<table tableName="questiontype" domainObjectName="QuestionType"></table>
