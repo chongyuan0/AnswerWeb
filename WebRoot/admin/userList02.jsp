@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core"  prefix="c"%>
-<%@ taglib uri="/struts-tags" prefix="s" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -10,27 +9,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Dashboard - Bootstrap Admin</title>
+    <title>userList</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />    
     
-    <link href="./css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="<%=basePath %>css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=basePath %>css/bootstrap-responsive.min.css" rel="stylesheet" />
     
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet" />
-    <link href="./css/font-awesome.css" rel="stylesheet" />
+    <link href="<%=basePath %>css/font-awesome.css" rel="stylesheet" />
     
-    <link href="./css/adminia.css" rel="stylesheet" /> 
-    <link href="./css/adminia-responsive.css" rel="stylesheet" /> 
+    <link href="<%=basePath %>css/adminia.css" rel="stylesheet" /> 
+    <link href="<%=basePath %>css/adminia-responsive.css" rel="stylesheet" /> 
     
-    <link href="./css/pages/dashboard.css" rel="stylesheet" /> 
+    <link href="<%=basePath %>css/pages/dashboard.css" rel="stylesheet" /> 
     
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
 	
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 
@@ -48,24 +42,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span class="icon-bar"></span> 				
 			</a>
 			
-			<a class="brand" href="./">人事管理系统</a>
+			<a class="brand" href="./"><c:choose><c:when test="${admins.adminflag ==1}">普通管理员</c:when><c:otherwise>超级管理员</c:otherwise></c:choose></a>
 			
 			<div class="nav-collapse">
 			
 				<ul class="nav pull-right">
+					<li>
+						<a href="#"><span class="badge badge-warning">7</span></a>
+					</li>
 					
 					<li class="divider-vertical"></li>
 					
 					<li class="dropdown">
 						
 						<a data-toggle="dropdown" class="dropdown-toggle " href="#">
-							${sessionemp.ename} <b class="caret"></b>							
+							${admins.adminname} <b class="caret"></b>							
 						</a>
 						
 						<ul class="dropdown-menu">
 							
 							<li>
-								<a href="${pageContext.request.contextPath}/changepassword.jsp"><i class="icon-lock"></i> 修改密码</a>
+								<a href="${pageContext.request.contextPath}/changeAdminPassword.jsp"><i class="icon-lock"></i> 修改密码</a>
 							</li>
 							
 							<li class="divider"></li>
@@ -101,9 +98,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 					<div class="account-details">
 					
-						<span class="account-name">${sessionemp.ename}</span>
+						<span class="account-name">${admins.adminname}</span>
 						
-						<span class="account-role"><c:choose><c:when test="${isadmin}">管理员</c:when><c:otherwise>普通员工</c:otherwise></c:choose></span>
+						<span class="account-role"><c:choose><c:when test="${admins.adminflag == 1}">普通管理员</c:when><c:otherwise>超级管理员</c:otherwise></c:choose></span>
 						
 						<span class="account-actions">
 							<a href="${pageContext.request.contextPath}/tosingeinfo?empid=${sessionemp.empid}">我的资料</a> 
@@ -116,43 +113,50 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<hr />
 				
 				<ul id="main-nav" class="nav nav-tabs nav-stacked">
-					<li>
-						<a href="${pageContext.request.contextPath}/queryallemp">
+					
+					<li class="active">
+						<a href="${pageContext.request.contextPath}/selectUserByExample">
 							<i class="icon-home"></i>
-							员工管理 			
+							用户管理		
 						</a>
 					</li>
-					<li class="active">
+					
+					<li>
 						<a href="${pageContext.request.contextPath}/loadAllDeptByPage">
 							<i class="icon-th-list"></i>
-							部门管理		
+							试题管理		
 						</a>
 					</li>
-					<li class="">
+					
+					<li>
 						<a href="${pageContext.request.contextPath}/showAllJob">
 							<i class="icon-th-large"></i>
-							岗位管理	
+							岗位管理
 						</a>
 					</li>
+					
 					<li>
 						<a href="${pageContext.request.contextPath}/getAllTestInfoByPage">
 							<i class="icon-signal"></i>
-							试用管理	
+							试用管理
 						</a>
 					</li>
+					
 					<li>
 						<a href="${pageContext.request.contextPath}/tohumanlist">
 							<i class="icon-user"></i>
-							人才库							
+							人才库
 						</a>
 					</li>
+					
 					<li>
 						<a href="${pageContext.request.contextPath}/getalladjustinfo">
 							<i class="icon-pushpin"></i>
 							调动信息
 						</a>
 					</li>
-				</ul>
+					
+				</ul>	
 				
 				<hr />
 				
@@ -164,7 +168,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<h1 class="page-title">
 					<i class="icon-home"></i>
-					员工部门信息				
+					Dashboard					
 				</h1>
 		
 				<div class="widget widget-table">
@@ -173,6 +177,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<i class="icon-th-list"></i>
 						<h3>Table</h3>
 						<div style="float :right; vertical-align: middle">
+							<a href="${pageContext.request.contextPath}/user/register.jsp" class="btn btn-small">
+								<i>添加用户</i>
+							</a>
 						</div>
 					</div> <!-- /widget-header -->
 					
@@ -181,35 +188,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<table class="table table-striped table-bordered">
 							<thead>
 								<tr>
-									<th>调动编号</th>
-									<th>员工姓名</th>
-									<th>调转部门</th>
-									<th>调转类型</th>
-									<th>备注</th>
-									<th>调转日期</th>
+									<th>用户编号</th>
+									<th>用户姓名</th>
+									<th>用户密码</th>
+									<th>用户邮箱</th>
+									<th>邮箱是否验证</th>
+									<th>性别</th>
+									<th>更新</th>
+									<th>删除</th>
 								</tr>
 							</thead>
 							
 							<tbody>
-							  <s:iterator value="list" status="state">
-								<tr>
-									<td><s:property value="adjustid"/></td>
-									<td><s:property value="emp.ename"/></td>
-									<td><s:property value="jobid"/></td>
-									<td><s:property value="type"/></td>
-									<td><s:property value="descr"/></td>
-									<td><s:property value="adjustdate"/></td>
+							  <c:forEach items="${userList }" var="user">
+							    <tr>
+									<td>${user.userno }</td>
+									<td>${user.username }</td>
+									<td>${user.password }</td>
+									<td>${user.email }</td>
+									<td>
+									<c:if test="${user.status ==0}">
+										邮箱未验证
+									</c:if>
+									<c:if test="${user.status ==1}">
+										邮箱已验证
+									</c:if>
+									</td>
+									<td>${user.sex }</td>
 								</tr>
-							  </s:iterator>
+							 </c:forEach>
 							</tbody>
 						</table>
 						
 					</div> <!-- /widget-content -->
 					<div style="float :right">
-					<a href="${pageContext.request.contextPath}/getJobadjustByPager?pageNo=${prev}" class="btn btn-small">
+					<a href="${pageContext.request.contextPath}/queryallemp?pageNo=${prev}" class="btn btn-small">
 						<i>上一页</i>
 					</a>
-					<a href="${pageContext.request.contextPath}/getJobadjustByPager?pageNo=${next}" class="btn btn-small">
+					<a href="${pageContext.request.contextPath}/queryallemp?pageNo=${next}" class="btn btn-small">
 						<i>下一页</i>
 					</a>
 					</div>
@@ -235,7 +251,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			
 		</div> <!-- /row -->
-		 
+		
 	</div> <!-- /container -->
 	
 </div> <!-- /content -->
@@ -245,7 +261,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">				
 		<hr />
-		<p>&copy;人事管理系统</p>
+		<p>&copy; 2018 答题系统.</p>
 	</div> <!-- /container -->
 	
 </div> <!-- /footer -->
@@ -253,16 +269,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="./js/jquery-1.7.2.min.js"></script>
-<script src="./js/excanvas.min.js"></script>
-<script src="./js/jquery.flot.js"></script>
-<script src="./js/jquery.flot.pie.js"></script>
-<script src="./js/jquery.flot.orderBars.js"></script>
-<script src="./js/jquery.flot.resize.js"></script>
+<script src="<%=basePath %>js/jquery-1.7.2.min.js"></script>
+<script src="<%=basePath %>js/excanvas.min.js"></script>
+<script src="<%=basePath %>js/jquery.flot.js"></script>
+<script src="<%=basePath %>js/jquery.flot.pie.js"></script>
+<script src="<%=basePath %>js/jquery.flot.orderBars.js"></script>
+<script src="<%=basePath %>js/jquery.flot.resize.js"></script>
 
 
-<script src="./js/bootstrap.js"></script>
-<script src="./js/charts/bar.js"></script>
+<script src="<%=basePath %>js/bootstrap.js"></script>
+<script src="<%=basePath %>js/charts/bar.js"></script>
 
   </body>
 </html>

@@ -14,6 +14,11 @@ public class QuestionTypeController extends BaseController {
 
 	@Autowired
 	private QuestionTypeService questionTypeService;
+	
+	@RequestMapping("/selectQuestionType")
+	public String selectQuestionType(){
+		return "";
+	}
 
 	/**
 	 * 更新一级菜单（题目类型）(更新一级菜单需要超级管理员权限,使用拦截器获取权限)

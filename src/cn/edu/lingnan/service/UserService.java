@@ -19,8 +19,33 @@ public class UserService {
 	@Autowired
 	private RecordsMapper recordsMapper;
 	
-	public List<User> selectUserByExample(UserExample user){
-		return userMapper.selectByExample(user);
+	/**
+	 * 多条件查询用户
+	 * @param user
+	 * @author lizhi
+	 */
+	public List<User> selectUserByExample(User user){
+		UserExample example = new UserExample();
+		Criteria criteria = example.createCriteria();
+		if(user.getUserno()!=null){
+			criteria.andUsernoEqualTo(user.getUserno());
+		}
+		if(user.getUsername()!=null&&!user.getUsername().equals("")){
+			criteria.andUsernameEqualTo(user.getUsername());
+		}
+		if(user.getPassword()!=null&&!user.getPassword().equals("")){
+			criteria.andPasswordEqualTo(user.getPassword());
+		}
+		if(user.getEmail()!=null&&!user.getEmail().equals("")){
+			criteria.andEmailEqualTo(user.getEmail());
+		}
+		if(user.getSex()!=null&&!user.getSex().equals("")){
+			criteria.andSexEqualTo(user.getSex());
+		}
+		if(user.getStatus()!=null){
+			criteria.andStatusEqualTo(user.getStatus());
+		}
+		return userMapper.selectByExample(example);
 	}
 
 	public void deleteUser(Integer id) {
