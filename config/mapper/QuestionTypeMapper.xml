@@ -5,6 +5,7 @@
     <id column="typeno" jdbcType="INTEGER" property="typeno" />
     <result column="typename" jdbcType="VARCHAR" property="typename" />
     <result column="belongtypeno" jdbcType="INTEGER" property="belongtypeno" />
+    <result column="imageurl" jdbcType="VARCHAR" property="imageurl" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +66,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    typeno, typename, belongtypeno
+    typeno, typename, belongtypeno, imageurl
   </sql>
   <select id="selectByExample" parameterType="cn.edu.lingnan.pojo.QuestionTypeExample" resultMap="BaseResultMap">
     select
@@ -98,10 +99,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="cn.edu.lingnan.pojo.QuestionType">
-    insert into questiontype (typeno, typename, belongtypeno
-      )
-    values (#{typeno,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{belongtypeno,jdbcType=INTEGER}
-      )
+    insert into questiontype (typeno, typename, belongtypeno, 
+      imageurl)
+    values (#{typeno,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{belongtypeno,jdbcType=INTEGER}, 
+      #{imageurl,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.lingnan.pojo.QuestionType">
     insert into questiontype
@@ -115,6 +116,9 @@
       <if test="belongtypeno != null">
         belongtypeno,
       </if>
+      <if test="imageurl != null">
+        imageurl,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="typeno != null">
@@ -125,6 +129,9 @@
       </if>
       <if test="belongtypeno != null">
         #{belongtypeno,jdbcType=INTEGER},
+      </if>
+      <if test="imageurl != null">
+        #{imageurl,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -146,6 +153,9 @@
       <if test="record.belongtypeno != null">
         belongtypeno = #{record.belongtypeno,jdbcType=INTEGER},
       </if>
+      <if test="record.imageurl != null">
+        imageurl = #{record.imageurl,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -155,7 +165,8 @@
     update questiontype
     set typeno = #{record.typeno,jdbcType=INTEGER},
       typename = #{record.typename,jdbcType=VARCHAR},
-      belongtypeno = #{record.belongtypeno,jdbcType=INTEGER}
+      belongtypeno = #{record.belongtypeno,jdbcType=INTEGER},
+      imageurl = #{record.imageurl,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -169,13 +180,17 @@
       <if test="belongtypeno != null">
         belongtypeno = #{belongtypeno,jdbcType=INTEGER},
       </if>
+      <if test="imageurl != null">
+        imageurl = #{imageurl,jdbcType=VARCHAR},
+      </if>
     </set>
     where typeno = #{typeno,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.edu.lingnan.pojo.QuestionType">
     update questiontype
     set typename = #{typename,jdbcType=VARCHAR},
-      belongtypeno = #{belongtypeno,jdbcType=INTEGER}
+      belongtypeno = #{belongtypeno,jdbcType=INTEGER},
+      imageurl = #{imageurl,jdbcType=VARCHAR}
     where typeno = #{typeno,jdbcType=INTEGER}
   </update>
 </mapper>
