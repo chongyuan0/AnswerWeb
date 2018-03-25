@@ -7,13 +7,24 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.edu.lingnan.controller.WeChatController;
+import cn.edu.lingnan.dao.WeChatUserMapper;
+import cn.edu.lingnan.pojo.WeChatUser;
+import cn.edu.lingnan.pojo.WeChatUserExample;
+import cn.edu.lingnan.pojo.WeChatUserExample.Criteria;
 import cn.edu.lingnan.pojo.wechatpojo.Article;
 import cn.edu.lingnan.pojo.wechatpojo.NewsMessage;
 import cn.edu.lingnan.pojo.wechatpojo.TextMessage;
 import cn.edu.lingnan.utils.WeChatMessageUtil;
 
-
+@Service
 public class WeChatService {
+	
+	@Autowired
+	private WeChatUserMapper weChatUserMapper;
 	
 	//解析用户发来的消息
 	public String disposeMessage(HttpServletRequest req) {
@@ -68,7 +79,7 @@ public class WeChatService {
 			article.setDescription("点击进入答题系统");
 			article.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/3kesMWorbs7ZpPVv2YjdpSFNe6Z70dSDicAtHJiayT3icTmT3RkAmllficaxYibqbNm08sGPGw5WbmUa2Cvs0fn0GKw/0");
 			article.setTitle("答题系统");
-			article.setUrl("http://zhrkim.natappfree.cc/AnswerWeb/wechat/authorize");
+			article.setUrl(WeChatController.SERVER + "/AnswerWeb/wechat/authorize");
 			
 			List<Article> list = new ArrayList<Article>();
 			list.add(article);
@@ -99,4 +110,35 @@ public class WeChatService {
 		else 
 			return "";
 	}
+	
+	/**
+	 * @author huang
+	 * 储存微信用户信息
+	 */
+	public boolean addWeChatUser(WeChatUser wechatuser) {
+		if(isExistsUser(wechatuser) == null) {
+			weChatUserMapper.insertSelective(wechatuser);
+			return true;
+		} else
+			return false;
+	}
+	
+	/**
+	 * @author huang
+	 * 判断有无微信用户存在
+	 */
+	public WeChatUser isExistsUser(WeChatUser wechatuser) {
+		if(wechatuser.getOpenid() != null) {
+			WeChatUserExample example = new WeChatUserExample();
+			Criteria criteria = example.createCriteria();
+			criteria.andOpenidEqualTo(wechatuser.getOpenid());
+			List<WeChatUser> list = weChatUserMapper.selectByExample(example);
+			if (list.size() > 0)
+				return list.get(0);
+			else 
+				return null;
+		}
+		return null;
+	}
+	
 }
