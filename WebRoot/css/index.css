@@ -1,0 +1,235 @@
+*{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	list-style: none;
+}
+a{
+	text-decoration: none;
+}
+a:hover{
+	text-decoration: underline;
+}
+header{
+	width: 100%;
+	height: 100px;
+	min-width: 830px;
+	background: #fefefe;
+}
+.img{
+	float: left;
+}
+.find{
+	float: right;
+	position: relative;
+	width: 300px;
+	height: 45px;
+	line-height: 50px;
+	margin: 40px 25px 0 0;
+	background: #63C5DA;	
+}
+input[type="text"]{
+	position: absolute;
+	width: 255px;
+	height: 43px;
+	font-size: 16px;
+	border: 1px solid #8bdaf3;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 0px 10px 0 rgba(99, 196, 218, .3);
+    outline: none;
+}
+button{	
+	position: absolute;
+	width: 44px;
+    height: 45px;
+    margin-left: 257px;
+	border: 1px solid #8bdaf3;
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    background-image: url(../img/find.jpg);
+    background-size: 140%;
+    background-position: -9px -3px;
+    outline: none;
+    cursor: pointer;
+}
+
+
+nav{
+	width: 100%;
+	height: 45px;
+	min-width: 830px;
+	background: #3992d0;; /*#337ab7;*/
+}
+.user{
+	float: right;
+	height: 45px;
+	line-height: 45px;
+	margin-right: 25px;
+	color: white;
+}
+.user a{
+	color: white;
+}
+
+
+
+section{	
+	width: 100%;
+	height: 100%;
+	height: auto;
+	min-width: 750px;
+}
+
+.menu{
+	float: left;
+	width: 150px;
+	height: auto;
+	border: 1px solid #ddd;
+	margin: 0px 0 0 25px;
+	border-radius: 4px;
+}
+
+.first li{
+	text-align: center;
+	line-height: 45px;
+	cursor: pointer;
+	border-bottom: 1px solid #ddd;
+}
+
+.topic{
+	color: #777;
+    cursor: not-allowed;
+    background-color: #eee;
+}
+.active{
+	background: #317eb4;
+	color: white;
+}
+.second{
+	display: none;
+}
+.second li{
+	color: white;
+	background: #3992d0;
+	cursor: pointer;
+	border-bottom: 1px solid #ddd;
+}
+.second li:hover{
+	text-decoration: underline;
+}
+
+
+.content{	
+	display: none;
+	height: auto;
+	border: 1px solid #ddd;
+	margin: 22px 40px 20px 220px;
+	border-radius: 4px;
+}
+
+.content_topic{
+	height: 45px;
+	background: #f5f5f5;
+	border-bottom: 1px solid #ddd;
+}
+.content_topic p{
+	height: 45px;
+	color: #333;
+	font-size: 15px;
+	font-weight: 500;
+	line-height: 45px;
+	text-indent: 40px;
+	padding-right: 20px;
+	background-image: url(../img/content_topic.png);
+	background-repeat: no-repeat;
+	background-position: 11px 12px;
+}
+
+.class{
+	position: relative;
+	float: left;	
+	width: 280px;
+	height: 150px;
+	margin: 40px 20px 30px 30px;
+	padding: 15px;
+	background: #c7ede9;
+	border-radius: 18px;
+	background-position: -2px -1px;
+    background-repeat: no-repeat;
+    background-size: 109%;
+    transition: ease-in 0.3s;
+    border-bottom: 1px solid #ddd;
+}
+.class:hover{
+	background: #afd7ed;
+}
+
+.class b{
+	position: absolute;
+	display: block;
+	width: 50px;
+	height: 50px;
+	background-image: url(../img/Chinese.gif);
+	background-position: -1px 0px;
+    background-repeat: no-repeat;
+    background-size: 101%;
+    border-radius: 9px;
+}
+#b12{background-image: url(../img/Math.gif);}
+#b13{background-image: url(../img/English.gif);}
+#b14{background-image: url(../img/Politics.gif);}
+#b15{background-image: url(../img/History.gif);}
+#b16{background-image: url(../img/Geography.gif);}
+#b17{background-image: url(../img/Physics.gif);}
+#b18{background-image: url(../img/Chemistry.gif);}
+#b19{background-image: url(../img/Biology.gif);}
+#b20{
+	background-image: url(../img/book.jpg);
+	background-position: -16px 0px;
+    background-size: 159%;
+}
+.class span{
+	position: absolute;
+	right: 20px;
+	margin: 7px 0 0 0;
+    font-weight: bold;
+    font-size: 20px;
+    color: #135c79;
+}
+.class p{
+	position: absolute;
+	width: 150px;
+	margin: 75px 0 0 70px;
+    color: #135c79;
+   
+}
+.class p:hover{
+ 	animation: fontSize 2s linear 1; 
+}
+
+@keyframes fontSize{
+	0%   {transform: scale(1);}
+	50%  {transform: scale(1.3);}
+	100% {transform: scale(1);}
+}
+
+.clear{
+	clear: both;
+}
+
+footer{
+	clear: both;
+	padding: 20px 0 30px 0;	
+}
+footer p{ 
+	text-align: center;
+	font-size: 14px;
+	padding: 20px 0 20px 0;	
+	border: 1px solid #ddd;	
+}
+footer p a{
+	color: #135c79;
+	min-width: 830px;
+}
+

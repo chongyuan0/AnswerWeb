@@ -25,6 +25,7 @@ create table questiontype(
 	typeno int auto_increment primary key,	-- 自增主键id
 	typename varchar(30) not null,		-- 题目类型Id
 	belongtypeno int,		-- 属于哪个题目类型id
+	imageurl varchar(200),
 	constraint fk_questiontype_belongtypeno foreign key(belongtypeno) 
 		references questiontype(typeno) on delete cascade
 );
@@ -77,8 +78,6 @@ insert into user(username,password,email,sex,status) values('yuan','yuan','15017
 
 insert into questiontype(typename) values('计算机科学与技术');
 insert into questiontype(typename) values('高中');
-insert into questiontype(typename) values('医学');
-insert into questiontype(typename) values('法学');
 
 insert into questiontype(typename,belongtypeno) values('JAVA',1);
 insert into questiontype(typename,belongtypeno) values('C++',1);
@@ -87,12 +86,22 @@ insert into questiontype(typename,belongtypeno) values('计算机操作系统',1
 insert into questiontype(typename,belongtypeno) values('数据挖掘',1);
 insert into questiontype(typename,belongtypeno) values('大数据',1);
 
-insert into questiontype(typename,belongtypeno) values('理科政治',2);
-insert into questiontype(typename,belongtypeno) values('理科地理',2);
-insert into questiontype(typename,belongtypeno) values('理科历史',2);
-insert into questiontype(typename,belongtypeno) values('文科物理',2);
-insert into questiontype(typename,belongtypeno) values('文科化学',2);
-insert into questiontype(typename,belongtypeno) values('文科生物',2);
+insert into questiontype(typename,belongtypeno,imageurl) values('理科政治',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('理科地理',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('理科历史',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科物理',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科化学',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科生物',2,'img/book.jpg');
+
+insert into questiontype(typename,belongtypeno,imageurl) values
+	('JAVA基础',3,'img/book.jpg'),
+	('JAVA进阶',3,'img/book.jpg'),
+	('JAVA高级',3,'img/book.jpg');
+
+
+
+
+
 
 insert into question(content,description,constatus,desstatus,typeno)
 	 values('第一题','测试题',1,1,5),

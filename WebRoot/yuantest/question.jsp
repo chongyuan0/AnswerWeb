@@ -12,20 +12,22 @@
 <body>
 ${param.typeno }
 <button onclick="sys()">ss</button>
+
+
 </body>
+
+
 
 <script type="text/javascript">
 	$(function(){
-		sys();
-	});
-	function sys(typeno){
 		$.ajax({
 			url: "${pageContext.request.contextPath}/user/getQuestion/" + ${param.typeno},
 			success: function(data){
-				console.log(data);
+				console.log(data.question);
+				console.log(data.question[0].question.constatus);
 			}
 		});
-	}
+	});
 </script>
 
 </html>

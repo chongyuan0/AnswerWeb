@@ -54,7 +54,7 @@ public class UserController extends BaseController {
 		// 通过验证
 		super.session.setAttribute("user", user);
 		// 跳转到选择类型页面
-		return "test";
+		return "user/index";
 	}
 
 	// 用户注册
