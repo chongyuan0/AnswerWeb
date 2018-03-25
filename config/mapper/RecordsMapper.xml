@@ -7,6 +7,7 @@
     <result column="typeno" jdbcType="INTEGER" property="typeno" />
     <result column="acnumber" jdbcType="INTEGER" property="acnumber" />
     <result column="erunmber" jdbcType="INTEGER" property="erunmber" />
+    <result column="wechatuserno" jdbcType="INTEGER" property="wechatuserno" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    recordsno, userno, typeno, acnumber, erunmber
+    recordsno, userno, typeno, acnumber, erunmber, wechatuserno
   </sql>
   <select id="selectByExample" parameterType="cn.edu.lingnan.pojo.RecordsExample" resultMap="BaseResultMap">
     select
@@ -101,9 +102,11 @@
   </delete>
   <insert id="insert" parameterType="cn.edu.lingnan.pojo.Records">
     insert into records (recordsno, userno, typeno, 
-      acnumber, erunmber)
+      acnumber, erunmber, wechatuserno
+      )
     values (#{recordsno,jdbcType=INTEGER}, #{userno,jdbcType=INTEGER}, #{typeno,jdbcType=INTEGER}, 
-      #{acnumber,jdbcType=INTEGER}, #{erunmber,jdbcType=INTEGER})
+      #{acnumber,jdbcType=INTEGER}, #{erunmber,jdbcType=INTEGER}, #{wechatuserno,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.edu.lingnan.pojo.Records">
     insert into records
@@ -123,6 +126,9 @@
       <if test="erunmber != null">
         erunmber,
       </if>
+      <if test="wechatuserno != null">
+        wechatuserno,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="recordsno != null">
@@ -139,6 +145,9 @@
       </if>
       <if test="erunmber != null">
         #{erunmber,jdbcType=INTEGER},
+      </if>
+      <if test="wechatuserno != null">
+        #{wechatuserno,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -166,6 +175,9 @@
       <if test="record.erunmber != null">
         erunmber = #{record.erunmber,jdbcType=INTEGER},
       </if>
+      <if test="record.wechatuserno != null">
+        wechatuserno = #{record.wechatuserno,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -177,7 +189,8 @@
       userno = #{record.userno,jdbcType=INTEGER},
       typeno = #{record.typeno,jdbcType=INTEGER},
       acnumber = #{record.acnumber,jdbcType=INTEGER},
-      erunmber = #{record.erunmber,jdbcType=INTEGER}
+      erunmber = #{record.erunmber,jdbcType=INTEGER},
+      wechatuserno = #{record.wechatuserno,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -197,6 +210,9 @@
       <if test="erunmber != null">
         erunmber = #{erunmber,jdbcType=INTEGER},
       </if>
+      <if test="wechatuserno != null">
+        wechatuserno = #{wechatuserno,jdbcType=INTEGER},
+      </if>
     </set>
     where recordsno = #{recordsno,jdbcType=INTEGER}
   </update>
@@ -205,7 +221,8 @@
     set userno = #{userno,jdbcType=INTEGER},
       typeno = #{typeno,jdbcType=INTEGER},
       acnumber = #{acnumber,jdbcType=INTEGER},
-      erunmber = #{erunmber,jdbcType=INTEGER}
+      erunmber = #{erunmber,jdbcType=INTEGER},
+      wechatuserno = #{wechatuserno,jdbcType=INTEGER}
     where recordsno = #{recordsno,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -49,7 +49,9 @@
 		<table tableName="questiontype" domainObjectName="QuestionType"></table>
 		<table tableName="records" domainObjectName="Records"></table>-->
 		
-		<table tableName="questiontype" domainObjectName="QuestionType"></table>
+		<table tableName="records" domainObjectName="Records"></table>
+		<table tableName="wechatuser" domainObjectName="WeChatUser"></table>
+		
 		
 
 	</context>

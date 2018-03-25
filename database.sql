@@ -7,6 +7,7 @@ drop table if exists options;
 drop table if exists records;
 drop table if exists question;
 drop table if exists questiontype;
+drop table if exists wechatuser;
 drop table if exists user;
 drop table if exists admins;
 
@@ -52,17 +53,35 @@ create table options(
 		references question(questionno) on delete cascade
 );
 
+-- 创建微信用户表
+create table wechatuser(
+	wechatuserno int auto_increment primary key,
+	openid varchar(50) not null UNIQUE KEY,
+	nickname varchar(50),
+	sex varchar(2),
+	province varchar(20),
+	city varchar(20),
+	country varchar(20),
+	headimgurl varchar(200),
+	userno int,
+	constraint fk_wechatuser_userno foreign key(userno)
+		references user(userno) on delete cascade
+);
+
 -- 创建记录表
 create table records(
 	recordsno int auto_increment primary key, -- 自增主键id
-	userno int not null, -- 用户id
+	userno int , -- 用户id
 	typeno int not null, -- 类型id
 	acnumber int default 0,	-- 答对题数
 	erunmber int default 0, -- 答错题数
+ 	wechatuserno int,
 	constraint fk_records_userno foreign key(userno)
 		references user(userno) on delete cascade,
 	constraint fk_records_typeno foreign key(typeno)
-		references questiontype(typeno) on delete cascade
+		references questiontype(typeno) on delete cascade,
+	constraint fk_records_wechatuserno foreign key(wechatuserno)
+		references wechatuser(wechatuserno) on delete cascade
 );
 
 -- 创建管理员表
@@ -73,10 +92,11 @@ create table admins(
 	adminflag int default 1	-- 管理员权限, 1普通 2超级
 );
 
+
 -- 插入数据
 insert into user(username,password,email,sex,status) values('yuan','yuan','15017391266@163.com','男',1);
 
-insert into questiontype(typename) values('计算机科学与技术');
+insert into questiontype(typename) values('计算机');
 insert into questiontype(typename) values('高中');
 
 insert into questiontype(typename,belongtypeno) values('JAVA',1);

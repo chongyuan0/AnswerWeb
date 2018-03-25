@@ -2,10 +2,12 @@ package cn.edu.lingnan.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.google.gson.Gson;
 
 import cn.edu.lingnan.pojo.wechatpojo.AutowebParams;
-import cn.edu.lingnan.pojo.wechatpojo.WeChatUser;
+import cn.edu.lingnan.pojo.WeChatUser;
 import cn.edu.lingnan.service.WeChatService;
 import cn.edu.lingnan.utils.HttpUtil;
 import cn.edu.lingnan.utils.SignUtil;
@@ -25,6 +27,11 @@ import cn.edu.lingnan.utils.SignUtil;
  */
 @Controller
 public class WeChatController extends BaseController {
+	
+	@Autowired
+	private WeChatService weChatService;
+	
+	public static final String SERVER = "http://zhrkim.natappfree.cc";
 	
 	/**
 	 * @author huang
@@ -72,14 +79,13 @@ public class WeChatController extends BaseController {
 		//生成手动授权链接
 		String authorizeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?";	//固定链接
 		String appid = "appid=wx25c5b6d09bcd8685&"; 	//公众号id
-		String redirect_uri = "redirect_uri=http://zhrkim.natappfree.cc/AnswerWeb/wechat/getuserinfo&";	//授权后跳转的链接
+		String redirect_uri = "redirect_uri="+ SERVER +"/AnswerWeb/wechat/getuserinfo&";	//授权后跳转的链接
 		String response_type = "response_type=code&";	//固定参数
 		String scope_userinfo = "scope=snsapi_userinfo&";	//手动授权
 		String scope_base = "scope=snsapi_base&";	//静默授权
 		String state = "state=STATE&connect_redirect=1";	//重定向携带的参数, connect_redirect处理安卓获取会重复获取
 		String footuri = "#wechat_redirect";	//固定参数
 		authorizeUrl = authorizeUrl+appid+redirect_uri+response_type+scope_userinfo+state+footuri;
-		System.out.println(authorizeUrl);
 		//向用户发送授权链接
 		resp.sendRedirect(authorizeUrl);
 	}
@@ -90,8 +96,9 @@ public class WeChatController extends BaseController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value="wechat/getuserinfo", method=RequestMethod.GET)
-	public void getUserInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+	public String getUserInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String code = req.getParameter("code");
+		System.out.println();
 		if(code != null) {
 			//获取access_token和openid
 			String tokenUri = "https://api.weixin.qq.com/sns/oauth2/access_token?";	//固定链接
@@ -109,9 +116,13 @@ public class WeChatController extends BaseController {
 					+ "&openid="+ autoWebParams.getOpenid()+ "&lang=zh_CN";
 			String json2 = HttpUtil.getReturnJson(userinfouri, null);
 			WeChatUser wechatUser = gson.fromJson(json2, new WeChatUser().getClass());
-			System.out.println(wechatUser);
 			super.session.setAttribute("weChatUser", wechatUser);
+			//将信息存储进数据库
+			weChatService.addWeChatUser(wechatUser);
+			System.out.println("1111");
+			return "login";
 		}
+		return "error";
 	}
 	
 }

@@ -11,6 +11,8 @@ public class Records {
 
     private Integer erunmber;
 
+    private Integer wechatuserno;
+
     public Integer getRecordsno() {
         return recordsno;
     }
@@ -49,5 +51,13 @@ public class Records {
 
     public void setErunmber(Integer erunmber) {
         this.erunmber = erunmber;
+    }
+
+    public Integer getWechatuserno() {
+        return wechatuserno;
+    }
+
+    public void setWechatuserno(Integer wechatuserno) {
+        this.wechatuserno = wechatuserno;
     }
 }
