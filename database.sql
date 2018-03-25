@@ -96,7 +96,9 @@ insert into questiontype(typename,belongtypeno,imageurl) values('文科生物',2
 insert into questiontype(typename,belongtypeno,imageurl) values
 	('JAVA基础',3,'img/book.jpg'),
 	('JAVA进阶',3,'img/book.jpg'),
-	('JAVA高级',3,'img/book.jpg');
+	('JAVA高级',3,'img/book.jpg'),
+	('C++基础',4,'img/book.jpg'),
+	('C++高级',4,'img/book.jpg');
 
 
 

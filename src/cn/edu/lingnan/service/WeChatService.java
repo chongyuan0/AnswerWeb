@@ -68,7 +68,7 @@ public class WeChatService {
 			article.setDescription("点击进入答题系统");
 			article.setPicUrl("http://mmbiz.qpic.cn/mmbiz_jpg/3kesMWorbs7ZpPVv2YjdpSFNe6Z70dSDicAtHJiayT3icTmT3RkAmllficaxYibqbNm08sGPGw5WbmUa2Cvs0fn0GKw/0");
 			article.setTitle("答题系统");
-			article.setUrl("http://8yg4nx.natappfree.cc/AnswerWeb/wechat/authorize");
+			article.setUrl("http://zhrkim.natappfree.cc/AnswerWeb/wechat/authorize");
 			
 			List<Article> list = new ArrayList<Article>();
 			list.add(article);

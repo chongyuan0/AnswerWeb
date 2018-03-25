@@ -91,14 +91,17 @@ section{
 }
 
 .first li{
-	text-align: center;
-	line-height: 45px;
+	text-align: center;	
 	cursor: pointer;
 	border-bottom: 1px solid #ddd;
+}
+.first li p{
+	padding: 11px 0;
 }
 
 .topic{
 	color: #777;
+	padding: 11px 0;
     cursor: not-allowed;
     background-color: #eee;
 }
@@ -106,11 +109,9 @@ section{
 	background: #317eb4;
 	color: white;
 }
-.second{
-	display: none;
-}
 .second li{
 	color: white;
+	padding: 11px 0;
 	background: #3992d0;
 	cursor: pointer;
 	border-bottom: 1px solid #ddd;
@@ -121,7 +122,6 @@ section{
 
 
 .content{	
-	display: none;
 	height: auto;
 	border: 1px solid #ddd;
 	margin: 22px 40px 20px 220px;
@@ -164,6 +164,22 @@ section{
 .class:hover{
 	background: #afd7ed;
 }
+.class img{
+	position: absolute;
+	display: block;
+	width: 50px;
+	height: 50px;
+	background-position: -1px 0px;
+    background-repeat: no-repeat;
+    background-size: 101%;
+    border-radius: 9px;
+}
+
+.img1{
+	background-image: url(../img/book.jpg);
+	background-position: -16px 0px;
+    background-size: 159%;
+}
 
 .class b{
 	position: absolute;
@@ -176,19 +192,7 @@ section{
     background-size: 101%;
     border-radius: 9px;
 }
-#b12{background-image: url(../img/Math.gif);}
-#b13{background-image: url(../img/English.gif);}
-#b14{background-image: url(../img/Politics.gif);}
-#b15{background-image: url(../img/History.gif);}
-#b16{background-image: url(../img/Geography.gif);}
-#b17{background-image: url(../img/Physics.gif);}
-#b18{background-image: url(../img/Chemistry.gif);}
-#b19{background-image: url(../img/Biology.gif);}
-#b20{
-	background-image: url(../img/book.jpg);
-	background-position: -16px 0px;
-    background-size: 159%;
-}
+
 .class span{
 	position: absolute;
 	right: 20px;

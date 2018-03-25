@@ -56,8 +56,26 @@ public class UserController extends BaseController {
 		// 跳转到选择类型页面
 		return "user/index";
 	}
-
-	// 用户注册
+	
+	/**
+	 * @author huang
+	 * 用户注销
+	 */
+	@RequestMapping(value="user/sigeout")
+	public String signout() {
+		if (super.session.getAttribute("user") != null)
+			super.session.removeAttribute("user");
+		return "login";
+	}
+	
+	/**
+	 * @author huang
+	 * @param user
+	 * @param result
+	 * @param map
+	 * @return
+	 * 用户注册
+	 */
 	@RequestMapping(value = "user/register", method = RequestMethod.POST)
 	public String register(@Valid User user, BindingResult result, Map<String, Object> map) {
 		//判断输入是否合法

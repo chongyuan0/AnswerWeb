@@ -56,6 +56,12 @@ public class AnswerController extends BaseController {
 		if (secondlist.size() <= 0) {
 			map.put("error", "系统错误：二级菜单获取失败");
 		} else {
+			//判断是否为3级菜单
+			List<QuestionType> thirdList = answerService.findType(secondlist.get(0).getTypeno());
+			if(thirdList.size() <= 0) 
+				map.put("grade", "two");
+			else 
+				map.put("grade", "third");
 			map.put("secondlist", secondlist);
 		}
 		return map;
