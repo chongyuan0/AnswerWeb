@@ -41,12 +41,18 @@
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
 
+		<!--  
 		<table tableName="user" domainObjectName="User"></table>
 		<table tableName="admins" domainObjectName="Admins"></table>
 		<table tableName="options" domainObjectName="Options"></table>
 		<table tableName="question" domainObjectName="Question"></table>
 		<table tableName="questiontype" domainObjectName="QuestionType"></table>
+		<table tableName="records" domainObjectName="Records"></table>-->
+		
 		<table tableName="records" domainObjectName="Records"></table>
+		<table tableName="wechatuser" domainObjectName="WeChatUser"></table>
+		
+		
 
 	</context>
 </generatorConfiguration>

@@ -21,11 +21,15 @@
 		</ul>
 	</div>
 	<div id="div2">
-		<ul>
-			<li v-for="ss in datas">
-				<div>{{ss.typename}}</div>
+		<ul v-for="site in datas">
+			<li>
+				<div v-on:click="loadQuestion(site.typeno)">{{site.typename}}</div>
 			</li>
 		</ul>
+	</div>
+	
+	<div id="div3">
+		
 	</div>
 </body>
 
@@ -44,9 +48,17 @@
 						v2.datas = data.secondlist;
 					} 
 				});
+			},
+			loadQuestion: function(id) {
+				window.location = "${pageContext.request.contextPath}/yuantest/question.jsp?typeno=" + id;
 			}
 		}
 	});
+
+
+
+
+	
 	var v = new Vue({
 		el: '#div1',
 		data: {
@@ -58,6 +70,7 @@
 		methods: {
 			reloadType: function(id) {
 				v2.reload(id);
+				i = 0;
 			},
 			init1: function(){
 				$.ajax({
@@ -65,7 +78,7 @@
 					type:"POST",
 					success: function(data1){
 							v.datas = data1.firstlist;
-							v.reloadType(data1.firstlist[0].typeno);						
+							v.reloadType(data1.firstlist[0].typeno);	
 					}					
 				});
 			}

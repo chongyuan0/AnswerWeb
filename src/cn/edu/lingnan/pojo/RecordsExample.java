@@ -403,6 +403,66 @@ public class RecordsExample {
             addCriterion("erunmber not between", value1, value2, "erunmber");
             return (Criteria) this;
         }
+
+        public Criteria andWechatusernoIsNull() {
+            addCriterion("wechatuserno is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoIsNotNull() {
+            addCriterion("wechatuserno is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoEqualTo(Integer value) {
+            addCriterion("wechatuserno =", value, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoNotEqualTo(Integer value) {
+            addCriterion("wechatuserno <>", value, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoGreaterThan(Integer value) {
+            addCriterion("wechatuserno >", value, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoGreaterThanOrEqualTo(Integer value) {
+            addCriterion("wechatuserno >=", value, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoLessThan(Integer value) {
+            addCriterion("wechatuserno <", value, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoLessThanOrEqualTo(Integer value) {
+            addCriterion("wechatuserno <=", value, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoIn(List<Integer> values) {
+            addCriterion("wechatuserno in", values, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoNotIn(List<Integer> values) {
+            addCriterion("wechatuserno not in", values, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoBetween(Integer value1, Integer value2) {
+            addCriterion("wechatuserno between", value1, value2, "wechatuserno");
+            return (Criteria) this;
+        }
+
+        public Criteria andWechatusernoNotBetween(Integer value1, Integer value2) {
+            addCriterion("wechatuserno not between", value1, value2, "wechatuserno");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

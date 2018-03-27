@@ -7,6 +7,7 @@ drop table if exists options;
 drop table if exists records;
 drop table if exists question;
 drop table if exists questiontype;
+drop table if exists wechatuser;
 drop table if exists user;
 drop table if exists admins;
 
@@ -25,6 +26,7 @@ create table questiontype(
 	typeno int auto_increment primary key,	-- 自增主键id
 	typename varchar(30) not null,		-- 题目类型Id
 	belongtypeno int,		-- 属于哪个题目类型id
+	imageurl varchar(200),
 	constraint fk_questiontype_belongtypeno foreign key(belongtypeno) 
 		references questiontype(typeno) on delete cascade
 );
@@ -51,17 +53,35 @@ create table options(
 		references question(questionno) on delete cascade
 );
 
+-- 创建微信用户表
+create table wechatuser(
+	wechatuserno int auto_increment primary key,
+	openid varchar(50) not null UNIQUE KEY,
+	nickname varchar(50),
+	sex varchar(2),
+	province varchar(20),
+	city varchar(20),
+	country varchar(20),
+	headimgurl varchar(200),
+	userno int,
+	constraint fk_wechatuser_userno foreign key(userno)
+		references user(userno) on delete cascade
+);
+
 -- 创建记录表
 create table records(
 	recordsno int auto_increment primary key, -- 自增主键id
-	userno int not null, -- 用户id
+	userno int , -- 用户id
 	typeno int not null, -- 类型id
 	acnumber int default 0,	-- 答对题数
 	erunmber int default 0, -- 答错题数
+ 	wechatuserno int,
 	constraint fk_records_userno foreign key(userno)
 		references user(userno) on delete cascade,
 	constraint fk_records_typeno foreign key(typeno)
-		references questiontype(typeno) on delete cascade
+		references questiontype(typeno) on delete cascade,
+	constraint fk_records_wechatuserno foreign key(wechatuserno)
+		references wechatuser(wechatuserno) on delete cascade
 );
 
 -- 创建管理员表
@@ -72,13 +92,12 @@ create table admins(
 	adminflag int default 1	-- 管理员权限, 1普通 2超级
 );
 
+
 -- 插入数据
 insert into user(username,password,email,sex,status) values('yuan','yuan','15017391266@163.com','男',1);
 
-insert into questiontype(typename) values('计算机科学与技术');
+insert into questiontype(typename) values('计算机');
 insert into questiontype(typename) values('高中');
-insert into questiontype(typename) values('医学');
-insert into questiontype(typename) values('法学');
 
 insert into questiontype(typename,belongtypeno) values('JAVA',1);
 insert into questiontype(typename,belongtypeno) values('C++',1);
@@ -87,10 +106,35 @@ insert into questiontype(typename,belongtypeno) values('计算机操作系统',1
 insert into questiontype(typename,belongtypeno) values('数据挖掘',1);
 insert into questiontype(typename,belongtypeno) values('大数据',1);
 
-insert into questiontype(typename,belongtypeno) values('理科政治',2);
-insert into questiontype(typename,belongtypeno) values('理科地理',2);
-insert into questiontype(typename,belongtypeno) values('理科历史',2);
-insert into questiontype(typename,belongtypeno) values('文科物理',2);
-insert into questiontype(typename,belongtypeno) values('文科化学',2);
-insert into questiontype(typename,belongtypeno) values('文科生物',2);
+insert into questiontype(typename,belongtypeno,imageurl) values('理科政治',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('理科地理',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('理科历史',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科物理',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科化学',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科生物',2,'img/book.jpg');
 
+insert into questiontype(typename,belongtypeno,imageurl) values
+	('JAVA基础',3,'img/book.jpg'),
+	('JAVA进阶',3,'img/book.jpg'),
+	('JAVA高级',3,'img/book.jpg'),
+	('C++基础',4,'img/book.jpg'),
+	('C++高级',4,'img/book.jpg');
+
+
+
+
+
+
+insert into question(content,description,constatus,desstatus,typeno)
+	 values('第一题','测试题',1,1,5),
+	 ('第二题','测试2',1,1,5),
+	 ('第3题','测试3',1,1,5),
+	 ('第4题','测试4',1,1,5),
+	 ('第5题','测试5',1,1,5),
+	 ('第6题','测试6',1,1,5),
+	 ('第7题','测试7',1,1,5),
+	 ('第8题','测试8',1,1,5);
+	 
+insert into options(questionno,content,status) values
+	(1,'1',1),(1,'2',0),(1,'3',0),(1,'4',0),
+	(2,'1',1),(2,'2',1),(2,'3',0),(2,'4',0);

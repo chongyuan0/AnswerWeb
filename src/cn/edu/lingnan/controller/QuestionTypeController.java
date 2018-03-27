@@ -1,5 +1,7 @@
 package cn.edu.lingnan.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,11 @@ public class QuestionTypeController extends BaseController {
 	 */
 	@RequestMapping("/selectQuestionType")
 	public String selectQuestionType(QuestionTypePlus questionTypePlus,Map<String,Object> map ,@RequestParam("toid") Integer toid){
-		PageHelper.startPage(questionTypePlus.getPn(),6);
+		List<QuestionTypePlus> questionTypeList = new ArrayList<>();
+		if(questionTypePlus.getStatus()==1){
+			PageHelper.startPage(questionTypePlus.getPn(),6);
+			
+		}
 		return ""; 
 	}
 

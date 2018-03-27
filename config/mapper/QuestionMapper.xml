@@ -70,6 +70,15 @@
   <sql id="Base_Column_List">
     questionno, content, description, constatus, desstatus, typeno
   </sql>
+  <!-- 从数据库中随机获取数据 -->
+  
+  <select id="randSelectQuestion" parameterType="int" resultMap="BaseResultMap">
+  	select 
+  	<include refid="Base_Column_List" />
+  	from question where typeno = #{typeno} 
+  	order by rand() limit #{number}
+  </select>
+  
   <select id="selectByExample" parameterType="cn.edu.lingnan.pojo.QuestionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

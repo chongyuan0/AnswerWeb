@@ -39,23 +39,45 @@ public class UserController extends BaseController {
 		List<User> userlist = userService.login(user);
 		// 不存在用户
 		if (userlist.size() <= 0) {
-			model.put("loginerror", true);
-			return "index";
+			model.put("loginerror", "用户名或密码错误，请重新输入");
+			return "login";
 		}
 		// 存在用户，判断是否通过验证
 		user = userlist.get(0);
 		if (user.getStatus() == 0) {
-			model.put("validationerror", true);
-			model.put("userno", user.getUserno());
-			return "index";
+			model.put("loginerror", "账号没通过验证，已重新发送验证邮件");
+			String html = "<html><head>"
+					+ "<a href='http://localhost:8080/AnswerWeb/"+ user.getUserno() + "/confirmEmail' >"
+					+ "点击验证邮箱</a>"
+					+ "</head></html>";
+			MailUtil.sendValidatorMail(user.getEmail(), html);
+			return "login";
 		}
 		// 通过验证
 		super.session.setAttribute("user", user);
 		// 跳转到选择类型页面
-		return "test";
+		return "user/index";
 	}
-
-	// 用户注册
+	
+	/**
+	 * @author huang
+	 * 用户注销
+	 */
+	@RequestMapping(value="user/sigeout")
+	public String signout() {
+		if (super.session.getAttribute("user") != null)
+			super.session.removeAttribute("user");
+		return "login";
+	}
+	
+	/**
+	 * @author huang
+	 * @param user
+	 * @param result
+	 * @param map
+	 * @return
+	 * 用户注册
+	 */
 	@RequestMapping(value = "user/register", method = RequestMethod.POST)
 	public String register(@Valid User user, BindingResult result, Map<String, Object> map) {
 		//判断输入是否合法
@@ -115,7 +137,7 @@ public class UserController extends BaseController {
 	public String confirmValidatorEmail(@PathVariable int userno) {
 		int flag = userService.confirmValidator(userno);
 		if (flag > 0)
-			return "yuantest/success";
+			return "login";
 		else 
 			return "error";
 	}
@@ -128,12 +150,11 @@ public class UserController extends BaseController {
 	public ModelAndView findMyPassword(String email) {
 		ModelAndView model = new ModelAndView();
 		User user = userService.findUserByEmail(email);
+		model.setViewName("forgetPsw");
 		if (user == null) {
-			model.setViewName("error");
-			model.addObject("error", "没有该用户");
+			model.addObject("error", "该邮箱还没有注册");
 		} else {
 			MailUtil.sendFindPasswordMail(email, user.getPassword());
-			model.setViewName("yuantest/success");
 			model.addObject("success", "找回密码邮件已发送");
 		}
 		return model; 

@@ -7,6 +7,8 @@ public class QuestionType {
 
     private Integer belongtypeno;
 
+    private String imageurl;
+
     public Integer getTypeno() {
         return typeno;
     }
@@ -29,5 +31,13 @@ public class QuestionType {
 
     public void setBelongtypeno(Integer belongtypeno) {
         this.belongtypeno = belongtypeno;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl == null ? null : imageurl.trim();
     }
 }
