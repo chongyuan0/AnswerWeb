@@ -1,11 +1,17 @@
 package cn.edu.lingnan.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.github.pagehelper.PageHelper;
+
+import cn.edu.lingnan.dao.QuestionTypePlus;
 import cn.edu.lingnan.pojo.QuestionType;
 import cn.edu.lingnan.service.QuestionTypeService;
 
@@ -15,9 +21,14 @@ public class QuestionTypeController extends BaseController {
 	@Autowired
 	private QuestionTypeService questionTypeService;
 	
+	/**
+	 * 目录菜单管理
+	 * @return
+	 */
 	@RequestMapping("/selectQuestionType")
-	public String selectQuestionType(){
-		return "";
+	public String selectQuestionType(QuestionTypePlus questionTypePlus,Map<String,Object> map ,@RequestParam("toid") Integer toid){
+		PageHelper.startPage(questionTypePlus.getPn(),6);
+		return ""; 
 	}
 
 	/**

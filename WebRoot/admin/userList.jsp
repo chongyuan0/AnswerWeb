@@ -175,7 +175,7 @@
 						</a></li>
 
 						<li><a
-							href="${pageContext.request.contextPath}/selectQuestion">
+							href="${pageContext.request.contextPath}/selectQuestion?toid=1">
 								<i class="icon-th-list"></i> 试题库管理
 						</a></li>
 
