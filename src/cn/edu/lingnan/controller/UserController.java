@@ -32,7 +32,7 @@ public class UserController extends BaseController {
 	private UserService userService;
 
 	// 用户登录
-	@RequestMapping(value = "user/login", method = RequestMethod.POST)
+	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(User user, ModelMap model) {
 		List<User> userlist = userService.login(user);
 		// 不存在用户
@@ -76,7 +76,7 @@ public class UserController extends BaseController {
 	 * @return
 	 * 用户注册
 	 */
-	@RequestMapping(value = "user/register", method = RequestMethod.POST)
+	@RequestMapping(value = "register", method = RequestMethod.POST)
 	public String register(@Valid User user, BindingResult result, Map<String, Object> map) {
 		//判断输入是否合法
 		if (result.hasErrors()) {
@@ -144,7 +144,7 @@ public class UserController extends BaseController {
 	 * @author huang
 	 * 找回密码
 	 */
-	@RequestMapping(value="/user/findpassword", method=RequestMethod.POST)
+	@RequestMapping(value="findpassword", method=RequestMethod.POST)
 	public ModelAndView findMyPassword(String email) {
 		ModelAndView model = new ModelAndView();
 		User user = userService.findUserByEmail(email);

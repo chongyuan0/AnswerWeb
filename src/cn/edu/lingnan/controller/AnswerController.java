@@ -17,6 +17,7 @@ import cn.edu.lingnan.pojo.Options;
 import cn.edu.lingnan.pojo.Question;
 import cn.edu.lingnan.pojo.QuestionOption;
 import cn.edu.lingnan.pojo.QuestionType;
+import cn.edu.lingnan.pojo.User;
 import cn.edu.lingnan.service.AnswerService;
 
 @Controller
@@ -83,7 +84,18 @@ public class AnswerController extends BaseController {
 			questionOptionsList.add(questionOption);
 		}
 		map.put("question",questionOptionsList);
+		map.put("maxnumber", QUESTION_NUMBER);
+		map.put("title", answerService.getQuestionTypeByID(typeno).getTypename());
 		return map;
 	}
 	
+	/**
+	 * @author huang
+	 * 用户答题更新记录
+	 */
+	@RequestMapping(value="user/refreshRecord/{typeno}/{status}")
+	public void refreshRecord(@PathVariable int typeno, @PathVariable int status){
+		User user = (User) super.session.getAttribute("user");
+		answerService.answerRecord(user.getUserno(), typeno, status);
+	}
 }

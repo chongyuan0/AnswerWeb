@@ -41,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</c:if>
 		</div>
 		<div class="form">
-			<form action="${pageContext.request.contextPath }/user/findpassword" method="post">
+			<form action="${pageContext.request.contextPath }/findpassword" method="post">
 				<div class="input">
 					<input  type="email" name="email" placeholder="邮箱" required />
 				</div>

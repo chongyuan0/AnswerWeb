@@ -8,7 +8,7 @@
 <title>首页</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/weui.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/example.css"/>
-<link rel="stylesheet" href="${pageContext.request.contextPath }/css/mytest.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/myindex.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
 </head>
@@ -18,10 +18,10 @@
         <div class="weui-tab__panel">
             <div id="answer" class="weui-tab__bd-item">
                 <div class="firsttab">
-                    <img src="${pageContext.request.contextPath }/img/logo.jpg" class=my_img>
+                    <img src="${pageContext.request.contextPath }/resource/images/logo.jpg" class=my_img>
                 </div>
 	            <div class="weui-grids" id="type">
-	                <a href="javascript:;" class="weui-grid" v-for="data in datas">
+	                <a href="javascript:;" class="weui-grid" v-for="data in datas" v-on:click="">
 	                    <div class="weui-grid__icon">
 	                        <img v-bind:src="data.imageurl" alt="">
 	                    </div>
@@ -36,13 +36,13 @@
         <div class="weui-tabbar">
             <a href="#answer" class="weui-tabbar__item weui-bar__item_on">
                 <div class="weui-tabbar__icon">
-                    <img src="${pageContext.request.contextPath }/img/icon_nav_answer.png" alt="">
+                    <img src="${pageContext.request.contextPath }/resource/images/icon_nav_answer.png" alt="">
                 </div>
                 <p class="weui-tabbar__label">答题</p>
             </a>
             <a href="#user" class="weui-tabbar__item">
                 <div class="weui-tabbar__icon">
-                    <img src="${pageContext.request.contextPath }/img/icon_nav_people.png" alt="">
+                    <img src="${pageContext.request.contextPath }/resource/images/icon_nav_people.png" alt="">
                 </div>
                 <p class="weui-tabbar__label">我</p>
             </a>
@@ -62,7 +62,8 @@ $(function () {
     questiontype.loadtype();
 
 });
-var path = "${pageContext.request.contextPath }"; 
+
+var path = "${pageContext.request.contextPath}/resource/images/type/"; 
 
 var questiontype = new Vue({
 	el: "#type",
@@ -77,11 +78,12 @@ var questiontype = new Vue({
 				success: function(data){
 					questiontype.datas = data.firstlist;
 					for (var i=0; i<questiontype.datas.length; i++) {
-						questiontype.datas[i].imageurl = path + "/" + data.firstlist[i].imageurl;
+						questiontype.datas[i].imageurl = path + questiontype.datas[i].imageurl;
 					}
 				}					
 			});
 		}
+		
 	}
 });
 

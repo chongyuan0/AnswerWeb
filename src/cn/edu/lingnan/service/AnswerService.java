@@ -6,19 +6,21 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sun.mail.util.QEncoderStream;
 
 import cn.edu.lingnan.controller.AnswerController;
 import cn.edu.lingnan.dao.OptionsMapper;
 import cn.edu.lingnan.dao.QuestionMapper;
 import cn.edu.lingnan.dao.QuestionTypeMapper;
+import cn.edu.lingnan.dao.RecordsMapper;
 import cn.edu.lingnan.pojo.Options;
 import cn.edu.lingnan.pojo.OptionsExample;
 import cn.edu.lingnan.pojo.Question;
 import cn.edu.lingnan.pojo.QuestionExample;
 import cn.edu.lingnan.pojo.QuestionType;
 import cn.edu.lingnan.pojo.QuestionTypeExample;
+import cn.edu.lingnan.pojo.RecordsExample;
 import cn.edu.lingnan.pojo.QuestionTypeExample.Criteria;
+import cn.edu.lingnan.pojo.Records;
 
 @Service
 public class AnswerService {
@@ -29,6 +31,8 @@ public class AnswerService {
 	private QuestionMapper questionMapper;
 	@Autowired
 	private OptionsMapper optionMapper;
+	@Autowired
+	private RecordsMapper recordsMapper;
 	
 	/**
 	 * @author huang
@@ -81,4 +85,46 @@ public class AnswerService {
 		return list;
 	}
 	
+	/**
+	 * @author huang
+	 * 根据id获取类型名称
+	 */
+	public QuestionType getQuestionTypeByID(int typeno) {
+		return qtypeMapper.selectByPrimaryKey(typeno);
+	}
+	
+	/**
+	 * @author huang
+	 * @param userno 用户编号
+	 * @param typeno 题目类型编号
+	 * @param status 答题情况，1:正确, 2:错误
+	 * 更新用户答题记录
+	 */
+	public void answerRecord(int userno, int typeno, int status) {
+		//判断用户是否有该类型记录
+		RecordsExample recordsExample = new RecordsExample();
+		cn.edu.lingnan.pojo.RecordsExample.Criteria recordCria = recordsExample.createCriteria();
+		recordCria.andUsernoEqualTo(userno).andTypenoEqualTo(typeno);
+		List<Records> recordsList = recordsMapper.selectByExample(recordsExample);
+		if (recordsList.size() <= 0) {
+			//不存在就插入一条记录
+			Records records = new Records();
+			records.setTypeno(typeno);
+			records.setUserno(userno);
+			if (status == 1)
+				records.setAcnumber(1);
+			else 
+				records.setErunmber(1);
+			recordsMapper.insertSelective(records);
+			return ;
+		} else {
+			//存在就更新记录
+			Records rec = recordsList.get(0);
+			if(status == 1)
+				rec.setAcnumber(rec.getAcnumber()+1);
+			else 
+				rec.setErunmber(rec.getErunmber()+1);
+			recordsMapper.updateByPrimaryKey(rec);
+		}
+	}
 }

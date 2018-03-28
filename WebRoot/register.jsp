@@ -20,7 +20,7 @@
 			<div class="topic">
 				注册
 			</div>
-			<form action="${pageContext.request.contextPath }/user/register" method="post">
+			<form action="${pageContext.request.contextPath }/register" method="post">
 				<div class="form">
 					<div class="input">
 						<label for="">用户名</label>

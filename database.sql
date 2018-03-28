@@ -26,7 +26,7 @@ create table questiontype(
 	typeno int auto_increment primary key,	-- 自增主键id
 	typename varchar(30) not null,		-- 题目类型Id
 	belongtypeno int,		-- 属于哪个题目类型id
-	imageurl varchar(200) default 'img/book.jpg',
+	imageurl varchar(200) default 'book.jpg',
 	constraint fk_questiontype_belongtypeno foreign key(belongtypeno) 
 		references questiontype(typeno) on delete cascade
 );
@@ -106,35 +106,36 @@ insert into questiontype(typename,belongtypeno) values('计算机操作系统',1
 insert into questiontype(typename,belongtypeno) values('数据挖掘',1);
 insert into questiontype(typename,belongtypeno) values('大数据',1);
 
-insert into questiontype(typename,belongtypeno,imageurl) values('理科政治',2,'img/book.jpg');
-insert into questiontype(typename,belongtypeno,imageurl) values('理科地理',2,'img/book.jpg');
-insert into questiontype(typename,belongtypeno,imageurl) values('理科历史',2,'img/book.jpg');
-insert into questiontype(typename,belongtypeno,imageurl) values('文科物理',2,'img/book.jpg');
-insert into questiontype(typename,belongtypeno,imageurl) values('文科化学',2,'img/book.jpg');
-insert into questiontype(typename,belongtypeno,imageurl) values('文科生物',2,'img/book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('理科政治',2,'book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('理科地理',2,'book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('理科历史',2,'book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科物理',2,'book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科化学',2,'book.jpg');
+insert into questiontype(typename,belongtypeno,imageurl) values('文科生物',2,'book.jpg');
 
 insert into questiontype(typename,belongtypeno,imageurl) values
-	('JAVA基础',3,'img/book.jpg'),
-	('JAVA进阶',3,'img/book.jpg'),
-	('JAVA高级',3,'img/book.jpg'),
-	('C++基础',4,'img/book.jpg'),
-	('C++高级',4,'img/book.jpg');
-
-
-
-
-
+	('JAVA基础',3,'book.jpg'),
+	('JAVA进阶',3,'book.jpg'),
+	('JAVA高级',3,'book.jpg'),
+	('C++基础',4,'book.jpg'),
+	('C++高级',4,'book.jpg');
 
 insert into question(content,description,constatus,desstatus,typeno)
-	 values('第一题','测试题',1,1,5),
-	 ('第二题','测试2',1,1,5),
-	 ('第3题','测试3',1,1,5),
-	 ('第4题','测试4',1,1,5),
-	 ('第5题','测试5',1,1,5),
-	 ('第6题','测试6',1,1,5),
-	 ('第7题','测试7',1,1,5),
-	 ('第8题','测试8',1,1,5);
+	 values('第一题','测试题',1,1,15),
+	 ('第二题','测试2',1,1,15),
+	 ('第3题','测试3',1,1,15),
+	 ('第4题','测试4',1,1,15),
+	 ('第5题','测试5',1,1,15),
+	 ('第6题','测试6',1,1,15),
+	 ('第7题','测试7',1,1,15),
+	 ('第8题','测试8',1,1,15);
 	 
 insert into options(questionno,content,status) values
 	(1,'1',1),(1,'2',0),(1,'3',0),(1,'4',0),
-	(2,'1',1),(2,'2',1),(2,'3',0),(2,'4',0);
+	(2,'1',1),(2,'2',0),(2,'3',0),(2,'4',0),
+	(3,'1',1),(3,'2',0),(3,'3',0),(3,'4',0),
+	(4,'1',1),(4,'2',0),(4,'3',0),(4,'4',0),
+	(5,'1',1),(5,'2',0),(5,'3',0),(5,'4',0),
+	(6,'1',1),(6,'2',0),(6,'3',0),(6,'4',0),
+	(7,'1',1),(7,'2',0),(7,'3',0),(7,'4',0),
+	(8,'1',1),(8,'2',1),(8,'3',0),(8,'4',0);
