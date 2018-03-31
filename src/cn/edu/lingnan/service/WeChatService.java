@@ -115,12 +115,8 @@ public class WeChatService {
 	 * @author huang
 	 * 储存微信用户信息
 	 */
-	public boolean addWeChatUser(WeChatUser wechatuser) {
-		if(isExistsUser(wechatuser) == null) {
-			weChatUserMapper.insertSelective(wechatuser);
-			return true;
-		} else
-			return false;
+	public void addWeChatUser(WeChatUser wechatuser) {
+		weChatUserMapper.insertSelective(wechatuser);
 	}
 	
 	/**

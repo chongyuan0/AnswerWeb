@@ -5,28 +5,100 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
 <title>类型</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/weui.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/example.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-weui.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/demos.css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-3.2.1.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-weui.js"></script>
+<style type="text/css">
+.mynone{
+	display: none;
+}
+.myclick{
+	display: block;
+}
+</style>
 </head>
 <body>
-<div class="weui-cells">
-	<a class="weui-cell weui-cell_access" href="javascript:;">
-		<div class="weui-cell__hd">
-			<img src="" alt="" style="width:20px;margin-right:5px;display:block">
-		</div>
-		<div class="weui-cell__bd">
-	   		<p>cell standard</p>
-		</div>
-		<div class="weui-cell__ft">说明文字</div>
-	</a>
+<!-- 下拉刷新 -->
+<div class="weui-pull-to-refresh__layer">
+    <div class='weui-pull-to-refresh__arrow'></div>
+    <div class='weui-pull-to-refresh__preloader'></div>
+    <div class="down">下拉刷新</div>
+    <div class="up">释放刷新</div>
+    <div class="refresh">正在刷新</div>
+</div>
+<div class="weui-cells" id="questionType">
+	<div v-for="(se,index) in second">
+		<a class="weui-cell weui-cell_access myclick" href="javascript:;" v-on:click="loadthird(se.typeno,index)">
+		    <div class="weui-cell__bd">
+		      <p>{{se.typename}}</p>
+		    </div>
+		    <div class="weui-cell__ft"></div>
+	    </a>
+	    <div id=third v-if="index == flag">
+	    	<a class="weui-cell weui-cell_access" href="javascript:;" v-for="th in third" v-on:click="redirectJsp(th.typeno)">
+			    <div class="weui-cell__bd">
+			      <p>{{th.typename}}</p>
+			    </div>
+			    <div class="weui-cell__ft"></div>
+	    	</a>
+	    </div>
+	</div>
 </div>
 </body>
 <script type="text/javascript">
+$(function(){
+	questionType.loadsecond();
+	$(document.body).pullToRefresh(function () {
+		// 下拉刷新触发时执行的操作放这里。
+		// 从 v1.1.2 版本才支持回调函数，之前的版本只能通过事件监听
+		setTimeout(function() {
+			questionType.loadsecond();
+			$(document.body).pullToRefreshDone();
+		}, 2000);
+	});
+});
 
-
+var questionType = new Vue({
+	el: "#questionType",
+	data: {
+		second:[],
+		third:null,
+		flag : null
+	},
+	methods: {
+		loadsecond: function() {
+			$.ajax({
+				url: "${pageContext.request.contextPath }/user/getType/${param.typeno}",
+				success: function(data){
+					questionType.second = data.secondlist;
+				}
+			});
+		},
+		loadthird: function(typeno,index) {
+			$.ajax({
+				url: "${pageContext.request.contextPath }/user/getType/" + typeno,
+				success: function(data){
+					var error = data.error;
+					if (error == null) {
+						questionType.third = data.secondlist;
+						questionType.flag = index;
+					}
+					else 
+						questionType.redirectJsp(data.error);
+				}
+			});
+		},
+		redirectJsp: function(typeno) {
+			window.location = "${pageContext.request.contextPath }/wechatuser/knowleage.jsp?typeno="+ typeno;
+		}
+	}
+});
 
 </script>
 </html>

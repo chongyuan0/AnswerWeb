@@ -1,92 +1,96 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>答题</title>
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/knowledgeAnswer.css"/>
-	<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
-	<script src="${pageContext.request.contextPath }/js/vue.js" type="text/javascript" charset="utf-8"></script>
-	<script src="${pageContext.request.contextPath }/js/knowledgeAnswer.js" type="text/javascript" charset="utf-8"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+<title>回答问题</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/weui.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/example.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-weui.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/demos.css"/>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-weui.js"></script>
+<style type="text/css">
+.answer{
+	display: none;
+}
+/* 选项图片 */
+.weui-cell__bd img{
+	width: 24px;
+	height: 24px;
+}
+</style>
 </head>
 <body>
-	<header>
-		<img src="${pageContext.request.contextPath }/resource/images/logo.jpg"/>
-		<div class="find">
-			<input type="text" placeholder="搜索..." />
-			<button></button>
-		</div>
-	</header>
-	<nav>
-		<div class="catalog">
-			<ul>
-				<li><a href="${pageContext.request.contextPath }/user/index.jsp">首页</a></li>
-				
-			</ul>
-		</div>
-		<div class="user">
-			<span >用户名:&nbsp;${sessionScope.user.username } &nbsp;<a href="${pageContext.request.contextPath }/user/sigeout">[退出]</a></span>
-		</div>
-	</nav>
-	<section>
-		<div class="condition" id="condition">
-			<ul>
-				<li>科目：{{title}}</li>
-				<li>答对：{{right}} 道</li>
-				<li>答错：{{error}} 道</li>
-			</ul>
-		</div>
-		
-		<div class="content">
-			<div class="question" id="question">
-				<h4>题目</h4>
-				<ul>
-					<li v-if="flag == 1">{{datas}}</li>
-					<li v-if="flag == 2">图片</li>
-					<li v-if="flag == 3">视频</li>
-					<li v-if="flag == 4">音乐</li>
-				</ul>
-			</div>
-			<div class="selection" id="selection">
-				<h4>回答</h4>
-				<ul>
-					<li style="display: block;" v-for="op in datas" v-if="flag == 1">   <!-- 单选时 -->
-						<div class="">
-							<input type="radio" name="radio" id="radio" :value="op.status" />
-							<span>{{op.content}}</span>
-						</div>
-					</li>
-					
-					<li>  <!-- 多选时 -->
-						<div v-for="op in datas" v-if="flag == 2">
-							<input type="checkbox" name="checkbox" id="checkbox" :value="op.status" />
-							<span>{{op.content}}</span>
-						</div>
-					</li>
-				</ul>
-			</div>
-			<hr />
-			<div class="answer" id="answer">
-				<h4>答案</h4>					
-				<div class="">
-					<span v-if="flag == 1">{{rightanswer}}<br/>{{datas}}</span>
-					<span v-if="flag == 2">图片</span>
-				</div>
-			</div>
-			<div class="button">
-				<button id="submit">提交</button>
-				<button style="display: none;" id="next">下一题</button>
-			</div>
-			<div class="clear">  <!--清除浮动-->
-					
-			</div>
-		</div>
-	</section>
-	<footer>
-		<p>地址: 岭南师范学院 &nbsp;| &nbsp; 联系邮箱: <a href="#">chongyuan1997@qq.com</a></p>
-	</footer>
+<!-- 顶部显示题目类型 -->
+<header id="condition">
+	<a class="weui-navbar__item weui-bar__item--on" href="javascript:;">
+		选项一
+	</a>
+</header>
+<!-- 显示题目 -->
+<section id="question">
+	<div class="weui-panel weui-panel_access">
+        <div class="weui-panel__bd">
+          <div class="weui-media-box weui-media-box_text" v-if="flag == 1">
+            <p class="weui-media-box__desc">{{datas}}</p>
+          </div>
+          <div v-if="flag == 2">
+          	<img alt="" src="${pageContext.request.contextPath }/resource/images/logo.jpg">
+          </div>
+        </div>
+      </div>
+</section>
+<!-- 显示选项 -->
+<section id="selection">
+	<!-- 单选 -->
+	<div class="weui-cells weui-cells_radio">
+      <label v-for="(op,index) in datas" class="weui-cell weui-check__label" :for="index"  v-if="flag == 1">
+        <div class="weui-cell__bd">
+          <img alt="" :src="selectimg[index+1]">
+          <span>{{op.content}}</span>
+        </div>
+        <div class="weui-cell__ft">
+          <input type="radio" class="weui-check" name="radio1" :id="index" :value="op.status">
+          <span class="weui-icon-checked"></span>
+        </div>
+      </label>
+    </div>
+    <!-- 多选 -->
+    <div class="weui-cells weui-cells_checkbox">
+      <label class="weui-cell weui-check__label" :for="index" v-for="(op,index) in datas" v-if="flag == 2">
+        <div class="weui-cell__hd">
+          <input type="checkbox" class="weui-check" name="checkbox" :id="index" :value="op.status">
+          <i class="weui-icon-checked"></i>
+        </div>
+        <div class="weui-cell__bd">
+        	<img alt="" :src="selectimg[index+1]">
+          <span>{{op.content}}</span>
+        </div>
+      </label>
+    </div>
+</section>
+<!-- 显示答案 -->
+<section id="answer">
+	<div class="weui-panel weui-panel_access answer">
+        <div class="weui-panel__bd">
+          <div class="weui-media-box weui-media-box_text" v-if="flag == 1">
+            <p class="weui-media-box__desc" style="font-size:12px;">{{rightanswer}}<br/>{{datas}}</p>
+          </div>
+          <div v-if="flag == 2">
+          	<img alt="" src="${pageContext.request.contextPath }/resource/images/logo.jpg">
+          </div>
+        </div>
+    </div>
+	<div class='demos-content-padded'>
+		<a href="javascript:;" class="weui-btn weui-btn_primary" id="submit">提交</a>
+		<a href="javascript:;" class="weui-btn weui-btn_primary" id="next" style="display: none">下一题</a>
+	</div>
+</section>
+
 </body>
 <script type="text/javascript">
 var questiondata;	//题目内容
@@ -94,11 +98,9 @@ var questionNumber = 0;	//当前题号
 var maxNumber;	//最大题目数
 
 $(function(){
-	
 	init();
 	showQuestion(questionNumber);
 	console.log(questiondata);
-	
 	/*点击提交按钮时*/
 	$('#submit').click(function(){
 			$(this).hide();  /* 提交按钮消失 */
@@ -106,8 +108,10 @@ $(function(){
 			$('#next').show();/*下一题按钮显示*/
 			$('input:radio').prop("disabled",true);
 			if(selection.rightnumber == 1) {	//单选
-				if($('input:radio:checked').val() == 1)
+				if($('input:radio:checked').val() == 1){
+									
 					condition.subimtAnswer(1);
+				}
 				else
 					condition.subimtAnswer(0);
 			} else {	//多选
@@ -172,6 +176,8 @@ function init() {
 			condition.title = data.title;
 		}
 	});
+	for (i=1;i<=26;i++)
+		selection.selectimg[i] = "${pageContext.request.contextPath }/resource/images/selection/" + i + ".png";
 }
 
 //对题目，选项等重新显示
@@ -203,7 +209,8 @@ var selection = new Vue({
 	data: {
 		datas: [],
 		falg: null,
-		rightnumber: 0
+		rightnumber: 0,
+		selectimg: []
 	},
 	methods: {
 		load: function(data) {
@@ -213,10 +220,9 @@ var selection = new Vue({
 				"S","T","U","V","W","X","Y","Z");
 			answer.rightanswer = "答案是：";
 			for (var i=0; i<data.length; i++) {
-				selection.datas[i].content = myop[i] + ". " + selection.datas[i].content;
 				if(data[i].status == 1){
 					confirm += 1;
-					answer.rightanswer += myop[i];				
+					answer.rightanswer += myop[i];	
 				}
 			}
 			selection.rightnumber = confirm;

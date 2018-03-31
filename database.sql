@@ -98,6 +98,8 @@ insert into user(username,password,email,sex,status) values('yuan','yuan','15017
 
 insert into questiontype(typename) values('计算机');
 insert into questiontype(typename) values('高中');
+insert into questiontype(typename,imageurl) values('测试刷新','book.jpg');
+insert into questiontype(typename,imageurl) values('测试刷新2','book.jpg');
 
 insert into questiontype(typename,belongtypeno) values('JAVA',1);
 insert into questiontype(typename,belongtypeno) values('C++',1);

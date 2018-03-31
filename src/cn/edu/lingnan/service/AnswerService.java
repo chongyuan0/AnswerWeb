@@ -100,17 +100,23 @@ public class AnswerService {
 	 * @param status 答题情况，1:正确, 2:错误
 	 * 更新用户答题记录
 	 */
-	public void answerRecord(int userno, int typeno, int status) {
+	public void answerRecord(int userno, int typeno, int status, int flag) {
 		//判断用户是否有该类型记录
 		RecordsExample recordsExample = new RecordsExample();
 		cn.edu.lingnan.pojo.RecordsExample.Criteria recordCria = recordsExample.createCriteria();
-		recordCria.andUsernoEqualTo(userno).andTypenoEqualTo(typeno);
+		if (flag == 0)
+			recordCria.andUsernoEqualTo(userno).andTypenoEqualTo(typeno);
+		else 
+			recordCria.andWechatusernoEqualTo(userno).andTypenoEqualTo(typeno);
 		List<Records> recordsList = recordsMapper.selectByExample(recordsExample);
 		if (recordsList.size() <= 0) {
 			//不存在就插入一条记录
 			Records records = new Records();
 			records.setTypeno(typeno);
-			records.setUserno(userno);
+			if(flag==0)
+				records.setUserno(userno);
+			else 
+				records.setWechatuserno(userno);
 			if (status == 1)
 				records.setAcnumber(1);
 			else 

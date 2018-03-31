@@ -18,6 +18,7 @@ import cn.edu.lingnan.pojo.Question;
 import cn.edu.lingnan.pojo.QuestionOption;
 import cn.edu.lingnan.pojo.QuestionType;
 import cn.edu.lingnan.pojo.User;
+import cn.edu.lingnan.pojo.WeChatUser;
 import cn.edu.lingnan.service.AnswerService;
 
 @Controller
@@ -55,7 +56,7 @@ public class AnswerController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		List<QuestionType> secondlist = answerService.findType(id);
 		if (secondlist.size() <= 0) {
-			map.put("error", "系统错误：二级菜单获取失败");
+			map.put("error", id);
 		} else {
 			//判断是否为3级菜单
 			List<QuestionType> thirdList = answerService.findType(secondlist.get(0).getTypeno());
@@ -96,6 +97,10 @@ public class AnswerController extends BaseController {
 	@RequestMapping(value="user/refreshRecord/{typeno}/{status}")
 	public void refreshRecord(@PathVariable int typeno, @PathVariable int status){
 		User user = (User) super.session.getAttribute("user");
-		answerService.answerRecord(user.getUserno(), typeno, status);
-	}
+		WeChatUser weuser = (WeChatUser) super.session.getAttribute("weChatUser");
+		if (user != null)
+			answerService.answerRecord(user.getUserno(), typeno, status, 0);
+		else if (weuser != null)
+			answerService.answerRecord(weuser.getWechatuserno(), typeno, status, 1);
+	}		
 }

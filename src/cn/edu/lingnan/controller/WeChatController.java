@@ -31,7 +31,7 @@ public class WeChatController extends BaseController {
 	@Autowired
 	private WeChatService weChatService;
 	
-	public static final String SERVER = "http://zhrkim.natappfree.cc";
+	public static final String SERVER = "http://itbnq8.natappfree.cc";
 	
 	/**
 	 * @author huang
@@ -98,7 +98,6 @@ public class WeChatController extends BaseController {
 	@RequestMapping(value="wechat/getuserinfo", method=RequestMethod.GET)
 	public String getUserInfo(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		String code = req.getParameter("code");
-		System.out.println();
 		if(code != null) {
 			//获取access_token和openid
 			String tokenUri = "https://api.weixin.qq.com/sns/oauth2/access_token?";	//固定链接
@@ -116,10 +115,16 @@ public class WeChatController extends BaseController {
 					+ "&openid="+ autoWebParams.getOpenid()+ "&lang=zh_CN";
 			String json2 = HttpUtil.getReturnJson(userinfouri, null);
 			WeChatUser wechatUser = gson.fromJson(json2, new WeChatUser().getClass());
-			super.session.setAttribute("weChatUser", wechatUser);
 			//将信息存储进数据库
-			weChatService.addWeChatUser(wechatUser);
-			return "login";
+			WeChatUser user = weChatService.isExistsUser(wechatUser);
+			if (user == null) {
+				weChatService.addWeChatUser(wechatUser);
+				wechatUser = weChatService.isExistsUser(wechatUser);
+			}
+			else
+				wechatUser = user;
+			super.session.setAttribute("weChatUser", wechatUser);
+			return "wechatuser/index";
 		}
 		return "error";
 	}

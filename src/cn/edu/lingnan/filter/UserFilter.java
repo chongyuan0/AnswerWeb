@@ -25,11 +25,12 @@ public class UserFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest arg0, ServletResponse arg1, FilterChain arg2)
 			throws IOException, ServletException {
-		HttpServletRequest req = (HttpServletRequest) arg0;
-		HttpServletResponse resp = (HttpServletResponse) arg1;
-		Object user = req.getSession().getAttribute("user");
-		if(user == null)
-			resp.sendRedirect(req.getContextPath() + "/login.jsp"); 
+//		HttpServletRequest req = (HttpServletRequest) arg0;
+//		HttpServletResponse resp = (HttpServletResponse) arg1;
+//		Object user = req.getSession().getAttribute("user");
+//		Object wechatuser = req.getSession().getAttribute("weChatUser");
+//		if(user == null && wechatuser == null)	
+//			resp.sendRedirect(req.getContextPath() + "/login.jsp"); 
 		arg2.doFilter(arg0, arg1);
 	}
 
