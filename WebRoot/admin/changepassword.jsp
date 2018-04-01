@@ -91,7 +91,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="account-container">
 				
 					<div class="account-avatar">
-						<img src="${pageContext.request.contextPath}/img/headshot.png" alt="" class="thumbnail" />
+						<img src="${pageContext.request.contextPath}/resource/images/headshot.png" alt="" class="thumbnail" />
 					</div> <!-- /account-avatar -->
 				
 					<div class="account-details">
@@ -122,7 +122,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								<i class="icon-th-list"></i> 试题库管理
 						</a></li>
 
-						<li><a href="${pageContext.request.contextPath}/selectQuestionType">
+						<li><a href="${pageContext.request.contextPath}/admin/questionType.jsp">
 								<i class="icon-th-large"></i> 目录管理
 						</a></li>
 

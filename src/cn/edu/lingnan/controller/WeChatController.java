@@ -119,7 +119,6 @@ public class WeChatController extends BaseController {
 			super.session.setAttribute("weChatUser", wechatUser);
 			//将信息存储进数据库
 			weChatService.addWeChatUser(wechatUser);
-			System.out.println("1111");
 			return "login";
 		}
 		return "error";

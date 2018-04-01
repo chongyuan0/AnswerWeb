@@ -26,7 +26,7 @@ create table questiontype(
 	typeno int auto_increment primary key,	-- 自增主键id
 	typename varchar(30) not null,		-- 题目类型Id
 	belongtypeno int,		-- 属于哪个题目类型id
-	imageurl varchar(200),
+	imageurl varchar(200) default 'img/book.jpg',
 	constraint fk_questiontype_belongtypeno foreign key(belongtypeno) 
 		references questiontype(typeno) on delete cascade
 );

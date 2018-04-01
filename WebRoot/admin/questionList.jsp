@@ -125,7 +125,7 @@ table{
 					<div class="account-container">
 
 						<div class="account-avatar">
-							<img src="./img/headshot.png" alt="" class="thumbnail" />
+							<img src="${pageContext.request.contextPath}/resource/images/headshot.png" alt="" class="thumbnail" />
 						</div>
 						<!-- /account-avatar -->
 
@@ -159,7 +159,7 @@ table{
 								<i class="icon-th-list"></i> 试题库管理
 						</a></li>
 
-						<li><a href="${pageContext.request.contextPath}/selectQuestionType">
+						<li><a href="${pageContext.request.contextPath}/admin/questionType.jsp">
 								<i class="icon-th-large"></i> 目录管理
 						</a></li>
 
@@ -237,9 +237,9 @@ table{
 							<thead>
 								<tr>
 									<th style="width:6%">编号</th>
-									<th style="width:22%">题目内容</th>
+									<th style="width:20%">题目内容</th>
 									<th style="width:21%">题目描述</th>
-									<th style="whdth:8%">内容类型</th>
+									<th style="whdth:10%">内容类型</th>
 									<th style="width:21%">答案详解</th>
 									<th style="width:10%">题目类别</th>
 									<th style="width:12%">操作</th>
