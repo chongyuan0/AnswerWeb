@@ -36,8 +36,8 @@ a:hover{
 	background-repeat: no-repeat;
 	background-size: 100% 100%;
 }
-.bg1{background-image: url(../img/banner_01.png);}
-.bg2{background-image: url(../img/banner_02.gif); display: none;}
+.bg1{background-image: url(../resource/images/banner_01.png);}
+.bg2{background-image: url(../resource/images/banner_02.gif); display: none;}
 
 
 .login{

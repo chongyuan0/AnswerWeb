@@ -23,7 +23,7 @@
 			<div class="error_m">  <!--显示信息错误-->
 					${loginerror}
 			</div>
-			<form action="${pageContext.request.contextPath }/user/login" method="post">
+			<form action="${pageContext.request.contextPath }/login" method="post">
 				<div class="form">
 					<div class="input">
 						<label for="">邮&nbsp;&nbsp;&nbsp;箱</label>

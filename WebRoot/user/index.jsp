@@ -12,7 +12,7 @@
 </head>
 <body>
 	<header>
-		<img src="${pageContext.request.contextPath }/img/logo.jpg"/>
+		<img src="${pageContext.request.contextPath }/resource/images/logo.jpg"/>
 		<div class="find">
 			<input type="text" placeholder="搜索..." />
 			<button></button>
@@ -40,8 +40,8 @@
 				<div class="content_topic">
 					<p>{{previous}}</p>
 				</div>
-				<a href="#" class="class" v-for="data in datas">
-					<img v-bind:src="data.imageurl"/>
+				<a href="javascript:;" class="class" v-for="data in datas" v-on:click="toLink(data.typeno)">
+					<img v-bind:src="data.imageurl" />
 					<span >{{previous}}</span>
 					<p>{{data.typename}}</p>
 				</a>
@@ -55,6 +55,7 @@
 	</footer>
 </body>
 <script type="text/javascript">
+	var path = "${pageContext.request.contextPath}/resource/images/type/";
 	var first = new Vue({
 		el: '#first',
 		data: {
@@ -83,6 +84,8 @@
 					success: function(data) {
 						if (data.grade == "two") {
 							content.datas = data.secondlist;
+							for(var i=0; i<content.datas.length; i++)
+								content.datas[i].imageurl = path + content.datas[i].imageurl;
 							content.previous = previous;
 							first.flag = null;
 						} else {
@@ -99,6 +102,8 @@
 					type: "POST",
 					success: function(data) {
 						content.datas = data.secondlist;
+						for(var i=0; i<content.datas.length; i++)
+								content.datas[i].imageurl = path + content.datas[i].imageurl;
 						content.previous = previous;
 					} 
 				});
@@ -111,7 +116,13 @@
 		data: {
 			datas: [],
 			previous: null
+		},
+		methods: {
+			toLink: function(typeno) {
+				window.location = "${pageContext.request.contextPath}/user/knowleage.jsp?typeno=" + typeno;
+    		}
 		}
 	});
+	
 </script>
 </html>
