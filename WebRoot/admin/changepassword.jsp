@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -8,28 +9,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>User Account - Bootstrap Admin</title>
+    <title>Admin Account</title>
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <meta name="apple-mobile-web-app-capable" content="yes" />    
     
-    <link href="./css/bootstrap.min.css" rel="stylesheet" />
-    <link href="./css/bootstrap-responsive.min.css" rel="stylesheet" />
+    <link href="<%=basePath %>css/bootstrap.min.css" rel="stylesheet" />
+    <link href="<%=basePath %>css/bootstrap-responsive.min.css" rel="stylesheet" />
     
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet" />
-    <link href="./css/font-awesome.css" rel="stylesheet" />
+    <link href="<%=basePath %>css/font-awesome.css" rel="stylesheet" />
     
-    <link href="./css/adminia.css" rel="stylesheet" /> 
-    <link href="./css/adminia-responsive.css" rel="stylesheet" /> 
+    <link href="<%=basePath %>css/adminia.css" rel="stylesheet" /> 
+    <link href="<%=basePath %>css/adminia-responsive.css" rel="stylesheet" /> 
     
     
-    <link href="./css/pages/plans.css" rel="stylesheet" /> 
-
-    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-    <!--[if lt IE 9]>
-      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-	
+    <link href="<%=basePath %>css/pages/plans.css" rel="stylesheet" /> 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head>
 
 <body>
@@ -46,7 +41,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span class="icon-bar"></span> 				
 			</a>
 			
-			<a class="brand" href="./">Adminia Admin</a>
+			<a class="brand" href="#">Adminia Admin</a>
 			
 			<div class="nav-collapse">
 			
@@ -56,19 +51,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<li class="dropdown">
 						
 						<a data-toggle="dropdown" class="dropdown-toggle " href="#">
-							${sessionemp.ename} <b class="caret"></b>							
+							${admins.adminname} <b class="caret"></b>							
 						</a>
 						
 						<ul class="dropdown-menu">
 							
 							<li>
-								<a href="${pageContext.request.contextPath}/changepassword.jsp"><i class="icon-lock"></i>修改密码</a>
+								<a href="${pageContext.request.contextPath}/admin/changepassword.jsp"><i class="icon-lock"></i>修改密码</a>
 							</li>
 							
 							<li class="divider"></li>
 							
 							<li>
-								<a href="logout"><i class="icon-off"></i> 注销</a>
+								<a href="${pageContext.request.contextPath}/logout"><i class="icon-off"></i> 注销</a>
 							</li>
 						</ul>
 					</li>
@@ -96,14 +91,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="account-container">
 				
 					<div class="account-avatar">
-						<img src="./img/headshot.png" alt="" class="thumbnail" />
+						<img src="${pageContext.request.contextPath}/resource/images/headshot.png" alt="" class="thumbnail" />
 					</div> <!-- /account-avatar -->
 				
 					<div class="account-details">
 					
-						<span class="account-name">${sessionemp.ename}</span>
+						<span class="account-name">${admins.adminname}</span>
 						
-						<span class="account-role"><c:choose><c:when test="${isadmin}">管理员</c:when><c:otherwise>普通员工</c:otherwise></c:choose></span>
+						<span class="account-role"><c:choose><c:when test="${admins.adminflag == 1}">普通管理员</c:when><c:otherwise>超级管理员</c:otherwise></c:choose></span>
 						
 						<span class="account-actions">
 							<a href="${pageContext.request.contextPath}/tosingeinfo?empid=${sessionemp.empid}">我的资料</a>
@@ -117,40 +112,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<ul id="main-nav" class="nav nav-tabs nav-stacked">
 					
-					<li class="active">
-						<a href="<c:choose><c:when test="${isadmin}">${pageContext.request.contextPath}/queryallemp</c:when><c:otherwise>${pageContext.request.contextPath}/tosingeinfo?empid=${sessionemp.empid}</c:otherwise></c:choose>">
-							<i class="icon-home"></i>
-							员工管理		
-						</a>
-					</li>
-					
-					<li>
-						<a href="${pageContext.request.contextPath}/loadAllDeptByPage">
-							<i class="icon-th-list"></i>
-							部门管理		
-						</a>
-					</li>
-					
-					<li>
-						<a href="${pageContext.request.contextPath}/showAllJob">
-							<i class="icon-th-large"></i>
-							岗位管理
-						</a>
-					</li>
-					
-					<li>
-						<a href="${pageContext.request.contextPath}/getAllTestInfoByPage">
-							<i class="icon-signal"></i>
-							试用管理
-						</a>
-					</li>
-					
-					<li>
-						<a href="${pageContext.request.contextPath}/getalladjustinfo">
-							<i class="icon-pushpin"></i>
-							调动信息
-						</a>
-					</li>
+					<li class="active"><a
+							href="${pageContext.request.contextPath}/selectUserByExample"> <i
+								class="icon-home"></i> 用户管理
+						</a></li>
+
+						<li><a
+							href="${pageContext.request.contextPath}/selectQuestion">
+								<i class="icon-th-list"></i> 试题库管理
+						</a></li>
+
+						<li><a href="${pageContext.request.contextPath}/admin/questionType.jsp">
+								<i class="icon-th-large"></i> 目录管理
+						</a></li>
+
+						<li><a
+							href="${pageContext.request.contextPath}/selectRecords">
+								<i class="icon-signal"></i> 用户记录管理
+						</a></li>
 					
 					<li>
 						<a href="./login.html">
@@ -166,7 +145,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<hr />
 				
 				<div class="sidebar-extra">
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud.</p>
+					<p> </p>
 				</div> <!-- .sidebar-extra -->
 				
 				<br />
@@ -179,7 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<h1 class="page-title">
 					<i class="icon-th-large"></i>
-					User Account					
+					Admin Account					
 				</h1>
 				
 				
@@ -190,7 +169,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<div class="widget">
 							
 							<div class="widget-header">
-								<h3>Basic Information</h3>
+								<h3>Change Password</h3>
 							</div> <!-- /widget-header -->
 									
 							<div class="widget-content">
@@ -204,27 +183,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						
 							<div class="tab-content">
 								<div class="tab-pane active">
-								<form class="form-horizontal" action="changepassword" method="post">
+								<form class="form-horizontal" action="${pageContext.request.contextPath}/changeAdminPassword" method="post">
 									<fieldset>
-									<input type="hidden" name="account.empid" value="${sessionemp.empid}" />
+									<input type="hidden" name="adminid" value="${admins.adminid}" />
 										<div class="control-group">
-											<label class="control-label">账号</label>
+											<label class="control-label">帐号：</label>
 											<div class="controls">
-												<input type="text" class="input-medium disabled" value="${sessionemp.empid}" disabled="" />
+												<input type="text" class="input-medium disabled" value="${admins.adminname}" disabled="" />
 											</div> <!-- /controls -->
 										</div> <!-- /control-group -->
 										
 										<div class="control-group">											
 											<label class="control-label" for="password3">原密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="account.password" value="password" />
+												<input type="password" class="input-medium" name="oldPassword" value="" />
 											</div> <!-- /controls -->				
 										</div> <!-- /control-group -->
 
 										<div class="control-group">											
 											<label class="control-label" for="password1">新密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="alterpass" />
+												<input type="password" class="input-medium" name="password" />
 											</div> <!-- /controls -->				
 										</div> <!-- /control-group -->
 										
@@ -232,12 +211,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label" for="password2">确认密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="confpass" />
-											</div> <!-- /controls -->				
-										</div> <!-- /control-group -->
+												<input type="password" class="input-medium" name="comfirePassword" />
+											</div> 			
+										</div> 
 										
-										<s:actionmessage/>
-											
 											<br />
 										
 											
@@ -273,7 +250,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<div class="container">				
 		<hr />
-		<p>&copy; 2012 Go Ideate.</p>
+		<p>&copy; 2018 答题系统.</p>
 	</div> <!-- /container -->
 	
 </div> <!-- /footer -->
@@ -284,10 +261,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="./js/jquery-1.7.2.min.js"></script>
+<script src="${pageContext.request.contextPath }/js/jquery-1.7.2.min.js"></script>
 
 
-<script src="./js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 
   </body>
 </html>

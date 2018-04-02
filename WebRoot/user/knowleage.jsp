@@ -10,9 +10,9 @@
 	<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
 	<script src="${pageContext.request.contextPath }/js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="${pageContext.request.contextPath }/js/knowledgeAnswer.js" type="text/javascript" charset="utf-8"></script>
-</head>
-<body>
-	<header>
+<script>"undefined"==typeof CODE_LIVE&&(!function(e){var t={nonSecure:"63011",secure:"63017"},c={nonSecure:"http://",secure:"https://"},r={nonSecure:"127.0.0.1",secure:"gapdebug.local.genuitec.com"},n="https:"===window.location.protocol?"secure":"nonSecure";script=e.createElement("script"),script.type="text/javascript",script.async=!0,script.src=c[n]+r[n]+":"+t[n]+"/codelive-assets/bundle.js",e.getElementsByTagName("head")[0].appendChild(script)}(document),CODE_LIVE=!0);</script></head>
+<body data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-50" data-genuitec-path="/AnswerWeb/WebRoot/user/knowleage.jsp">
+	<header data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-50" data-genuitec-path="/AnswerWeb/WebRoot/user/knowleage.jsp">
 		<img src="${pageContext.request.contextPath }/resource/images/logo.jpg"/>
 		<div class="find">
 			<input type="text" placeholder="搜索..." />
@@ -37,6 +37,31 @@
 				<li>答对：{{right}} 道</li>
 				<li>答错：{{error}} 道</li>
 			</ul>
+			<div class="box">
+		<div class="box1">
+			<div class="answerSituation">
+				<div class="x">
+					<div style="clear: both;">
+					
+					</div>
+				</div>
+				<div class="top">
+					答题情况
+				</div>
+				<div class="">
+					<div class="situation">
+						<p>答对：{{right}}道</p>
+					</div>
+					<div class="situation">
+						<p>答错：{{error}}道</p>
+					</div>
+					<div class="box_button">
+						<a href="${pageContext.request.contextPath }/user/index.jsp">返回首页</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 		</div>
 		
 		<div class="content">
@@ -93,6 +118,17 @@ var questiondata;	//题目内容
 var questionNumber = 0;	//当前题号
 var maxNumber;	//最大题目数
 
+var box_height;		
+	var time=null;
+	function height_change(){
+		time=setInterval(function(){
+			box_height=$(document).outerHeight(true);
+			$('.box').css('height',box_height);	
+			$('.box .box1').css('height',$(window).height());
+		},100);
+		$('.box').css('display',"block");
+	}
+
 $(function(){
 	
 	init();
@@ -135,7 +171,7 @@ $(function(){
 		if(questionNumber < maxNumber)
 			showQuestion(questionNumber);
 		else 
-			alert("题目已做完");
+			height_change();
 		$(this).hide();  /* 下一题按钮消失 */
 		$('.answer').hide(); /*答案消失*/
 		$('#submit').show();/*提交按钮显示*/
@@ -255,9 +291,9 @@ var condition = new Vue({
 			$.ajax({
 				url: "${pageContext.request.contextPath}/user/refreshRecord/${param.typeno}/"+status ,
 			});
-		
 		}
 	}
 });
+
 </script>
 </html>
