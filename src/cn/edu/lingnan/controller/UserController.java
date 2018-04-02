@@ -11,11 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -169,15 +171,15 @@ public class UserController extends BaseController {
 	 * @author lizhi
 	 */
 	@RequestMapping("/selectUserByExample")
-	public String selectUserByExample(Map<String, Object> map, UserExample user,@RequestParam(value="pn",defaultValue="1")Integer pn) {
+	public String selectUserByExample(Map<String, Object> map, User user,@RequestParam(value="pn",defaultValue="1")Integer pn) {
 		//每页显示八条数据，且当前页是参数pn
-		PageHelper.startPage(pn,8);
-		List<User> list = userService.selectUserByExample(user);
+		PageHelper.startPage(pn,6);
+		List<User> userList = userService.selectUserByExample(user);
 		// 对数据进行分页处理
-		PageInfo pageInfo = new PageInfo(list);
+		PageInfo pageInfo = new PageInfo(userList);
 		map.put("userListPageInfo", pageInfo);
 		// 到时候前端写出网页后再修改到具体的页面
-		return "/admin/index";
+		return "/admin/userList";
 	}
 
 	/**
@@ -186,8 +188,8 @@ public class UserController extends BaseController {
 	 * @return
 	 * @author lizhi
 	 */
-	@RequestMapping(value="/deleteUser/{ids}",method=RequestMethod.DELETE)
-	public String deleteUser(@RequestParam("ids") String ids) {
+	@RequestMapping(value="/deleteUser")
+	public String deleteUser(@RequestParam("ids") String ids,@RequestParam(value="pn") Integer pn,RedirectAttributes redirectAttributes) {
 		//前端ajax封装数据时，用"-"分割
 		if(ids.contains("-")){
 			//批量删除
@@ -202,7 +204,8 @@ public class UserController extends BaseController {
 			Integer id = Integer.parseInt(ids);
 			userService.deleteUser(id);
 		}
-		return "/admin/index";
+		redirectAttributes.addAttribute("pn", pn);
+		return "redirect:/selectUserByExample";
 	}
 
 	/**
@@ -218,15 +221,30 @@ public class UserController extends BaseController {
 	}
 
 	/**
-	 * 更新用户
+	 * 更新用户 第一步，获取对象跳到更新页面
 	 * @param user
 	 * @return
 	 * @author lizhi
 	 */
-	@RequestMapping("/updateUser")
-	public String updateUser(User user) {
+	@RequestMapping("/updateUserFirst")
+	public String updateUserFirst(@RequestParam("userno") Integer userno,Map<String,Object> map,@RequestParam("pn")Integer pn) {
+		map.put("user",userService.getUserByUserno(userno));
+		map.put("pn", pn);
+		return "/admin/updateUser";
+	}
+	
+	
+	/**
+	 * 更新用户 第二步，更新对象
+	 * @param user
+	 * @return
+	 * @author lizhi
+	 */
+	@RequestMapping("/updateUserSecond")
+	public String updateUserSecond(User user,@RequestParam("pn")Integer pn) {
 		userService.updateUser(user);
-		return "/admin/index";
+		super.redirectAttributes.addAttribute("pn", pn);
+		return "redirect:selectUserByExample";
 	}
 
 

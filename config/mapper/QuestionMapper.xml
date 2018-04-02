@@ -109,7 +109,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.edu.lingnan.pojo.Question">
+  <insert id="insert" parameterType="cn.edu.lingnan.pojo.Question" useGeneratedKeys="true" keyProperty="questionno">
     insert into question (questionno, content, description, 
       constatus, desstatus, typeno
       )
