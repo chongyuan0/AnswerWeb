@@ -203,6 +203,7 @@
 		</dependency>
 
 	</dependencies>
+	
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<resources>
@@ -231,4 +232,5 @@
 			</plugin>
 		</plugins>
 	</build>
+	
 </project>

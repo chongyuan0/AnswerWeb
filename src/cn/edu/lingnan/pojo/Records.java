@@ -12,6 +12,8 @@ public class Records {
     private Integer erunmber;
 
     private Integer wechatuserno;
+    
+    private String typename;
 
     public Integer getRecordsno() {
         return recordsno;
@@ -60,4 +62,14 @@ public class Records {
     public void setWechatuserno(Integer wechatuserno) {
         this.wechatuserno = wechatuserno;
     }
+
+	public String getTypename() {
+		return typename;
+	}
+
+	public void setTypename(String typename) {
+		this.typename = typename;
+	}
+    
+    
 }

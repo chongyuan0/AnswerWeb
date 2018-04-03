@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import cn.edu.lingnan.controller.WeChatController;
+import cn.edu.lingnan.dao.RecordsMapper;
 import cn.edu.lingnan.dao.WeChatUserMapper;
+import cn.edu.lingnan.pojo.Records;
+import cn.edu.lingnan.pojo.RecordsExample;
 import cn.edu.lingnan.pojo.WeChatUser;
 import cn.edu.lingnan.pojo.WeChatUserExample;
 import cn.edu.lingnan.pojo.WeChatUserExample.Criteria;
@@ -25,6 +28,8 @@ public class WeChatService {
 	
 	@Autowired
 	private WeChatUserMapper weChatUserMapper;
+	@Autowired
+	private RecordsMapper recordsMapper;
 	
 	//解析用户发来的消息
 	public String disposeMessage(HttpServletRequest req) {
@@ -136,5 +141,17 @@ public class WeChatService {
 		}
 		return null;
 	}
+	
+	/**
+	 * @author huang
+	 * 获取微信用户答题记录
+	 */
+	public List<Records> getWeChatUserInfo(int wechatuserno) {
+		RecordsExample recordsExample = new RecordsExample();
+		cn.edu.lingnan.pojo.RecordsExample.Criteria criteria = recordsExample.createCriteria();
+		criteria.andWechatusernoEqualTo(wechatuserno);
+		return recordsMapper.selectByExample(recordsExample);
+	}
+	
 	
 }

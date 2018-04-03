@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import cn.edu.lingnan.dao.RecordsMapper;
 import cn.edu.lingnan.dao.UserMapper;
+import cn.edu.lingnan.pojo.Records;
+import cn.edu.lingnan.pojo.RecordsExample;
 import cn.edu.lingnan.pojo.User;
 import cn.edu.lingnan.pojo.UserExample;
 import cn.edu.lingnan.pojo.UserExample.Criteria;
@@ -124,5 +126,18 @@ public class UserService {
 		criteria.andUsernoIn(ids);
 		userMapper.deleteByExample(example);
 		
+	}
+	
+	/**
+	 * @author huang
+	 * @param userno 用户编号
+	 * @return
+	 * 根据用户编号获取用户答题记录
+	 */
+	public List<Records> getWebUserInfo(int userno){
+		RecordsExample recordsExample = new RecordsExample();
+		cn.edu.lingnan.pojo.RecordsExample.Criteria criteria = recordsExample.createCriteria();
+		criteria.andUsernoEqualTo(userno);
+		return recordsMapper.selectByExample(recordsExample);
 	}
 }

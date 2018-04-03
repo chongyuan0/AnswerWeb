@@ -75,7 +75,7 @@ create table records(
 	typeno int not null, -- 类型id
 	acnumber int default 0,	-- 答对题数
 	erunmber int default 0, -- 答错题数
- 	wechatuserno int,
+ 	wechatuserno int,	-- 微信用户id
 	constraint fk_records_userno foreign key(userno)
 		references user(userno) on delete cascade,
 	constraint fk_records_typeno foreign key(typeno)
