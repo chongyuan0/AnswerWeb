@@ -3,6 +3,9 @@ package cn.edu.lingnan.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,11 +14,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
+import com.sun.mail.util.QEncoderStream;
 
 import cn.edu.lingnan.pojo.wechatpojo.AutowebParams;
+import cn.edu.lingnan.pojo.QuestionType;
+import cn.edu.lingnan.pojo.Records;
+import cn.edu.lingnan.pojo.User;
 import cn.edu.lingnan.pojo.WeChatUser;
+import cn.edu.lingnan.service.QuestionTypeService;
 import cn.edu.lingnan.service.WeChatService;
 import cn.edu.lingnan.utils.HttpUtil;
 import cn.edu.lingnan.utils.SignUtil;
@@ -30,6 +39,8 @@ public class WeChatController extends BaseController {
 	
 	@Autowired
 	private WeChatService weChatService;
+	@Autowired
+	private QuestionTypeService questionTypeservice;
 	
 	public static final String SERVER = "http://itbnq8.natappfree.cc";
 	
@@ -127,6 +138,27 @@ public class WeChatController extends BaseController {
 			return "wechatuser/index";
 		}
 		return "error";
+	}
+	
+	/**
+	 * @author huang
+	 * @return
+	 * 微信端获取用户信息
+	 */
+	@ResponseBody
+	@RequestMapping(value="user/findWeChatUserInfo")
+	public Map<String, Object> findWebUserInfo() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		WeChatUser weuser =  (WeChatUser) super.session.getAttribute("weChatUser");
+		//封装用户信息和用户的答题记录
+		map.put("wechatuser", weuser);
+		List<Records> recordsList = weChatService.getWeChatUserInfo(weuser.getWechatuserno());
+		if (recordsList.size() > 0) {
+			for (Records r : recordsList)
+				r.setTypename(questionTypeservice.getQuestionTypeByPrimaryKey(r.getTypeno()).getTypename());
+		}
+		map.put("recordsList", recordsList);
+		return map;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package cn.edu.lingnan.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,17 +14,21 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import cn.edu.lingnan.pojo.Records;
 import cn.edu.lingnan.pojo.User;
 import cn.edu.lingnan.pojo.UserExample;
+import cn.edu.lingnan.service.QuestionTypeService;
 import cn.edu.lingnan.service.UserService;
 import cn.edu.lingnan.utils.MailUtil;
 
@@ -32,8 +37,15 @@ public class UserController extends BaseController {
 
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private QuestionTypeService questionTypeservice;
 
-	// 用户登录
+	/**
+	 * @author huang
+	 * @param user 用户提交的邮箱和密码
+	 * @param model	页面交互返回值
+	 * @return
+	 */
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String login(User user, ModelMap model) {
 		List<User> userlist = userService.login(user);
@@ -75,7 +87,6 @@ public class UserController extends BaseController {
 	 * @param user
 	 * @param result
 	 * @param map
-	 * @return
 	 * 用户注册
 	 */
 	@RequestMapping(value = "register", method = RequestMethod.POST)
@@ -112,6 +123,8 @@ public class UserController extends BaseController {
 	}
 
 	/**
+	 *	@author huang
+	 *	@param userno 登录未验证用户编号
 	 *  未验证发送验证邮件
 	 */
 	@RequestMapping(value = "/{userno}/sendValidatorEmail")
@@ -131,6 +144,7 @@ public class UserController extends BaseController {
 
 	/**
 	 * @author huang
+	 * @param userno 用户编号
 	 * 邮箱验证成功
 	 */
 	@RequestMapping(value="/{userno}/confirmEmail")
@@ -144,6 +158,7 @@ public class UserController extends BaseController {
 	
 	/**
 	 * @author huang
+	 * @param email 用户注册的邮箱
 	 * 找回密码
 	 */
 	@RequestMapping(value="findpassword", method=RequestMethod.POST)
@@ -158,6 +173,27 @@ public class UserController extends BaseController {
 			model.addObject("success", "找回密码邮件已发送");
 		}
 		return model; 
+	}
+	
+	/**
+	 * @author huang
+	 * @return
+	 * web用户获取自己的信息
+	 */
+	@ResponseBody
+	@RequestMapping(value="user/findWebUserInfo")
+	public Map<String, Object> findWebUserInfo() {
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user = (User) super.session.getAttribute("user");
+		//封装用户信息和用户的答题记录
+		map.put("user", user);
+		List<Records> recordsList = userService.getWebUserInfo(user.getUserno());
+		if (recordsList.size() > 0) {
+			for (Records r : recordsList)
+				r.setTypename(questionTypeservice.getQuestionTypeByPrimaryKey(r.getTypeno()).getTypename());
+		}
+		map.put("recordsList", recordsList);
+		return map;
 	}
 	
 	

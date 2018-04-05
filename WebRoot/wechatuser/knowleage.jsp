@@ -28,7 +28,7 @@
 <!-- 顶部显示题目类型 -->
 <header id="condition">
 	<a class="weui-navbar__item weui-bar__item--on" href="javascript:;">
-		选项一
+		{{title}}
 	</a>
 </header>
 <!-- 显示题目 -->
@@ -265,5 +265,6 @@ var condition = new Vue({
 		}
 	}
 });
+
 </script>
 </html>
