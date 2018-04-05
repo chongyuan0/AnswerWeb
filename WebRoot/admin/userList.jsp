@@ -33,50 +33,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <script type="text/javascript">
-	function validEmpty() {
-		//  获取输入框的值
-		var name = document.getElementById('hirename').value;
-		if (name == null || name == '') {
-			alert("员工名称不能为空！");
-			return false;
-		}
-		var sex = document.getElementById('sex').value;
-		if (sex == null || sex == '') {
-			alert("性别不能为空！");
-			return false;
-		}
-		var birth = document.getElementById('birthdate').value;
-		if (birth == null || birth == '') {
-			alert("生日不能为空！");
-			return false;
-		}
-		var idnum = document.getElementById('idnum').value;
-		if (idnum == null || idnum == '') {
-			alert("身份证不能为空！");
-			return false;
-		}
-		var deptid = document.getElementById('deptid').value;
-		if (deptid == null || deptid == '') {
-			alert("部门不能为空！");
-			return false;
-		}
-		var jobid = document.getElementById('jobid').value;
-		if (jobid == null || jobid == '') {
-			alert("岗位不能为空！");
-			return false;
-		}
-		var workdate = document.getElementById('workdate').value;
-		if (workdate == null || workdate == '') {
-			alert("工作日期不能为空！");
-			return false;
-		}
-		var worktype = document.getElementById('worktype').value;
-		if (worktype == null || worktype == '') {
-			alert("用工形式不能为空！");
-			return false;
-		}
-		return true;
-	}
+	
 </script>
 </head>
 
@@ -115,7 +72,7 @@
 
 								<li class="divider"></li>
 
-								<li><a href="logout"><i class="icon-off"></i> 注销</a></li>
+								<li><a href="${pageContext.request.contextPath}/logout"><i class="icon-off"></i> 注销</a></li>
 							</ul></li>
 					</ul>
 
@@ -184,8 +141,8 @@
 						</a></li>
 
 						<li><a
-							href="${pageContext.request.contextPath}/selectRecords">
-								<i class="icon-signal"></i> 用户记录管理
+							href="${pageContext.request.contextPath}/logout">
+								<i class="icon-signal"></i> 注销
 						</a></li>
 
 					</ul>

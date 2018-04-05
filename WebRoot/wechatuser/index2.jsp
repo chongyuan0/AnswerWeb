@@ -44,6 +44,7 @@
 				<div class="list-block">
 					<ul>
 						<!-- Text inputs -->
+						
 						<li>
 							<div class="item-content">
 								<div class="item-media">
@@ -51,12 +52,14 @@
 								</div>
 								<div class="item-inner">
 									<div class="item-input">
-										<input type="text" placeholder="Your name"
+										<input id="nickname" type="text" placeholder="呢称" name="nickname"
 											value="${weChatUser.nickname}">
+										<input id="wechatuserno" type="hidden" value="${weChatUser.wechatuserno }"/>
 									</div>
 								</div>
 							</div>
 						</li>
+						
 						<!-- 	<li>
 							<div class="item-content">
 								<div class="item-media">
@@ -77,11 +80,11 @@
 								</div>
 								<div class="item-inner">
 									<div class="item-input">
-										<select>
+										<select id="sex" name="sex">
 
-											<option
+											<option value="男"
 												<c:if test="${weChatUser.sex == '男' }">selected</c:if>>Male</option>
-											<option
+											<option value="女"
 												<c:if test="${weChatUser.sex == '女' }">selected</c:if>>Female</option>
 										</select>
 									</div>
@@ -96,7 +99,7 @@
 								</div>
 								<div class="item-inner">
 									<div class="item-input">
-										<input type="text" id='city-picker' value="广东 湛江 赤坎区" />
+										<input name="address" type="text" id='city-picker' value="${weChatUser.province } ${weChatUser.city } ${weChatUser.country }" />
 										<!-- <input type="date" placeholder="Birth day" value="2014-04-30"> -->
 									</div>
 								</div>
@@ -113,7 +116,7 @@
 								class="button button-big button-fill button-danger">取消</a>
 						</div>
 						<div class="col-50">
-							<a href="#" class="button button-big button-fill button-success">提交</a>
+							<a id="save" href="#" class="button button-big button-fill button-success">提交</a>
 						</div>
 					</div>
 				</div>
@@ -132,6 +135,21 @@
 	    <h1 class="title">选择居住地址</h1>\
 	    </header>'
 		});
+		
+		$("#save").click(function(){
+			var wechatuserno = $("#wechatuserno").val();
+			var nickname = $("#nickname").val();
+			var sex = $("#sex").val();
+			var address = $("#city-picker").val();
+			$.ajax({
+				url:"${pageContext.request.contextPath}/updateWechatUser?nickname="+nickname+"&sex="+sex+"&address="+address+"$wechatuserno="+wechatuserno,
+				type:"POST",
+				success:function(data){
+					window.location.href="${pageContext.request.contextPath}/wechatuser/index";
+				}
+			});
+		});
+		
 	</script>
 
 </body>

@@ -61,5 +61,17 @@
 		<property name="defaultEncoding" value="UTF-8"></property>
 		<property name="maxUploadSize" value="1024000"></property>
 	</bean>
+	
+	<!-- 配置拦截器，如果没有登入管理员，不能操作后台系统 -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/selectUserByExample"/>
+			<mvc:mapping path="/selectQuestion"/>
+			<mvc:mapping path="/questionFirstType"/>
+			<mvc:mapping path="/questionSecondType"/>
+			<mvc:mapping path="/questionThreeType"/>
+			<bean class="cn.edu.lingnan.filter.CommonInterceptor"></bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>

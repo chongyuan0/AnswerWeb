@@ -80,7 +80,7 @@ table{
 
 								<li class="divider"></li>
 
-								<li><a href="logout"><i class="icon-off"></i> 注销</a></li>
+								<li><a href="${pageContext.request.contextPath}/logout"><i class="icon-off"></i> 注销</a></li>
 							</ul></li>
 					</ul>
 
@@ -149,8 +149,8 @@ table{
 						</a></li>
 
 						<li><a
-							href="${pageContext.request.contextPath}/selectRecords">
-								<i class="icon-signal"></i> 用户记录管理
+							href="${pageContext.request.contextPath}/logout">
+								<i class="icon-signal"></i> 注销
 						</a></li>
 
 					</ul>
@@ -207,14 +207,20 @@ table{
 													</select>
 												<button type="button" class="btn btn-info" v-on:click="toPagination(1)">查询</button>
 												<button type="button" class="btn btn-success"  onclick="reset_firstTypeExampleForm()">重置</button>
-												<a class="btn " style="float:right;" href="${pageContext.request.contextPath }/admin/addQuestionFirstType.jsp">添加一级菜单</a>
+												
+												<c:if test="${admins.adminflag == 2 }">
+													<a class="btn " style="float:right;" href="${pageContext.request.contextPath }/admin/addQuestionFirstType.jsp">添加一级菜单</a>
+												</c:if>
+												
 									</div>
 									<table class="table table-striped table-bordered">
 							<thead>
 								<tr>
 									<th>目录编号</th>
 									<th>目录名称</th>
-									<th style="text-align: center;">操作</th>
+									<c:if test="${admins.adminflag == 2 }">
+										<th style="text-align: center;">操作</th>
+									</c:if>
 								</tr>
 							</thead>
 							
@@ -223,12 +229,15 @@ table{
 									<td>{{questionFirstType.typeno	}}</td>
 									<td>{{questionFirstType.typename}}</td>
 									
+									<c:if test="${admins.adminflag == 2 }">
 									<td class="action-td">
 										  <div>
 											<a class="btn btn-default btn-small" v-bind:href="updateOne+questionFirstType.typeno+updateTwo+firstTypePageInfo.pageNum">更新</a>
 											<a class="btn btn-danger btn-small" v-bind:href="deleteOne+questionFirstType.typeno+deleteTwo+firstTypePageInfo.pageNum">删除</a>
 										  </div>
 									</td>
+									</c:if>
+									
 								</tr>
 										</tbody>
 									</table>
@@ -466,6 +475,9 @@ table{
 				 		type:"POST",
 				 		data:"pn=${FirstTypepn}",
 						success:function(map){
+							if(map == "IsAjax"){
+								window.location.href="${pageContext.request.contextPath }/admin/login.jsp";
+							}
 							questionFirstType.questionFirstTypeList = map.pageInfo.list;
 							questionFirstType.firstTypePageInfo = map.pageInfo;
 							questionFirstType.navigatepageNums = map.pageInfo.navigatepageNums;
