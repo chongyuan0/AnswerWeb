@@ -13,8 +13,8 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/myindex.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/demos.css"/>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-3.2.1.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-weui.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-weui.js"></script>
 </head>
 <body>
 <!-- 下拉刷新 -->
