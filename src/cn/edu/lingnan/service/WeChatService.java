@@ -152,6 +152,10 @@ public class WeChatService {
 		criteria.andWechatusernoEqualTo(wechatuserno);
 		return recordsMapper.selectByExample(recordsExample);
 	}
+
+	public void updateWeChatUser(WeChatUser weChatUser) {
+		weChatUserMapper.updateByPrimaryKeySelective(weChatUser);
+	}
 	
 	
 }

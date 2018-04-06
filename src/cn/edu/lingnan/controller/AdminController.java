@@ -42,4 +42,14 @@ public class AdminController extends BaseController {
 		return "redirect:/selectUserByExample";
 	}
 	
+	/**
+	 * 注销
+	 * @return
+	 */
+	@RequestMapping("/logout")
+	public String logout(){
+		session.invalidate();
+		return "/admin/login";
+	}
+	
 }

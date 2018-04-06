@@ -8,6 +8,7 @@
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/index.css"/>
 <script src="${pageContext.request.contextPath }/js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/index.js"></script>
 
 </head>
 <body>
@@ -19,10 +20,101 @@
 		</div>
 	</header>
 	<nav>
-		<div class="user">
-			<span >用户名:&nbsp;${sessionScope.user.username } &nbsp;<a href="${pageContext.request.contextPath }/user/sigeout">[退出]</a></span>
+		<div>
+			<div class="">
+				<div class="info">
+					<ul>
+						<li>个人信息</li><b></b>
+						<li class="alter" id="alterInfo">信息修改</li>
+						<li class="alter" id="alterPsw">密码修改</li>
+					</ul>
+				</div>				
+			</div>
+			<div class="user">
+				<a href="#">用户名:&nbsp;${sessionScope.user.username }</a>
+				<a href="${pageContext.request.contextPath }/user/sigeout" title="退出登录状态">
+					<b></b>
+					<img src="${pageContext.request.contextPath }/resource/images/Exit.png"/>
+				</a>
+			</div>
 		</div>
 	</nav>
+	
+	<div class="box">
+			<div class="box1">
+				<div class="box_alterInfo">
+					<div class="x">
+						<p class="x_p">x</p>
+						<div style="clear: both;">
+						
+						</div>
+					</div>
+					
+					<div class="top">
+						个人信息
+					</div>
+					<form action="#" method="post">
+						<div class="form">
+							<div class="input">
+								<label for="">用户id</label>
+								<input type="text" value="" readonly />
+							</div>
+							<div class="input">
+								<label for="">用户名</label>
+								<input type="text"  value="" />
+							</div>
+							<div class="input" id="sex">
+								<label for="">性别</label>
+								<input type="text"  value="" readonly />
+							</div>
+							<div class="input">
+								<input type="radio" name="sex" value="man" checked/>男
+								<input type="radio" name="sex" value="woman" />女
+							</div>
+							<div class="input" style="clear: both;">
+								<label for="">邮箱</label>
+								<input type="email"  value="" />
+							</div>
+							<div class="input">
+								<input type="submit" value="修改" />
+							</div>
+						</div>
+					</form>	
+				</div>
+				<div class="box_alterPsw">
+					<div class="x">
+						<p class="x_p">x</p>
+						<div style="clear: both;">
+						
+						</div>
+					</div>
+					<div class="top">
+						修改密码
+					</div>
+					<form action="#" method="post">
+						<div class="form">
+							<div class="input">
+								<label for="">原密码</label>
+								<input type="password" placeholder="原密码" />
+							</div>
+							<div class="input">
+								<label for="">新密码</label>
+								<input type="password"  placeholder="新密码" />
+							</div>
+							<div class="input">
+								<label for="">确认新密码</label>
+								<input type="password"  placeholder="确认新密码" />
+							</div>
+							<div class="input">
+								<input type="submit" value="修改" />
+							</div>
+						</div>
+					</form>	
+				</div>
+			</div>
+			
+		</div>
+	
 	<section>
 		<div class="menu">
 			<ul class="first" id="first">

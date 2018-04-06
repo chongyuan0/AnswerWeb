@@ -95,7 +95,7 @@ table{
 
 								<li class="divider"></li>
 
-								<li><a href="logout"><i class="icon-off"></i> 注销</a></li>
+								<li><a href="${pageContext.request.contextPath}/logout"><i class="icon-off"></i> 注销</a></li>
 							</ul></li>
 					</ul>
 
@@ -164,8 +164,8 @@ table{
 						</a></li>
 
 						<li><a
-							href="${pageContext.request.contextPath}/selectRecords">
-								<i class="icon-signal"></i> 用户记录管理
+							href="${pageContext.request.contextPath}/logout">
+								<i class="icon-signal"></i>注销
 						</a></li>
 
 					</ul>

@@ -2,6 +2,7 @@ package cn.edu.lingnan.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -159,6 +160,42 @@ public class WeChatController extends BaseController {
 		}
 		map.put("recordsList", recordsList);
 		return map;
+	}
+	
+	/**
+	 * 更新微信用户
+	 * @param wechatuserno
+	 * @param nickname
+	 * @param sex
+	 * @param address
+	 * @author 马立志
+	 */
+	@ResponseBody
+	@RequestMapping("updateWechatUser")
+	public void updateWechatUser(Integer wechatuserno, String nickname,String sex,String address){
+		WeChatUser weChatUser = new WeChatUser();
+		weChatUser.setWechatuserno(wechatuserno);
+		weChatUser.setSex(sex);
+		weChatUser.setNickname(nickname);
+		
+		//分解地址
+		List<String> update_addrs = new ArrayList<String>();
+		String[] str_addrs = address.split(" ");
+		for(String addr:str_addrs){
+			update_addrs.add(addr);
+		}
+		
+		//有些地方没有city，直接到区
+		if(update_addrs.size() == 2){
+			weChatUser.setProvince(update_addrs.get(0));
+			weChatUser.setCountry(update_addrs.get(2));
+		}else{
+			weChatUser.setProvince(update_addrs.get(0));
+			weChatUser.setCity(update_addrs.get(1));
+			weChatUser.setCountry(update_addrs.get(2));
+		}
+		
+		weChatService.updateWeChatUser(weChatUser);
 	}
 	
 }

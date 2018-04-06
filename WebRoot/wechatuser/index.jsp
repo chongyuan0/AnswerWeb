@@ -12,9 +12,12 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/example.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/myindex.css"/>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/css/demos.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/pages/demos.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/sm.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/sm-extend.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-3.2.1.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-weui.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-weui.js"></script>
 </head>
 <body>
 <!-- 下拉刷新 -->
@@ -44,7 +47,95 @@
 	            </div>
             </div>
             <div id="user" class="weui-tab__bd-item" style="display: none">
-                <h1>页面二</h1>
+            	<div class="page-group">
+            		<div id="page-icon-input" class="page">
+						<header class="bar bar-nav">
+							<h1 class="title">个人信息</h1>
+						</header>
+						<div class="content">
+							<div class="list-block">
+								<ul>
+									<!-- Text inputs -->
+									
+									<li>
+										<div class="item-content">
+											<div class="item-media">
+												<i class="icon icon-form-name"></i>
+											</div>
+											<div class="item-inner">
+												<div class="item-input">
+													<input id="nickname" type="text" placeholder="呢称" name="nickname"
+														value="${weChatUser.nickname}">
+													<input id="wechatuserno" type="hidden" value="${weChatUser.wechatuserno }"/>
+												</div>
+											</div>
+										</div>
+									</li>
+									
+									<!-- 	<li>
+										<div class="item-content">
+											<div class="item-media">
+												<i class="icon icon-form-email"></i>
+											</div>
+											<div class="item-inner">
+												<div class="item-input">
+													<input type="email" placeholder="E-mail">
+												</div>
+											</div>
+										</div>
+									</li> -->
+					
+									<li>
+										<div class="item-content">
+											<div class="item-media">
+												<i class="icon icon-form-gender"></i>
+											</div>
+											<div class="item-inner">
+												<div class="item-input">
+													<select id="sex" name="sex">
+					
+														<option value="男"
+															<c:if test="${weChatUser.sex == '男' }">selected</c:if>>Male</option>
+														<option value="女"
+															<c:if test="${weChatUser.sex == '女' }">selected</c:if>>Female</option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</li>
+									<!-- Date -->
+									<li>
+										<div class="item-content">
+											<div class="item-media">
+												<i class="icon icon-form-calendar"></i>
+											</div>
+											<div class="item-inner">
+												<div class="item-input">
+													<input name="address" type="text" id='city-picker' value="${weChatUser.province } ${weChatUser.city } ${weChatUser.country }" />
+													<!-- <input type="date" placeholder="Birth day" value="2014-04-30"> -->
+												</div>
+											</div>
+										</div>
+									</li>
+					
+					
+								</ul>
+							</div>
+							<div class="content-block" style="text-align: center;">
+								<div class="row">
+									<div class="col-50">
+										<a href="javascript:history.back();"
+											class="button button-big button-fill button-danger">取消</a>
+									</div>
+									<div class="col-50">
+										<a id="save" href="#" class="button button-big button-fill button-success">提交</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+              	  <h1>页面二</h1>
+                </div>
             </div>
         </div>
         <div class="weui-tabbar">
