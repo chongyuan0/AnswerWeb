@@ -145,7 +145,7 @@
 				url:"${pageContext.request.contextPath}/updateWechatUser?nickname="+nickname+"&sex="+sex+"&address="+address+"$wechatuserno="+wechatuserno,
 				type:"POST",
 				success:function(data){
-					window.location.href="${pageContext.request.contextPath}/wechatuser/index";
+					window.location.href="${pageContext.request.contextPath}/wechatuser/index.jsp";
 				}
 			});
 		});
