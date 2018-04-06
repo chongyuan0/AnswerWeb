@@ -5,12 +5,19 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>成功</title>
+<title>错误</title>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/forgetPsw.css"/>
+<style type=text/css>
+	.box .error {
+		text-align: center;
+		color: red;
+		line-height: 300px;
+	}
+</style>
 </head>
 <body>
-<h3>${success}</h3>
-<script type="text/javascript">
-	
-</script>
+<div class="box">
+	<div class="error">${error}</div>			
+</div>
 </body>
 </html>
