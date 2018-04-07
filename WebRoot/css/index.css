@@ -72,7 +72,7 @@ nav>div{
 	line-height: 45px;
 	color: #FFFFFF;
 	cursor: pointer;
-	
+	z-index: 10;
 }
 
 
@@ -165,6 +165,19 @@ nav>div{
 	background: #fff;
 	display: none;
 }
+.box_showrecords{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	width: 420px;
+    height: 330px;
+    padding-top: 20px;
+	background: #fff;
+	display: none;
+}
 .box .x{
 	text-align: right;
 	margin: -27px 2px 0 0;
@@ -214,7 +227,7 @@ nav>div{
 	border: 1px solid #CECECF;
 	box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
 }
-.box input[type="submit"]{
+.box input[type="submit"],input[type="button"]{
 	width: 330px;
 	height: 50px;
 	color: #fff;
@@ -227,10 +240,9 @@ nav>div{
     border: none;
     transition: ease-in 0.2s;
 }
-.box input[type="submit"]:hover{
+.box input[type="submit"]:hover,input[type="submit"]:hover{
 	background-color: #56bbd1;
     box-shadow: 0 5px 10px 0 rgba(99, 196, 218, 0.8);
-   
 }
 
 .box input[type="radio"]{

@@ -140,4 +140,5 @@ public class UserService {
 		criteria.andUsernoEqualTo(userno);
 		return recordsMapper.selectByExample(recordsExample);
 	}
+	
 }

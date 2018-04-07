@@ -50,22 +50,42 @@ $(function(){
 		e.stopPropagation();
 		$('.box').show();
 		$('.box_alterInfo').show();
+		box.loaduserinfo();
 	})
 	$('#alterPsw').click(function(e){
 		e.stopPropagation();
 		$('.box').show();
 		$('.box_alterPsw').show();
 	})
+	$('#showrecords').click(function(e){
+		e.stopPropagation();
+		$('.box').show();
+		$('.box_showrecords').show();
+		box.loadrecords();
+	})
 	
 	$(document).click(function(e){ 
 		var name=e.target.className;
-		if(name!="box" && name!="box1" &&name!="x_p" && name!="box_alterInfo" && name!="box_alterPsw"){
+		if(name!="box" && name!="box1" &&name!="x_p" && name!="box_alterInfo" && name!="box_alterPsw"
+			&& name!="box_showrecords"){
 			$('.alter').fadeOut(); //点击其他地方，个人信息菜单收起来
+		} else {
+			//重置input内容
+			$('#oldpsw').val("");
+			$('#newpsw').val("");
+			$('#confirmpsw').val("");
+			$("#username").attr("readonly","readonly");
+			$("#sex").css("display","block");
+			$("#radiosex").css("display","none");
+			$("#email").attr("readonly","readonly");
+			$("#updateinfo").css("display","block");
+			$("#confirmupdate").css("display","none");
 		}
 		if(name=="box"||name=="box1"){
 			$('.box').hide();
 			$('.box_alterInfo').hide();
 			$('.box_alterPsw').hide();
+			$('.box_showrecords').hide();
 		}
 	})
 	
@@ -73,7 +93,28 @@ $(function(){
 		$('.box').hide();
 		$('.box_alterInfo').hide();
 		$('.box_alterPsw').hide();
+		$('.box_showrecords').hide();
 		
 	})
 	
-})
+	$("#updateinfo").click(function(){
+		$("#username").removeAttr("readonly");
+		$("#sex").css("display","none");
+		$("#radiosex").css("display","block");
+		$("#email").removeAttr("readonly");
+		$(this).css("display","none");
+		$("#confirmupdate").css("display","block");
+	});
+	
+});
+
+function is_email(email){
+	reg=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+((\.[a-zA-Z0-9_-]{2,3}){1,2})$/;
+	if(email == ""){
+		return false;
+	}
+	else if(! reg.test(email)) {
+		return false;
+	}
+	return true;
+};

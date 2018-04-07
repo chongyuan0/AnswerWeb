@@ -9,7 +9,11 @@
 <script src="${pageContext.request.contextPath }/js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/index.js"></script>
-
+<style type="text/css">
+#cl-dashboard {
+	display: none;
+}
+</style>
 </head>
 <body>
 	<header>
@@ -27,6 +31,7 @@
 						<li>个人信息</li><b></b>
 						<li class="alter" id="alterInfo">信息修改</li>
 						<li class="alter" id="alterPsw">密码修改</li>
+						<li class="alter" id="showrecords">答题情况</li>
 					</ul>
 				</div>				
 			</div>
@@ -40,7 +45,7 @@
 		</div>
 	</nav>
 	
-	<div class="box">
+	<div class="box" id="box">
 			<div class="box1">
 				<div class="box_alterInfo">
 					<div class="x">
@@ -53,33 +58,28 @@
 					<div class="top">
 						个人信息
 					</div>
-					<form action="#" method="post">
 						<div class="form">
 							<div class="input">
-								<label for="">用户id</label>
-								<input type="text" value="" readonly />
-							</div>
-							<div class="input">
 								<label for="">用户名</label>
-								<input type="text"  value="" />
+								<input type="text"  :value="user.username" readonly id="username" name="username"/>
 							</div>
 							<div class="input" id="sex">
 								<label for="">性别</label>
-								<input type="text"  value="" readonly />
+								<input type="text"  :value="user.sex" readonly />
 							</div>
-							<div class="input">
-								<input type="radio" name="sex" value="man" checked/>男
-								<input type="radio" name="sex" value="woman" />女
+							<div class="input" style="display:none" id="radiosex">
+								<input type="radio" name="sex" value="男" checked/>男
+								<input type="radio" name="sex" value="女" />女
 							</div>
 							<div class="input" style="clear: both;">
 								<label for="">邮箱</label>
-								<input type="email"  value="" />
+								<input type="email" name="email" id="email"  :value="user.email" readonly/>
 							</div>
-							<div class="input">
-								<input type="submit" value="修改" />
+							<div class="input" >
+								<input type="button" value="修改" id="updateinfo" />
+								<input type="submit" value="提交" style="display:none" id="confirmupdate">
 							</div>
 						</div>
-					</form>	
 				</div>
 				<div class="box_alterPsw">
 					<div class="x">
@@ -91,25 +91,53 @@
 					<div class="top">
 						修改密码
 					</div>
-					<form action="#" method="post">
+					<form action="#" method="post" onsubmit="return alterpsw()">
 						<div class="form">
 							<div class="input">
 								<label for="">原密码</label>
-								<input type="password" placeholder="原密码" />
+								<input type="password" placeholder="原密码" name="oldpsw" id="oldpsw" />
 							</div>
 							<div class="input">
 								<label for="">新密码</label>
-								<input type="password"  placeholder="新密码" />
+								<input type="password"  placeholder="新密码" name="newpsw" id="newpsw"  />
 							</div>
 							<div class="input">
 								<label for="">确认新密码</label>
-								<input type="password"  placeholder="确认新密码" />
+								<input type="password"  placeholder="确认新密码" name="confirmpsw" id="confirmpsw" />
 							</div>
 							<div class="input">
 								<input type="submit" value="修改" />
 							</div>
 						</div>
 					</form>	
+				</div>
+				<div class="box_showrecords">
+					<div class="x">
+						<p class="x_p">x</p>
+						<div style="clear: both;">
+						
+						</div>
+					</div>
+					<div class="top">
+						答题情况
+					</div>
+					<div>
+						<table v-if="record.length != 0">
+							<thead>
+								<th>题目类型</th>
+								<th>答对题数</th>
+								<th>答错题数</th>
+							</thead>
+							<tbody>
+								<tr v-for="re in record">
+									<th>{{re.typename}}</th>
+									<th>{{re.acnumber}}</th>
+									<th>{{re.erunmber}}</th>
+								</tr>
+							</tbody>
+						</table>
+						<span v-if="record.length == 0">无答题记录</span>
+					</div>
 				</div>
 			</div>
 			
@@ -120,8 +148,8 @@
 			<ul class="first" id="first">
 				<li class="topic">阶段</li>
 				<li v-for="(data,index) in datas">
-					<p class="active" v-on:click="loadSecond(data.typeno,index,data.typename)">{{data.typename}}</p>
-					<ul class="second" v-if="index == flag">
+					<p v-bind:class="{active:index==flag}" v-on:click="loadSecond(data.typeno,index,data.typename)">{{data.typename}}</p>
+					<ul class="second" v-if="index == flag" style="display:block">
 						<li v-for="second in data1" v-on:click="loadThird(second.typeno,second.typename)">{{second.typename}}</li>
 					</ul>
 				</li>
@@ -147,6 +175,91 @@
 	</footer>
 </body>
 <script type="text/javascript">
+$(function(){
+	$("#confirmupdate").click(function(){
+		var username = $.trim($("#username").val());
+		var sex = $("input[name='sex']:checked").val();
+		var email = $.trim($("#email").val());
+		if (username == ""){
+			alert("用户名不能为空");
+			return false;
+		} else if (email == "") {
+			alert("邮箱不能为空");
+			return false;
+		} else if (!is_email(email)) {
+			alert("邮箱格式不正确");
+			return false;
+		}
+		$.ajax({
+			url: "${pageContext.request.contextPath}/user/updateinfo",
+			data: {
+				username: username,
+				sex: sex,
+				email: email
+			},
+			success: function(data) {
+				if(data.updateEmail != null)
+					alert("除邮箱外其他信息修改成功，已发送验证信息给修改邮箱，请前往修改邮箱进行验证后修改邮箱");
+				else 
+					alert("修改成功");
+			}
+		});
+		$('.box').hide();
+		$('.box_alterPsw').hide();
+		$("#username").attr("readonly","readonly");
+		$("#sex").css("display","block");
+		$("#radiosex").css("display","none");
+		$("#email").attr("readonly","readonly");
+		$("#updateinfo").css("display","block");
+		$("#confirmupdate").css("display","none");
+	});
+});
+
+function alterpsw(){
+	var oldpsw = $.trim($('#oldpsw').val());
+	var newpsw = $.trim($('#newpsw').val());
+	var confirmpsw = $.trim($('#confirmpsw').val());
+	if (oldpsw == "") {
+		alert("原密码不能为空");
+		return false;		
+	}
+	else if (newpsw == "") {
+		alert("新密码不能为空");
+		return false;
+	}
+	else if (confirmpsw == "") {
+		alert("确认密码不能为空");
+		return false;			
+	}
+	else if (newpsw != confirmpsw) {
+		alert("两次输入新密码不一致");
+		return false;
+	}
+	$.ajax({
+		url: "${pageContext.request.contextPath}/user/updatepassword",
+		data: {
+			oldpsw: oldpsw,
+			newpsw: newpsw
+		},
+		dataType: "json",
+		success: function(data){
+			var error = data.error;
+			if (error!=null && error!="")
+				alert(error);
+			var success = data.success;
+			if (success!=null && success!="") {
+				alert("修改成功");
+				$('.box').hide();
+				$('.box_alterPsw').hide();			
+			}
+			$('#oldpsw').val("");
+			$('#newpsw').val("");
+			$('#confirmpsw').val("");
+		}
+	});
+	return false;
+};
+		
 	var path = "${pageContext.request.contextPath}/resource/images/type/";
 	var first = new Vue({
 		el: '#first',
@@ -213,6 +326,32 @@
 			toLink: function(typeno) {
 				window.location = "${pageContext.request.contextPath}/user/knowleage.jsp?typeno=" + typeno;
     		}
+		}
+	});
+	
+	var box = new Vue({
+		el: '#box',
+		data: {
+			user:[],
+			record:[]
+		},
+		methods: {
+			loaduserinfo: function() {
+				$.ajax({
+					url: "${pageContext.request.contextPath}/user/findWebUserInfo",
+					success: function(data) {
+						box.user = data.user;
+					}
+				});
+			},
+			loadrecords: function() {
+				$.ajax({
+					url: "${pageContext.request.contextPath}/user/findWebUserInfo",
+					success: function(data) {
+						box.record = data.recordsList;
+					}
+				});
+			}
 		}
 	});
 	

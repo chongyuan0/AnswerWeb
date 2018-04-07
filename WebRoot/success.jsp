@@ -5,10 +5,10 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>错误</title>
+<title>成功</title>
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/forgetPsw.css"/>
 <style type=text/css>
-	.box .error {
+	.box .success {
 		text-align: center;
 		color: red;
 		padding-top: 130px;
@@ -17,10 +17,10 @@
 </head>
 <body>
 <div class="box">
-	<div class="error">
-		${error},将在<span id="mes">5</span>秒后跳转到登录界面<br>
+	<div class="success">
+		${success},将在<span id="mes">5</span>秒后跳转到登录界面<br>
 		<a href="${pageContext.request.contextPath }/login.jsp" >若浏览器无反应点击此处跳转</a>
-	</div>		
+	</div>			
 </div>
 </body>
 <script type="text/javascript">
