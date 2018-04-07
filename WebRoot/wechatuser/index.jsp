@@ -280,7 +280,7 @@ var wechatuserRecords = new Vue({
 	methods:{
 		load:function(){
 			$.ajax({
-				url:"${pageContext.request.contextPath}/getAllRecords?wechatuserno="+${weChatUser.wechatuserno},
+				url:"${pageContext.request.contextPath}/getAllRecords?wechatuserno=${weChatUser.wechatuserno}",
 				type:"POST",
 				success:function(list){
 					wechatuserRecords.recordsList = list;
@@ -303,12 +303,11 @@ var wechatuserRecords = new Vue({
 });
 
 $("#save").click(function(){
-			var wechatuserno = $("#wechatuserno").val();
 			var nickname = $("#nickname").val();
-			var sex = $("#sex").val();
-			var address = $("#city-picker").val();
+			var sex = $("#sex option:selected").val();
+			var address = $("#city").val();
 			$.ajax({
-				url:"${pageContext.request.contextPath}/updateWechatUser?nickname="+nickname+"&sex="+sex+"&address="+address+"$wechatuserno="+wechatuserno,
+				url:"${pageContext.request.contextPath}/updateWechatUser?nickname="+nickname+"&sex="+sex+"&address="+address+"&wechatuserno=${weChatUser.wechatuserno}",
 				type:"POST",
 				success:function(data){
 					window.location.href="${pageContext.request.contextPath}/wechatuser/index.jsp";
