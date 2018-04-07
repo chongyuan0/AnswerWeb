@@ -20,6 +20,9 @@
 			<div class="topic">
 				注册
 			</div>
+			<div class="error">
+				${error}
+			</div>
 			<form action="${pageContext.request.contextPath }/register" method="post">
 				<div class="form">
 					<div class="input">

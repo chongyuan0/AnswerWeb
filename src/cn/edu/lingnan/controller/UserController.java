@@ -53,6 +53,8 @@ public class UserController extends BaseController {
 	 */
 	@RequestMapping(value = "login")
 	public String login(User user, ModelMap model) {
+		if(super.session.getAttribute("user") != null)
+			return "user/index";
 		List<User> userlist = userService.login(user);
 		// 不存在用户
 		if (userlist.size() <= 0) {
@@ -70,7 +72,7 @@ public class UserController extends BaseController {
 			str = TransmisstionProtected.encodeToString(uuid);
 			String html = "<html><head>"
 					+ "<a href='" + WeChatController.SERVER +"/AnswerWeb/email/"+ str + "' >"
-					+ "点击验证邮箱</a>"
+					+ "点击验证邮箱，5分钟内有效</a>"
 					+ "</head></html>";
 			MailUtil.sendValidatorMail(user.getEmail(), html);
 			return "login";
@@ -109,13 +111,13 @@ public class UserController extends BaseController {
 				error += e.getDefaultMessage() + "<br/>";
 			}
 			map.put("error", error);
-			return "error";
+			return "register";
 		}
 		//判断用户是否存在
 		User user1 = userService.findUserByEmail(user.getEmail());
 		if(user1 != null) {
-			map.put("error", "用户已存在");
-			return "error";
+			map.put("error", "该邮箱已注册");
+			return "register";
 		}
 		// 注册用户
 		int flag = userService.register(user);
@@ -128,13 +130,13 @@ public class UserController extends BaseController {
 			str = TransmisstionProtected.encodeToString(uuid);
 			String html = "<html><head>"
 					+ "<a href='" + WeChatController.SERVER +"/AnswerWeb/email/"+ str + "' >"
-					+ "点击验证邮箱</a>"
+					+ "点击验证邮箱，5分钟内有效</a>"
 					+ "</head></html>";
 			MailUtil.sendValidatorMail(user.getEmail(), html);
-			return "yuantest/success";
+			map.put("success", "验证邮件成功发送，请前往注册邮箱进行验证");
+			return "success";
 		} 
-		map.put("error", "注册失败");
-		return "error";
+		return "register";
 	}
 
 	/**
@@ -147,7 +149,8 @@ public class UserController extends BaseController {
 		int flag = userService.confirmValidator(userno);
 		ModelAndView model = new ModelAndView();
 		if (flag > 0) {
-			model.setViewName("login");
+			model.addObject("success","邮箱验证成功");
+			model.setViewName("success");
 		}
 		else {
 			model.setViewName("error");
@@ -196,22 +199,109 @@ public class UserController extends BaseController {
 		return map;
 	}
 	
+	/**
+	 * @author huang
+	 * @param encodeData
+	 * @param map
+	 * @return
+	 * 验证邮件是否有效
+	 */
 	@RequestMapping(value="email/{encodeData}")
 	public String redirectEmail(@PathVariable String encodeData, Map<String, Object> map) {
 		String[] datas = TransmisstionProtected.decodeToStringArray(encodeData);
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		long nowdate = Long.parseLong(format.format(new Date()).toString());
 		long latedate = Long.parseLong(datas[1]);
-		if (nowdate-latedate > 500) {
+		String url = (String) super.application.getAttribute(datas[0]);
+		if (nowdate-latedate > 500 || url == null) {
 			//链接失效
 			super.application.removeAttribute(datas[0]);
 			map.put("error", "链接已失效");
 			return "error";
 		} else {
-			String url = (String) super.application.getAttribute(datas[0]);
 			super.application.removeAttribute(datas[0]);
 			return "redirect:/" + url;
 		}
+	}
+	
+	/**
+	 * @author huang
+	 * @param oldpsw
+	 * @param newpsw
+	 * @return
+	 * 修改用户密码
+	 */
+	@ResponseBody
+	@RequestMapping(value="user/updatepassword")
+	public Map<String, Object> updatePassword(String oldpsw, String newpsw) {
+		User user = (User) super.session.getAttribute("user");
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (!oldpsw.equals(user.getPassword()))
+			//原密码不正确
+			map.put("error", "原密码不正确");
+		else {
+			User user1 = new User();
+			user1.setUserno(user.getUserno());
+			user1.setPassword(newpsw);
+			userService.updateUser(user1);
+			map.put("success", true);
+			user.setPassword(newpsw);
+			super.session.setAttribute("user", user);
+		}
+		return map;
+	}
+	
+	/**
+	 * @author huang
+	 * @param user
+	 * @return
+	 * 修改用户信息
+	 */
+	@ResponseBody
+	@RequestMapping(value="user/updateinfo")
+	public Map<String, Object> updateInfo(User user) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		User user1 = (User) super.session.getAttribute("user");
+		user.setUserno(user1.getUserno());
+		//邮箱不同发送验证邮件修改邮箱
+		if (!user1.getEmail().equals(user.getEmail())) {
+			map.put("updateEmail", "1");
+			UUID uuid = UUID.randomUUID();
+			String str = user.getUserno() + "/updateEmail/" + user.getEmail();
+			super.application.setAttribute(uuid.toString().replace("-", ""), str);
+			str = TransmisstionProtected.encodeToString(uuid);
+			String html = "<html><head>"
+					+ "<p>您正在进行修改邮箱操作</p>"
+					+ "<a href='" + WeChatController.SERVER +"/AnswerWeb/email/"+ str + "' >"
+					+ "点击确认修改邮箱，5分钟内有效</a>"
+					+ "</head></html>";
+			MailUtil.sendValidatorMail(user.getEmail(), html);
+		}
+		user.setEmail(null);
+		userService.updateUser(user);
+		super.session.setAttribute("user",userService.getUserByUserno(user.getUserno()));
+		map.put("message", "修改成功");
+		return map;
+	}
+	
+	/**
+	 * @author huang
+	 * @param userno 用户编号
+	 * @param email 修改邮箱
+	 * @return
+	 * 修改用户邮箱
+	 */
+	@RequestMapping(value="{userno}/updateEmail/{email}")
+	public ModelAndView updateEmail(@PathVariable int userno, @PathVariable String email){
+		ModelAndView model = new ModelAndView();
+		User user = new User();
+		user.setUserno(userno);
+		user.setEmail(email+".com");
+		userService.updateUser(user);
+		user = userService.getUserByUserno(userno);
+		super.session.setAttribute("user", user);
+		model.setViewName("redirect:/login");
+		return model;
 	}
 	
 	
