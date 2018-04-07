@@ -138,8 +138,10 @@ $(function(){
 		questionNumber += 1;
 		if(questionNumber < maxNumber)
 			showQuestion(questionNumber);
-		else 
+		else {
 			alert("题目已做完");
+			window.location.href = "${pageContext.request.contextPath}/wechatuser/index.jsp";		
+		}
 		$(this).hide();  /* 下一题按钮消失 */
 		$('.answer').hide(); /*答案消失*/
 		$('#submit').show();/*提交按钮显示*/
