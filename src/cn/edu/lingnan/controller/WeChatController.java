@@ -171,10 +171,10 @@ public class WeChatController extends BaseController {
 	 * @author 马立志
 	 */
 	@ResponseBody
-	@RequestMapping("updateWechatUser")
+	@RequestMapping("/updateWechatUser")
 	public void updateWechatUser(Integer wechatuserno, String nickname,String sex,String address){
-		WeChatUser weChatUser = new WeChatUser();
-		weChatUser.setWechatuserno(wechatuserno);
+		
+		WeChatUser weChatUser = weChatService.getWechatUser(wechatuserno);
 		weChatUser.setSex(sex);
 		weChatUser.setNickname(nickname);
 		
@@ -188,13 +188,14 @@ public class WeChatController extends BaseController {
 		//有些地方没有city，直接到区
 		if(update_addrs.size() == 2){
 			weChatUser.setProvince(update_addrs.get(0));
-			weChatUser.setCountry(update_addrs.get(2));
-		}else{
+			weChatUser.setCountry(update_addrs.get(1));
+		}else if(update_addrs.size() == 3){
 			weChatUser.setProvince(update_addrs.get(0));
 			weChatUser.setCity(update_addrs.get(1));
 			weChatUser.setCountry(update_addrs.get(2));
+		}else if(update_addrs.size() == 1){
+			weChatUser.setProvince(update_addrs.get(0));
 		}
-		
 		weChatService.updateWeChatUser(weChatUser);
 	}
 	

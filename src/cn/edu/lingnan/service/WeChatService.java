@@ -157,5 +157,14 @@ public class WeChatService {
 		weChatUserMapper.updateByPrimaryKeySelective(weChatUser);
 	}
 	
+	/**
+	 * 根据id获取微信用户
+	 * @param wechatuserno
+	 * @return
+	 */
+	public WeChatUser getWechatUser(Integer wechatuserno){
+		return weChatUserMapper.selectByPrimaryKey(wechatuserno);
+	}
+	
 	
 }
