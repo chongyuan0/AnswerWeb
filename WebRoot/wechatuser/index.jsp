@@ -159,7 +159,6 @@
 											<div class="item-inner">
 												<div class="item-title label">答对</div>
 												<div class="item-input">
-													
 													<input id="acnumber" disabled type="text" v-bind:value="acnumber"/>
 												</div>
 											</div>
@@ -225,6 +224,8 @@ $(function () {
         var tab = $(this).attr("href");
         $(tab).css("display","block");
         $(tab).siblings().css("display","none");
+        wechatuserRecords.load();
+        questiontype.loadtype();
     });
     questiontype.loadtype();
     
@@ -233,6 +234,7 @@ $(function () {
 		// 从 v1.1.2 版本才支持回调函数，之前的版本只能通过事件监听
 		setTimeout(function() {
 			questiontype.loadtype();
+			wechatuserRecords.load();
 			$(document.body).pullToRefreshDone();
 		}, 2000);
 	});
@@ -275,12 +277,15 @@ var wechatuserRecords = new Vue({
 	},
 	mounted(){
 				this.load();
-				
 	},
 	methods:{
 		load:function(){
 			$.ajax({
+<<<<<<< HEAD
 				url:"${pageContext.request.contextPath}/getAllRecords?wechatuserno=${weChatUser.wechatuserno}",
+=======
+				url:"${pageContext.request.contextPath}/getAllRecords?wechatuserno="+ ${weChatUser.wechatuserno},
+>>>>>>> 1721a2bf46a4d2d8a99afc4e11f69526ef636d96
 				type:"POST",
 				success:function(list){
 					wechatuserRecords.recordsList = list;
