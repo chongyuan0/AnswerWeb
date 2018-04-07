@@ -36,7 +36,7 @@
 				</div>				
 			</div>
 			<div class="user">
-				<a href="#">用户名:&nbsp;${sessionScope.user.username }</a>
+				<a href="#" id="showusername">用户名:&nbsp;${sessionScope.user.username }</a>
 				<a href="${pageContext.request.contextPath }/user/sigeout" title="退出登录状态">
 					<b></b>
 					<img src="${pageContext.request.contextPath }/resource/images/Exit.png"/>
@@ -212,6 +212,7 @@ $(function(){
 		$("#email").attr("readonly","readonly");
 		$("#updateinfo").css("display","block");
 		$("#confirmupdate").css("display","none");
+		$("#showusername").text("用户名: " + username);
 	});
 });
 
