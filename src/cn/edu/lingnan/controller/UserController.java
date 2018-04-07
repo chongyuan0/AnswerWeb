@@ -1,10 +1,14 @@
 package cn.edu.lingnan.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import javax.servlet.ServletContext;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +35,7 @@ import cn.edu.lingnan.pojo.UserExample;
 import cn.edu.lingnan.service.QuestionTypeService;
 import cn.edu.lingnan.service.UserService;
 import cn.edu.lingnan.utils.MailUtil;
+import cn.edu.lingnan.utils.TransmisstionProtected;
 
 @Controller
 public class UserController extends BaseController {
@@ -46,7 +51,7 @@ public class UserController extends BaseController {
 	 * @param model	页面交互返回值
 	 * @return
 	 */
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@RequestMapping(value = "login")
 	public String login(User user, ModelMap model) {
 		List<User> userlist = userService.login(user);
 		// 不存在用户
@@ -58,8 +63,13 @@ public class UserController extends BaseController {
 		user = userlist.get(0);
 		if (user.getStatus() == 0) {
 			model.put("loginerror", "账号没通过验证，已重新发送验证邮件");
+			//创建唯一标识符
+			UUID uuid = UUID.randomUUID();
+			String str = user.getUserno() + "/confirmEmail";
+			super.application.setAttribute(uuid.toString().replace("-", ""), str);
+			str = TransmisstionProtected.encodeToString(uuid);
 			String html = "<html><head>"
-					+ "<a href='http://localhost:8080/AnswerWeb/"+ user.getUserno() + "/confirmEmail' >"
+					+ "<a href='" + WeChatController.SERVER +"/AnswerWeb/email/"+ str + "' >"
 					+ "点击验证邮箱</a>"
 					+ "</head></html>";
 			MailUtil.sendValidatorMail(user.getEmail(), html);
@@ -89,12 +99,12 @@ public class UserController extends BaseController {
 	 * @param map
 	 * 用户注册
 	 */
-	@RequestMapping(value = "register", method = RequestMethod.POST)
+	@RequestMapping(value = "register")
 	public String register(@Valid User user, BindingResult result, Map<String, Object> map) {
 		//判断输入是否合法
 		if (result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();
-			String error = "";
+			String error = "输入不合法";
 			for (ObjectError e : list) {
 				error += e.getDefaultMessage() + "<br/>";
 			}
@@ -111,8 +121,13 @@ public class UserController extends BaseController {
 		int flag = userService.register(user);
 		if (flag > 0) {
 			user1 = userService.findUserByEmail(user.getEmail());
+			//创建唯一标识符
+			UUID uuid = UUID.randomUUID();
+			String str = user1.getUserno() + "/confirmEmail";
+			super.application.setAttribute(uuid.toString().replace("-", ""), str);
+			str = TransmisstionProtected.encodeToString(uuid);
 			String html = "<html><head>"
-					+ "<a href='http://localhost:8080/AnswerWeb/"+ user1.getUserno() + "/confirmEmail' >"
+					+ "<a href='" + WeChatController.SERVER +"/AnswerWeb/email/"+ str + "' >"
 					+ "点击验证邮箱</a>"
 					+ "</head></html>";
 			MailUtil.sendValidatorMail(user.getEmail(), html);
@@ -123,37 +138,22 @@ public class UserController extends BaseController {
 	}
 
 	/**
-	 *	@author huang
-	 *	@param userno 登录未验证用户编号
-	 *  未验证发送验证邮件
-	 */
-	@RequestMapping(value = "/{userno}/sendValidatorEmail")
-	public String sendValidationEmail(@PathVariable int userno) {
-		//验证链接
-		String html = "<html><head>"
-				+ "<a href='http://localhost:8080/AnswerWeb/"+ userno + "/confirmEmail' >点击验证邮箱</a>"
-				+ "</head></html>";
-		//发送邮件
-		User user = userService.getUserByUserno(userno);
-		if (MailUtil.sendValidatorMail(user.getEmail(), html))
-			return "yuantest/success";
-		else 
-			return "error";
-	}
-
-
-	/**
 	 * @author huang
 	 * @param userno 用户编号
 	 * 邮箱验证成功
 	 */
 	@RequestMapping(value="/{userno}/confirmEmail")
-	public String confirmValidatorEmail(@PathVariable int userno) {
+	public ModelAndView confirmValidatorEmail(@PathVariable int userno) {
 		int flag = userService.confirmValidator(userno);
-		if (flag > 0)
-			return "login";
-		else 
-			return "error";
+		ModelAndView model = new ModelAndView();
+		if (flag > 0) {
+			model.setViewName("login");
+		}
+		else {
+			model.setViewName("error");
+			model.addObject("error", "发生未知错误，邮箱验证失败，请重新尝试");
+		}
+		return model;
 	}
 	
 	/**
@@ -194,6 +194,24 @@ public class UserController extends BaseController {
 		}
 		map.put("recordsList", recordsList);
 		return map;
+	}
+	
+	@RequestMapping(value="email/{encodeData}")
+	public String redirectEmail(@PathVariable String encodeData, Map<String, Object> map) {
+		String[] datas = TransmisstionProtected.decodeToStringArray(encodeData);
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		long nowdate = Long.parseLong(format.format(new Date()).toString());
+		long latedate = Long.parseLong(datas[1]);
+		if (nowdate-latedate > 500) {
+			//链接失效
+			super.application.removeAttribute(datas[0]);
+			map.put("error", "链接已失效");
+			return "error";
+		} else {
+			String url = (String) super.application.getAttribute(datas[0]);
+			super.application.removeAttribute(datas[0]);
+			return "redirect:/" + url;
+		}
 	}
 	
 	

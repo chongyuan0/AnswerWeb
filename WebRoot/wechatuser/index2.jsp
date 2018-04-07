@@ -1,156 +1,106 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title>个人信息</title>
-<meta name="description"
-	content="MSUI: Build mobile apps with simple HTML, CSS, and JS components.">
-<meta name="viewport" content="initial-scale=1, maximum-scale=1">
-<link rel="shortcut icon" href="/favicon.ico">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
-<meta name="format-detection" content="telephone=no">
-
-<!-- Google Web Fonts -->
-
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath }/css/sm.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath }/css/sm-extend.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath }/css/pages/demos.css">
-
-<link rel="apple-touch-icon-precomposed"
-	href="/assets/img/apple-touch-icon-114x114.png">
-<script src="${pageContext.request.contextPath }/js/zepto.js"></script>
-<script src="${pageContext.request.contextPath }/js/config.js"></script>
-
-
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+<title>类型</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/weui.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/example.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/jquery-weui.css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/demos.css"/>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-3.2.1.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/vue.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/jquery-weui.js"></script>
+<style type="text/css">
+.mynone{
+	display: none;
+}
+.myclick{
+	display: block;
+}
+</style>
 </head>
 <body>
-	<div class="page-group">
-		<div id="page-icon-input" class="page">
-			<header class="bar bar-nav">
-				<a class="button button-link button-nav pull-left back"
-					href="/demos/form"> <span class="icon icon-left"></span> 返回
-				</a>
-				<h1 class="title">个人信息</h1>
-			</header>
-			<div class="content">
-				<div class="list-block">
-					<ul>
-						<!-- Text inputs -->
-						
-						<li>
-							<div class="item-content">
-								<div class="item-media">
-									<i class="icon icon-form-name"></i>
-								</div>
-								<div class="item-inner">
-									<div class="item-input">
-										<input id="nickname" type="text" placeholder="呢称" name="nickname"
-											value="${weChatUser.nickname}">
-										<input id="wechatuserno" type="hidden" value="${weChatUser.wechatuserno }"/>
-									</div>
-								</div>
-							</div>
-						</li>
-						
-						<!-- 	<li>
-							<div class="item-content">
-								<div class="item-media">
-									<i class="icon icon-form-email"></i>
-								</div>
-								<div class="item-inner">
-									<div class="item-input">
-										<input type="email" placeholder="E-mail">
-									</div>
-								</div>
-							</div>
-						</li> -->
-
-						<li>
-							<div class="item-content">
-								<div class="item-media">
-									<i class="icon icon-form-gender"></i>
-								</div>
-								<div class="item-inner">
-									<div class="item-input">
-										<select id="sex" name="sex">
-
-											<option value="男"
-												<c:if test="${weChatUser.sex == '男' }">selected</c:if>>Male</option>
-											<option value="女"
-												<c:if test="${weChatUser.sex == '女' }">selected</c:if>>Female</option>
-										</select>
-									</div>
-								</div>
-							</div>
-						</li>
-						<!-- Date -->
-						<li>
-							<div class="item-content">
-								<div class="item-media">
-									<i class="icon icon-form-calendar"></i>
-								</div>
-								<div class="item-inner">
-									<div class="item-input">
-										<input name="address" type="text" id='city-picker' value="${weChatUser.province } ${weChatUser.city } ${weChatUser.country }" />
-										<!-- <input type="date" placeholder="Birth day" value="2014-04-30"> -->
-									</div>
-								</div>
-							</div>
-						</li>
-
-
-					</ul>
-				</div>
-				<div class="content-block" style="text-align: center;">
-					<div class="row">
-						<div class="col-50">
-							<a href="javascript:history.back();"
-								class="button button-big button-fill button-danger">取消</a>
-						</div>
-						<div class="col-50">
-							<a id="save" href="#" class="button button-big button-fill button-success">提交</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
+<!-- 下拉刷新 -->
+<div class="weui-pull-to-refresh__layer">
+    <div class='weui-pull-to-refresh__arrow'></div>
+    <div class='weui-pull-to-refresh__preloader'></div>
+    <div class="down">下拉刷新</div>
+    <div class="up">释放刷新</div>
+    <div class="refresh">正在刷新</div>
+</div>
+<div class="weui-cells" id="questionType">
+	<div v-for="(se,index) in second">
+		<a class="weui-cell weui-cell_access myclick" href="javascript:;" v-on:click="loadthird(se.typeno,index)">
+		    <div class="weui-cell__bd">
+		      <p>{{se.typename}}</p>
+		    </div>
+		    <div class="weui-cell__ft"></div>
+	    </a>
+	    <div id=third v-if="index == flag">
+	    	<a class="weui-cell weui-cell_access" href="javascript:;" v-for="th in third" v-on:click="redirectJsp(th.typeno)">
+			    <div class="weui-cell__bd">
+			      <p>{{th.typename}}</p>
+			    </div>
+			    <div class="weui-cell__ft"></div>
+	    	</a>
+	    </div>
 	</div>
-	<script src="${pageContext.request.contextPath }/js/sm.js"></script>
-	<script src="${pageContext.request.contextPath }/js/sm-extend.js"></script>
-	<script src="${pageContext.request.contextPath }/js/sm-city-picker.js"></script>
-	<script src="${pageContext.request.contextPath }/js/demos.js"></script>
-	<script type="text/javascript">
-		$("#city-picker").cityPicker({
-			toolbarTemplate : '<header class="bar bar-nav">\
-	    <button class="button button-link pull-right close-picker">确定</button>\
-	    <h1 class="title">选择居住地址</h1>\
-	    </header>'
-		});
-		
-		$("#save").click(function(){
-			var wechatuserno = $("#wechatuserno").val();
-			var nickname = $("#nickname").val();
-			var sex = $("#sex").val();
-			var address = $("#city-picker").val();
+</div>
+</body>
+<script type="text/javascript">
+$(function(){
+	questionType.loadsecond();
+	$(document.body).pullToRefresh(function () {
+		// 下拉刷新触发时执行的操作放这里。
+		// 从 v1.1.2 版本才支持回调函数，之前的版本只能通过事件监听
+		setTimeout(function() {
+			questionType.loadsecond();
+			$(document.body).pullToRefreshDone();
+		}, 2000);
+	});
+});
+
+
+
+var questionType = new Vue({
+	el: "#questionType",
+	data: {
+		second:[],
+		third:null,
+		flag : null
+	},
+	methods: {
+		loadsecond: function() {
 			$.ajax({
-				url:"${pageContext.request.contextPath}/updateWechatUser?nickname="+nickname+"&sex="+sex+"&address="+address+"$wechatuserno="+wechatuserno,
-				type:"POST",
-				success:function(data){
-					window.location.href="${pageContext.request.contextPath}/wechatuser/index.jsp";
+				url: "${pageContext.request.contextPath }/user/getType/${param.typeno}",
+				success: function(data){
+					questionType.second = data.secondlist;
 				}
 			});
-		});
-		
-	</script>
+		},
+		loadthird: function(typeno,index) {
+			$.ajax({
+				url: "${pageContext.request.contextPath }/user/getType/" + typeno,
+				success: function(data){
+					var error = data.error;
+					if (error == null) {
+						questionType.third = data.secondlist;
+						questionType.flag = index;
+					}
+					else 
+						questionType.redirectJsp(data.error);
+				}
+			});
+		},
+		redirectJsp: function(typeno) {
+			window.location = "${pageContext.request.contextPath }/wechatuser/knowleage.jsp?typeno="+ typeno;
+		}
+	}
+});
 
-</body>
+</script>
 </html>

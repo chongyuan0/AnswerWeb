@@ -28,7 +28,7 @@ header{
 	margin: 40px 25px 0 0;
 	background: #63C5DA;	
 }
-input[type="text"]{
+.find input[type="text"]{
 	position: absolute;
 	width: 255px;
 	height: 43px;
@@ -39,7 +39,7 @@ input[type="text"]{
     box-shadow: 0 0px 10px 0 rgba(99, 196, 218, .3);
     outline: none;
 }
-button{	
+.find button{	
 	position: absolute;
 	width: 44px;
     height: 45px;
@@ -56,11 +56,50 @@ button{
 
 
 nav{
+	position: relative;
 	width: 100%;
 	height: 45px;
 	min-width: 830px;
 	background: #3992d0;; /*#337ab7;*/
 }
+nav>div{
+	float: right;
+}
+.info{
+	position: absolute;
+	right: 110px;
+	margin-right: 40px;
+	line-height: 45px;
+	color: #FFFFFF;
+	cursor: pointer;
+	
+}
+
+
+.info ul li{
+	padding: 0 20px;
+}
+
+.info b{
+	position: absolute;
+	top: 15px;
+    left: 85px;
+	width: 20px;
+	height: 20px;
+	background-image: url(../resource/images/arrow_white.png);
+	background-repeat: no-repeat;
+	background-position: 2px 2px;
+}
+
+.info ul li.alter:hover{
+	background: #317eb4;
+}
+
+.alter{
+	display: none;
+	background: #3992d0;
+}
+
 .user{
 	float: right;
 	height: 45px;
@@ -69,8 +108,157 @@ nav{
 	color: white;
 }
 .user a{
+	display: inline-block;
+    height: 45px;
+    line-height: 45px;
 	color: white;
+	padding-left: 15px;
 }
+
+.user a img{
+	vertical-align: middle;
+}
+
+
+/*个人信息*/
+.box{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 1;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.2);
+	display: none;
+}
+.box .box1{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+.box_alterInfo{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	width: 420px;
+    height: 420px;
+    padding-top: 20px;
+	background: #fff;
+	display: none;
+}
+
+.box_alterPsw{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: auto;
+	width: 420px;
+    height: 330px;
+    padding-top: 20px;
+	background: #fff;
+	display: none;
+}
+.box .x{
+	text-align: right;
+	margin: -27px 2px 0 0;
+}
+.box .x p{
+	float: right;
+	width: 20px;
+	color: #CCCCCC;
+	font-size: 24px;
+	cursor: pointer;
+}
+.box .top{
+	height: 38px;
+    line-height: 33px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.box .form{
+	width: 330px;
+	height: 300px;
+	margin: auto;
+	/*margin-top: 22px;*/
+}
+.box .input{
+	line-height: 40px;
+    font-size: 20px;
+    color: #999;
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+.box label{
+	display: inline-block;
+	width: 80px;
+	text-align: right;
+	font-size: 16px;
+}
+.box input{	
+	width: 215px;;
+    height: 40px;
+    font-size: 16px; 
+    margin-left: 6px;
+    padding-left: 10px;
+	border: 1px solid #CECECF;
+	box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+.box input[type="submit"]{
+	width: 330px;
+	height: 50px;
+	color: #fff;
+	font-weight: bold;
+	margin-left: 0;
+	background: #63c5da;
+	border-radius: 5px;
+    box-shadow: 0 5px 10px 0 rgba(99, 196, 218, .3);
+    outline: none;
+    border: none;
+    transition: ease-in 0.2s;
+}
+.box input[type="submit"]:hover{
+	background-color: #56bbd1;
+    box-shadow: 0 5px 10px 0 rgba(99, 196, 218, 0.8);
+   
+}
+
+.box input[type="radio"]{
+	width: 27px;
+    height: 18px;
+    box-shadow: none;
+    margin-left: 30px;
+}
+.box #sex{
+	float: left;
+}
+.box #sex input{	
+	width: 50px;
+}
+.box input[type="email"]{
+	clear: both;
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -109,6 +297,9 @@ section{
 	background: #317eb4;
 	color: white;
 }
+.second{
+	display: none;
+}
 .second li{
 	color: white;
 	padding: 11px 0;
@@ -122,6 +313,7 @@ section{
 
 
 .content{	
+	display: block;
 	height: auto;
 	border: 1px solid #ddd;
 	margin: 22px 40px 20px 220px;
@@ -169,6 +361,7 @@ section{
 	display: block;
 	width: 50px;
 	height: 50px;
+	background-image: url(../resource/images/type/Chinese.gif);
 	background-position: -1px 0px;
     background-repeat: no-repeat;
     background-size: 101%;
@@ -176,7 +369,7 @@ section{
 }
 
 .img1{
-	background-image: url(../img/book.jpg);
+	background-image: url(../resource/images/book.jpg);
 	background-position: -16px 0px;
     background-size: 159%;
 }
@@ -186,7 +379,7 @@ section{
 	display: block;
 	width: 50px;
 	height: 50px;
-	background-image: url(../img/Chinese.gif);
+	background-image: url(../resource/images/Chinese.gif);
 	background-position: -1px 0px;
     background-repeat: no-repeat;
     background-size: 101%;
@@ -226,7 +419,7 @@ footer{
 	clear: both;
 	padding: 20px 0 30px 0;	
 }
-footer p{
+footer p{ 
 	min-width: 830px;
 	text-align: center;
 	font-size: 14px;
