@@ -25,6 +25,14 @@
 		<property name="driverClass" value="${jdbc.driverClass}"></property>
 		<property name="user" value="${jdbc.user}"></property>
 		<property name="password" value="${jdbc.password}"></property>
+		<!--最大空闲时间，60秒内未使用则连接被丢弃。若为0则永不丢弃。默认值: 0 -->    
+        <property name="maxIdleTime" value="30"></property>    
+        <!--连接池中保留的最大连接数。默认值: 15 -->  
+        <property name="maxPoolSize" value="100"></property>   
+        <!-- 连接池中保留的最小连接数，默认为：3-->   
+        <property name="minPoolSize" value="10"></property>   
+        <property name="maxStatements" value="200"></property>
+        <property name="idleConnectionTestPeriod" value="60"></property>
 	</bean>
 
 	<!-- ============================配置和Mybatis的整合 ====================== -->

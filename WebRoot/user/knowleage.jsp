@@ -69,9 +69,9 @@
 				<h4>题目</h4>
 				<ul>
 					<li v-if="flag == 1">{{datas}}</li>
-					<li v-if="flag == 2">图片</li>
-					<li v-if="flag == 3">视频</li>
-					<li v-if="flag == 4">音乐</li>
+					<li v-if="flag == 2"><img :src="datas"/></li>
+					<li v-if="flag == 3"><video :src="datas" controls></video></li>
+					<li v-if="flag == 4"><audio :src="datas" controls></audio></li>
 				</ul>
 			</div>
 			<div class="selection" id="selection">
@@ -97,7 +97,7 @@
 				<h4>答案</h4>					
 				<div class="">
 					<span v-if="flag == 1">{{rightanswer}}<br/>{{datas}}</span>
-					<span v-if="flag == 2">图片</span>
+					<span v-if="flag == 2"><img :src="datas"/></span>
 				</div>
 			</div>
 			<div class="button">
@@ -217,6 +217,7 @@ function showQuestion(number){
 	selection.load(q.option);
 }
 
+var path = "${pageContext.request.contextPath}/resource/";
 //显示题目
 var question = new Vue({
 	el: "#question",
@@ -228,8 +229,17 @@ var question = new Vue({
 		load: function(data) {
 			question.datas = data.content;
 			question.flag = data.constatus;
+			//封装资源路径
+			if (data.constatus == 2)
+				question.datas = path + "/images/question" + question.datas;
+			else (data.constatus == 3)
+				question.datas = path + "/vidio/" + question.datas;
+			else (data.constatus == 4)
+				question.datas = path + "/audio/" + question.datas;
 			answer.datas = data.description;
 			answer.flag = data.desstatus;
+			if (answer.flag == 2)
+				answer.datas = path + "/images/answer" + answer.datas;
 		}
 	}
 });
