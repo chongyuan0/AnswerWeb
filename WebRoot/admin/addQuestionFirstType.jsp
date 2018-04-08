@@ -71,7 +71,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span class="account-role"><c:choose><c:when test="${admins.adminflag == 1}">普通管理员</c:when><c:otherwise>超级管理员</c:otherwise></c:choose></span>
 						
 						<span class="account-actions">
-							<a href="#">我的资料</a> 
 						</span>
 					</div>
 				</div>

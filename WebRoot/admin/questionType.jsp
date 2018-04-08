@@ -120,8 +120,7 @@ table{
 								class="account-role"><c:choose>
 									<c:when test="${admin.adminflag==1}">普通管理员</c:when>
 									<c:otherwise>超级管理员</c:otherwise>
-								</c:choose></span> <span class="account-actions"> <a
-								href="#">我的资料</a>
+								</c:choose></span> <span class="account-actions">
 							</span>
 
 						</div>

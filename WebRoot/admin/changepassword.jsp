@@ -101,7 +101,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<span class="account-role"><c:choose><c:when test="${admins.adminflag == 1}">普通管理员</c:when><c:otherwise>超级管理员</c:otherwise></c:choose></span>
 						
 						<span class="account-actions">
-							<a href="${pageContext.request.contextPath}/tosingeinfo?empid=${sessionemp.empid}">我的资料</a>
 						</span>
 					
 					</div> <!-- /account-details -->
@@ -112,13 +111,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<ul id="main-nav" class="nav nav-tabs nav-stacked">
 					
-					<li class="active"><a
+					<li><a
 							href="${pageContext.request.contextPath}/selectUserByExample"> <i
 								class="icon-home"></i> 用户管理
 						</a></li>
 
 						<li><a
-							href="${pageContext.request.contextPath}/selectQuestion">
+							href="${pageContext.request.contextPath}/selectQuestion?toid=1">
 								<i class="icon-th-list"></i> 试题库管理
 						</a></li>
 
@@ -127,16 +126,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</a></li>
 
 						<li><a
-							href="${pageContext.request.contextPath}/selectRecords">
-								<i class="icon-signal"></i> 用户记录管理
+							href="${pageContext.request.contextPath}/logout">
+								<i class="icon-signal"></i> 注销
 						</a></li>
 					
-					<li>
-						<a href="./login.html">
-							<i class="icon-lock"></i>
-							Login
-						</a>
-					</li>
+					
 					
 				</ul>	
 				
