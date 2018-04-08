@@ -144,7 +144,6 @@ public class QuestionController extends BaseController {
 		//这是答案详解图片的预览
 		}else{
 			String path = session.getServletContext().getRealPath("/resource/images/answer");
-			
 			// fileName唯一性
 			int a = ThreadLocalRandom.current().nextInt(100,999);
 			String fileName =+ a +"-"+ System.currentTimeMillis()+ desFile.getOriginalFilename();
