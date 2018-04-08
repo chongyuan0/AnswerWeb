@@ -81,8 +81,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								class="icon-home"></i> 用户管理
 						</a></li>
 
-						<li><a
-							href="${pageContext.request.contextPath}/selectQuestion">
+						<li ><a
+							href="${pageContext.request.contextPath}/selectQuestion?toid=1">
 								<i class="icon-th-list"></i> 试题库管理
 						</a></li>
 

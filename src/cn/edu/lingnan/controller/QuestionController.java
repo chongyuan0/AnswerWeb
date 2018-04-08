@@ -110,13 +110,13 @@ public class QuestionController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/addQuestionFile", produces = "text/html;charset=UTF-8")
-	public String addQuestionFile(@RequestParam(value = "file", required = false) MultipartFile file
+	public String addQuestionFile(@RequestParam(value = "file", required = false) MultipartFile file,@RequestParam(value="desFile",required=false) MultipartFile desFile
 			) throws IllegalStateException, IOException {
-		
+		if(desFile == null){
 		String strExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
 		String path = session.getServletContext().getRealPath("/resource/images/question");
 		if(strExtension.equals("mp3")){
-			path = session.getServletContext().getRealPath("/resource/radio");
+			path = session.getServletContext().getRealPath("/resource/audio");
 		}else if(strExtension.equals("mp4")){
 			path = session.getServletContext().getRealPath("/resource/video");
 		}
@@ -140,6 +140,24 @@ public class QuestionController extends BaseController {
 		file.transferTo(targetFile);
 		//String fileUrl = request.getContextPath() + "/resource/images/type/" + fileName;
 		return fileName;
+		
+		//这是答案详解图片的预览
+		}else{
+			String path = session.getServletContext().getRealPath("/resource/images/answer");
+			
+			// fileName唯一性
+			int a = ThreadLocalRandom.current().nextInt(100,999);
+			String fileName =+ a +"-"+ System.currentTimeMillis()+ desFile.getOriginalFilename();
+
+			File targetFile = new File(path, fileName);
+
+			if (!targetFile.exists()) {
+				targetFile.mkdirs();
+			}
+			
+			desFile.transferTo(targetFile);
+			return fileName;
+		}
 	}
 	
 	
@@ -153,7 +171,6 @@ public class QuestionController extends BaseController {
 	@RequestMapping("/addQuestion")
 	public String addQuestion(Question question,OptionsList optionsList,@RequestParam("pn") Integer pn) throws IllegalStateException, IOException{
 		
-		System.out.println(question.getContent());
 		questionService.insertQuestion(question);
 		for(Options options:optionsList.getOptionsList()){
 			options.setQuestionno(question.getQuestionno());

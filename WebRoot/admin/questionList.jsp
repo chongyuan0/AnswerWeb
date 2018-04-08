@@ -332,7 +332,7 @@ table{
 								<div class="tab-pane <c:if test="${toid==2}">active</c:if>" id="2">
 									<!-- 下面是表单提交 -->
 								
-								<form id="edit-profile" class="form-horizontal" action="${pageContext.request.contextPath}/addQuestion?pn=${pageInfo.pageNum}" method="post" enctype="multipart/form-data"/>
+								<form id="edit-profile" class="form-horizontal" action="${pageContext.request.contextPath}/addQuestion?pn=${pageInfo.pages}" method="post" enctype="multipart/form-data"/>
 									<fieldset>
 										
 										<div class="control-group">											
@@ -573,7 +573,7 @@ table{
 			                if(strExtension=="mp4"){
 				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/video/'+data);
 			                }else if(strExtension == "mp3"){
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/radio/'+data);
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/audio/'+data);
 			                }else{
 				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/images/question/'+data);
 			                }
@@ -604,11 +604,51 @@ table{
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:150px;height:150px;";
-				showfile.src="${pageContext.request.contextPath}/resource/images/type/upload.jpg";
-				showfile.id="showfile";
+				showfile.id="showimg";
 				
-				$("#div_des").empty().append(input_file).append(showfile);
-			}
+				var fileContent = document.createElement("input");
+				fileContent.type="hidden";
+				fileContent.name="description";
+				fileContent.value="upload.jpg";
+				fileContent.id="description";
+				
+				
+				
+				$("#div_des").empty().append(input_file).append(showfile).append(fileContent);
+				
+				$("#addQuestion_description").change(function(){
+			        var imagePath = $("#addQuestion_description").val();
+			        if (imagePath == '') {
+			            return false;
+			        }
+			        var strExtension = imagePath.substr(imagePath.lastIndexOf('.') + 1);
+			        if (strExtension != 'jpg' && strExtension != 'gif' && strExtension != 'png' && strExtension != 'bmp'
+			        	&&	strExtension != 'mp4' &&	strExtension != 'mp3' 
+			        	) {
+			            alert("请选择对应的格式资源");
+			            return false;
+			        }
+			        $("#edit-profile").ajaxSubmit({
+			            type : 'POST',
+			            url : '${pageContext.request.contextPath}/addQuestionFile',
+			            success : function(data) {
+			            	
+			                $("#description").val(data);
+				            $("#showimg").attr("src", '${pageContext.request.contextPath}/resource/images/answer/'+data);
+			                
+			            },
+			            error : function() {
+			                alert("上传失败，请检查网络后重试");
+			            }
+			        });
+			    });
+				
+				
+				
+				
+				
+				
+			}/* else */
 		});
 		
 	</script>
