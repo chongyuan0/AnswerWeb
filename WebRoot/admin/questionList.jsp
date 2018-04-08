@@ -6,7 +6,6 @@
 			+ path + "/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="en">
 <head>
 <meta charset="utf-8" />
@@ -333,35 +332,9 @@ table{
 								<div class="tab-pane <c:if test="${toid==2}">active</c:if>" id="2">
 									<!-- 下面是表单提交 -->
 								
-								<form id="edit-profile" class="form-horizontal" action="${pageContext.request.contextPath}/addQuestion?pn=${pageInfo.pageNum}" method="post" />
+								<form id="edit-profile" class="form-horizontal" action="${pageContext.request.contextPath}/addQuestion?pn=${pageInfo.pageNum}" method="post" enctype="multipart/form-data"/>
 									<fieldset>
 										
-									
-									<div class="control-group">											
-											<label class="control-label">题目内容：</label>
-											<div class="controls">
-											<textarea style="overflow-x:hidden" id="addQuestion_content" name="content"></textarea>
-											</div>
-										</div>
-									
-										
-										<div class="control-group">											
-											<label class="control-label">答案详解：</label>
-											<div class="controls">
-											<textarea style="overflow-x:hidden" id="addQuestion_description" name="description"></textarea>
-											</div>
-										</div>										
-										<div class="control-group">											
-											<label class="control-label">试题类型：</label>
-											<div class="controls">
-											<select id="typeno" 
-														class="input-small " name="typeno">
-														<c:forEach items="${questionTypeList}" var="questionType">
-												        <option value="${questionType.typeno }">${questionType.typename}</option>
-														</c:forEach>
-												</select>
-											</div>
-										</div>
 										<div class="control-group">											
 											<label class="control-label">内容类型：</label>
 											<div class="controls">
@@ -373,10 +346,18 @@ table{
 												        <option value="4" >语音</option>
 												</select>
 											</div>
-										</div>
-										
+										</div>		
+									
+									
 										<div class="control-group">											
-											<label class="control-label">描述类型：</label>
+											<label class="control-label">题目内容：</label>
+											<div id="div_content" class="controls">
+												<textarea style="overflow-x:hidden" id="addQuestion_content" name="content"></textarea>
+											</div>
+										</div>
+									
+										<div class="control-group">											
+											<label class="control-label">答案类型：</label>
 											<div class="controls">
 												<select
 														id="desstatus" class="input-mini disabled"
@@ -386,7 +367,30 @@ table{
 												    
 												</select> 
 											</div>
-										</div>	
+										</div>
+										
+										<div class="control-group">											
+											<label class="control-label">答案详解：</label>
+											<div id="div_des" class="controls">
+											<textarea style="overflow-x:hidden" id="addQuestion_description" name="description"></textarea>
+											</div>
+										</div>
+										
+																				
+										<div class="control-group">											
+											<label class="control-label">试题类型：</label>
+											<div class="controls">
+											<select id="typeno" 
+														class="input-small " name="typeno">
+														<c:forEach items="${questionTypeList}" var="questionType">
+												        <option value="${questionType.typeno }">${questionType.typename}</option>
+														</c:forEach>
+												</select>
+											</div>
+										</div>
+										
+										
+											
 										
 										
 									<!-- 候选答案 -->
@@ -469,6 +473,7 @@ table{
 	<script src="<%=basePath%>js/jquery.flot.pie.js"></script>
 	<script src="<%=basePath%>js/jquery.flot.orderBars.js"></script>
 	<script src="<%=basePath%>js/jquery.flot.resize.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
 	<script src="<%=basePath%>js/bootstrap.js"></script>
 	<script src="<%=basePath%>js/charts/bar.js"></script>
 	
@@ -494,6 +499,117 @@ table{
 			$("#exampleForm_constatus").val("");
 			$("#exampleForm_typeno option:first").attr("selected","selected"); 
 		}
+		
+		
+			/* <input type="file" id="addQuestion_content" name="content"/>
+				div_content
+				 <textarea style="overflow-x:hidden" id="addQuestion_content" name="content"></textarea> 
+					<img src="${pageContext.request.contextPath}/resource/images/type/upload.jpg" style="width:150px;height:150px;" id="showfile"/>
+
+				 */
+		
+		/* 根据选择的内容类型显示对应的标签 */
+		$("#constatus").change(function(){
+			var input_value = $("#constatus option:selected").val();
+			if(input_value == 1){
+				var input_text = document.createElement("textarea");
+				input_text.style="overflow-x:hidden";
+				input_text.id="addQuestion_content";
+				input_text.name="content";
+				
+				
+				
+				$("#div_content").empty().append(input_text);
+				
+			}else{
+				
+				var input_file = document.createElement("input");
+				input_file.type="file";
+				input_file.name="file";
+				input_file.id="addQuestion_content";
+				
+				var fileContent = document.createElement("input");
+				fileContent.type="hidden";
+				fileContent.name="content";
+				fileContent.id="fileContent";
+				fileContent.value="upload.jpg";
+				
+				var showfile = document.createElement("img");
+				showfile.style="width:150px;height:150px;";
+				showfile.src="${pageContext.request.contextPath}/resource/images/type/upload.jpg";
+				showfile.id="showfile";
+				
+				$("#div_content").empty().append(input_file).append(fileContent).append(showfile);
+				
+				$("#addQuestion_content").change(function(){
+			        var imagePath = $("#addQuestion_content").val();
+			        if (imagePath == '') {
+			            return false;
+			        }
+			        var strExtension = imagePath.substr(imagePath.lastIndexOf('.') + 1);
+			        if (strExtension != 'jpg' && strExtension != 'gif' && strExtension != 'png' && strExtension != 'bmp'
+			        	&&	strExtension != 'mp4' &&	strExtension != 'mp3' 
+			        	) {
+			            alert("请选择对应的格式资源");
+			            return false;
+			        }
+			        $("#edit-profile").ajaxSubmit({
+			            type : 'POST',
+			            url : '${pageContext.request.contextPath}/addQuestionFile',
+			            success : function(data) {
+			            	/* <embed autostart="false" play="false"  flashvars="autoplay=false&play=false" menu="false" hidden="false" loop="false" 
+							src="${pageContext.request.contextPath}/resource/images/type/63519-1523185519322-a59836cd9522f795669c5624de3b379e.mp4" />
+							*/
+							if(strExtension=="mp4"||strExtension=="mp3"){
+								$("#showfile").remove();
+								var showfile = document.createElement("embed");
+								showfile.id="showfile";
+								showfile.style="width:200px;height:150px;";
+								showfile.autostart="false";
+								showfile.flashvars="autoplay=false&play=false"
+								$("#div_content").append(showfile);
+							}
+			                $("#fileContent").val(data);
+			                if(strExtension=="mp4"){
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/video/'+data);
+			                }else if(strExtension == "mp3"){
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/radio/'+data);
+			                }else{
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/images/question/'+data);
+			                }
+			            },
+			            error : function() {
+			                alert("上传失败，请检查网络后重试");
+			            }
+			        });
+			    });
+				
+			}
+		});
+		
+		/* 根据选择的答案类型显示对应的标签 */		 
+		$("#desstatus").change(function(){
+			var input_value = $("#desstatus option:selected").val();
+			if(input_value ==1){
+				var input_text = document.createElement("textarea");
+				input_text.style="overflow-x:hidden";
+				input_text.id="addQuestion_description";
+				input_text.name="description";
+				$("#div_des").empty().append(input_text);
+			}else{
+				var input_file = document.createElement("input");
+				input_file.type="file";
+				input_file.id="addQuestion_description";
+				input_file.name="desFile";
+				
+				var showfile = document.createElement("img");
+				showfile.style="width:150px;height:150px;";
+				showfile.src="${pageContext.request.contextPath}/resource/images/type/upload.jpg";
+				showfile.id="showfile";
+				
+				$("#div_des").empty().append(input_file).append(showfile);
+			}
+		});
 		
 	</script>
   </body>
