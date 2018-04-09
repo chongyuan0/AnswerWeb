@@ -63,7 +63,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="span3">
 				<div class="account-container">
 					<div class="account-avatar">
-						<img src="${pageContext.request.contextPath}/img/headshot.png" alt="" class="thumbnail" />
+						<img src="${pageContext.request.contextPath}/resource/images/headshot.png" alt="" class="thumbnail" />
 					</div>
 					<div class="account-details">
 						<span class="account-name">${admins.adminname}</span>
@@ -82,17 +82,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</a></li>
 
 						<li class="active"><a
-							href="${pageContext.request.contextPath}/selectQuestion">
+							href="${pageContext.request.contextPath}/selectQuestion?toid=1">
 								<i class="icon-th-list"></i> 试题库管理
 						</a></li>
 
-						<li><a href="${pageContext.request.contextPath}/selectQuestionType">
+						<li><a href="${pageContext.request.contextPath}/admin/questionType.jsp">
 								<i class="icon-th-large"></i> 目录管理
 						</a></li>
 
 						<li><a
 							href="${pageContext.request.contextPath}/logout">
-								<i class="icon-signal"></i> 注销
+								<i class="icon-signal"></i>注销
 						</a></li>
 				</ul>
 			</div>
@@ -111,30 +111,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								
 								<!-- 下面是表单提交 -->
 								
-								<form id="edit-profile" class="form-horizontal" action="${pageContext.request.contextPath}/updateQuestionSecond?pn=${pn}" method="post" />
+								<form id="edit-profile" class="form-horizontal" action="${pageContext.request.contextPath}/updateQuestionSecond?pn=${pn}" method="post" enctype="multipart/form-data" />
 									<fieldset>
 										
 										<input type="hidden" name="questionno" value="${question.questionno}" />
 									
 									<div class="control-group">											
-											<label class="control-label">题目内容：</label>
-											<div class="controls">
-											<textarea id="question_content" name="content">
-													${question.content }
-												</textarea>
-											</div>
-										</div>
-									
-										
-										<div class="control-group">											
-											<label class="control-label">答案详解：</label>
-											<div class="controls">
-											<textarea id="description" name="description">
-													${question.description }
-												</textarea>
-											</div>
-										</div>										
-										<div class="control-group">											
 											<label class="control-label">试题类型：</label>
 											<div class="controls">
 											<select id="typeno" 
@@ -146,12 +128,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</select>
 											</div>
 										</div>
-										<div class="control-group">											
+									
+									<div class="control-group">											
 											<label class="control-label">内容类型：</label>
 											<div class="controls">
 												<select id="constatus"
 														class="input-small " name="constatus">
-														<option <c:if test="${question.constatus==NULL}">selected</c:if>></option>
 												        <option value="1" <c:if test="${question.constatus == 1}">selected</c:if>>文本</option>
 												        <option value="2" <c:if test="${question.constatus == 2}">selected</c:if>>图片</option>
 												        <option value="3" <c:if test="${question.constatus == 3}">selected</c:if>>视频</option>
@@ -159,14 +141,44 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												</select>
 											</div>
 										</div>
+									
+									<div class="control-group">											
+											<label class="control-label">题目内容：</label>
+											<div id="div_content" class="controls">
+											<c:if test="${question.constatus ==1}">
+												<textarea id="question_content" name="content">
+													${question.content }
+												</textarea>
+											</c:if>
+											
+											<c:if test="${question.constatus == 2}">
+												<input type="hidden" name="content"  value="${question.content}"/>
+												<input type="file" id="updateQuestion_content" name="file">
+												<img id="showfile" style="hight:150px;width:300px;" src="${pageContext.request.contextPath }/resource/images/question/${question.content}"/>
+											</c:if>
+											
+											<c:if test="${question.constatus == 3}">
+												<input type="hidden" name="content" value="${question.content}"/>
+												<input type="file" id="updateQuestion_content" name="file">
+												<embed id="showfile" src="${pageContext.request.contextPath }/resource/video/${question.content}">
+											</c:if>
+											
+											<c:if test="${question.constatus == 4}">
+												<input type="hidden" name="content" value="${question.content}"/>
+												<input type="file" id="updateQuestion_content" name="file">
+												<embed id="showfile" src="${pageContext.request.contextPath }/resource/audio/${question.content}">
+											</c:if>
+											
+											</div>
+										</div>
+										
 										
 										<div class="control-group">											
-											<label class="control-label">描述类型：</label>
+											<label class="control-label">答案类型：</label>
 											<div class="controls">
 												<select
 														id="desstatus" class="input-mini disabled"
 														name="desstatus">
-														<option <c:if test="${question.desstatus==null}">selected</c:if>></option>
 												        <option value="1" <c:if test="${question.desstatus == 1}">selected</c:if>>文本</option>
 												        <option value="2" <c:if test="${question.desstatus == 2}">selected</c:if>>图片</option>
 												    
@@ -174,6 +186,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</div>
 										</div>	
 										
+										
+										<div class="control-group">											
+											<label class="control-label">答案详解：</label>
+											<div id="div_des" class="controls">
+											<c:if test="${question.desstatus == 1}">
+												<textarea id="description" name="description">
+													${question.description }
+												</textarea>
+											</c:if>
+											<c:if test="${question.desstatus == 2}">
+												<input type="hidden" id="description" name="description" value="${question.description}"/>
+												<input type="file" name="desFile" id="updateQuestion_description"/>
+												<img id="showimg" style="height:150px;width:300px;" src="${pageContext.request.contextPath }/resource/images/answer/${question.description}"/>
+											</c:if>
+											</div>
+										</div>
 										
 									<!-- 候选答案 -->
 									<c:forEach items="${optionsList}" var="options" varStatus="status">
@@ -221,7 +249,225 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 </div>
 <!-- javascript================================================== -->
+<script src="${pageContext.request.contextPath}/js/jquery-1.7.2.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/js/WebCalendar.js" type="text/javascript"></script>
+<script src="${pageContext.request.contextPath}/js/jquery.form.js"></script>
+
 <script type="text/javascript">
+
+/* 根据选择的内容类型显示对应的标签 */
+		$("#constatus").change(function(){
+			var input_value = $("#constatus option:selected").val();
+			if(input_value == 1){
+				var input_text = document.createElement("textarea");
+				input_text.style="overflow-x:hidden";
+				input_text.id="updateQuestion_content";
+				input_text.name="content";
+				
+				
+				
+				$("#div_content").empty().append(input_text);
+				
+			}else{
+				
+				var input_file = document.createElement("input");
+				input_file.type="file";
+				input_file.name="file";
+				input_file.id="updateQuestion_content";
+				
+				var fileContent = document.createElement("input");
+				fileContent.type="hidden";
+				fileContent.name="content";
+				fileContent.id="fileContent";
+				fileContent.value="upload.jpg";
+				
+				var showfile = document.createElement("img");
+				showfile.style="width:150px;height:150px;";
+				showfile.src="${pageContext.request.contextPath}/resource/images/type/upload.jpg";
+				showfile.id="showfile";
+				
+				$("#div_content").empty().append(input_file).append(fileContent).append(showfile);
+				
+				$("#updateQuestion_content").change(function(){
+			        var imagePath = $("#updateQuestion_content").val();
+			        if (imagePath == '') {
+			            return false;
+			        }
+			        var strExtension = imagePath.substr(imagePath.lastIndexOf('.') + 1);
+			        if (strExtension != 'jpg' && strExtension != 'gif' && strExtension != 'png' && strExtension != 'bmp'
+			        	&&	strExtension != 'mp4' &&	strExtension != 'mp3' 
+			        	) {
+			            alert("请选择对应的格式资源");
+			            return false;
+			        }
+			        $("#edit-profile").ajaxSubmit({
+			            type : 'POST',
+			            url : '${pageContext.request.contextPath}/addQuestionFile',
+			            success : function(data) {
+			            	/* <embed autostart="false" play="false"  flashvars="autoplay=false&play=false" menu="false" hidden="false" loop="false" 
+							src="${pageContext.request.contextPath}/resource/images/type/63519-1523185519322-a59836cd9522f795669c5624de3b379e.mp4" />
+							*/
+							if(strExtension=="mp4"||strExtension=="mp3"){
+								$("#showfile").remove();
+								var showfile = document.createElement("embed");
+								showfile.id="showfile";
+								showfile.style="width:200px;height:150px;";
+								showfile.autostart="false";
+								showfile.flashvars="autoplay=false&play=false"
+								$("#div_content").append(showfile);
+							}
+			                $("#fileContent").val(data);
+			                if(strExtension=="mp4"){
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/video/'+data);
+			                }else if(strExtension == "mp3"){
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/audio/'+data);
+			                }else{
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/images/question/'+data);
+			                }
+			            },
+			            error : function() {
+			                alert("上传失败，请检查网络后重试");
+			            }
+			        });
+			    });
+				
+			}
+		});
+
+
+
+/* 直接开始就点击更换内容 */
+$("#updateQuestion_content").change(function(){
+			        var imagePath = $("#updateQuestion_content").val();
+			        if (imagePath == '') {
+			            return false;
+			        }
+			        var strExtension = imagePath.substr(imagePath.lastIndexOf('.') + 1);
+			        if (strExtension != 'jpg' && strExtension != 'gif' && strExtension != 'png' && strExtension != 'bmp'
+			        	&&	strExtension != 'mp4' &&	strExtension != 'mp3' 
+			        	) {
+			            alert("请选择对应的格式资源");
+			            return false;
+			        }
+			        $("#edit-profile").ajaxSubmit({
+			            type : 'POST',
+			            url : '${pageContext.request.contextPath}/addQuestionFile',
+			            success : function(data) {
+			            	/* <embed autostart="false" play="false"  flashvars="autoplay=false&play=false" menu="false" hidden="false" loop="false" 
+							src="${pageContext.request.contextPath}/resource/images/type/63519-1523185519322-a59836cd9522f795669c5624de3b379e.mp4" />
+							*/
+							if(strExtension=="mp4"||strExtension=="mp3"){
+								$("#showfile").remove();
+								var showfile = document.createElement("embed");
+								showfile.id="showfile";
+								showfile.style="width:200px;height:150px;";
+								showfile.autostart="false";
+								showfile.flashvars="autoplay=false&play=false"
+								$("#div_content").append(showfile);
+							}
+			                $("#fileContent").val(data);
+			                if(strExtension=="mp4"){
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/video/'+data);
+			                }else if(strExtension == "mp3"){
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/audio/'+data);
+			                }else{
+				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/images/question/'+data);
+			                }
+			            },
+			            error : function() {
+			                alert("上传失败，请检查网络后重试");
+			            }
+			        });
+			    });
+
+
+/* 根据选择的答案类型显示对应的标签 */		 
+		$("#desstatus").change(function(){
+			var input_value = $("#desstatus option:selected").val();
+			if(input_value ==1){
+				var input_text = document.createElement("textarea");
+				input_text.style="overflow-x:hidden";
+				input_text.id="addQuestion_description";
+				input_text.name="description";
+				$("#div_des").empty().append(input_text);
+			}else{
+				var input_file = document.createElement("input");
+				input_file.type="file";
+				input_file.id="updateQuestion_description";
+				input_file.name="desFile";
+				
+				var showfile = document.createElement("img");
+				showfile.style="width:300px;height:150px;";
+				showfile.src="${pageContext.request.contextPath}/resource/images/type/upload.jpg";
+				showfile.id="showimg";
+				
+				var fileContent = document.createElement("input");
+				fileContent.type="hidden";
+				fileContent.name="description";
+				fileContent.value="upload.jpg";
+				fileContent.id="description";
+				
+				
+				
+				$("#div_des").empty().append(input_file).append(showfile).append(fileContent);
+				
+				$("#updateQuestion_description").change(function(){
+			        var imagePath = $("#updateQuestion_description").val();
+			        if (imagePath == '') {
+			            return false;
+			        }
+			        var strExtension = imagePath.substr(imagePath.lastIndexOf('.') + 1);
+			        if (strExtension != 'jpg' && strExtension != 'gif' && strExtension != 'png' && strExtension != 'bmp') {
+			            alert("请选择对应的格式资源");
+			            return false;
+			        }
+			        $("#edit-profile").ajaxSubmit({
+			            type : 'POST',
+			            url : '${pageContext.request.contextPath}/addQuestionFile',
+			            success : function(data) {
+			            	
+			                $("#description").val(data);
+				            $("#showimg").attr("src", '${pageContext.request.contextPath}/resource/images/answer/'+data);
+			                
+			            },
+			            error : function() {
+			                alert("上传失败，请检查网络后重试");
+			            }
+			        });
+			    });
+				
+			}/* else */
+		});
+
+
+/* 直接点击更换答案类型 */
+$("#updateQuestion_description").change(function(){
+			        var imagePath = $("#updateQuestion_description").val();
+			        if (imagePath == '') {
+			            return false;
+			        }
+			        var strExtension = imagePath.substr(imagePath.lastIndexOf('.') + 1);
+			        if (strExtension != 'jpg' && strExtension != 'gif' && strExtension != 'png' && strExtension != 'bmp') {
+			            alert("请选择对应的格式资源");
+			            return false;
+			        }
+			        $("#edit-profile").ajaxSubmit({
+			            type : 'POST',
+			            url : '${pageContext.request.contextPath}/addQuestionFile',
+			            success : function(data) {
+			            	
+			                $("#description").val(data);
+				            $("#showimg").attr("src", '${pageContext.request.contextPath}/resource/images/answer/'+data);
+			                
+			            },
+			            error : function() {
+			                alert("上传失败，请检查网络后重试");
+			            }
+			        });
+			    });
+
+
 function validEmpty(){
 	//  获取输入框的值
 	var name = document.getElementById('question_content').value;
@@ -254,8 +500,6 @@ function validEmpty(){
 }
 </script>
 
-<script src="${pageContext.request.contextPath}/js/jquery-1.7.2.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/js/WebCalendar.js" type="text/javascript"></script>
+
   </body>
 </html>
