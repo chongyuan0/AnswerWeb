@@ -44,7 +44,7 @@ public class WeChatController extends BaseController {
 	@Autowired
 	private QuestionTypeService questionTypeservice;
 	
-	public static final String SERVER = "http://chongyuann.duapp.com";
+	public static final String SERVER = "http://5gtbve.natappfree.cc";
 	
 	/**
 	 * @author huang
@@ -91,7 +91,7 @@ public class WeChatController extends BaseController {
 	public void userAuthorization(HttpServletRequest req, HttpServletResponse resp) throws IOException {
 		//生成手动授权链接
 		String authorizeUrl = "https://open.weixin.qq.com/connect/oauth2/authorize?";	//固定链接
-		String appid = "appid=wx4dcd5082bf8fa360&"; 	//公众号id
+		String appid = "appid=wx25c5b6d09bcd8685&"; 	//公众号id
 		String redirect_uri = "redirect_uri="+ SERVER +"/AnswerWeb/wechat/getuserinfo&";	//授权后跳转的链接
 		String response_type = "response_type=code&";	//固定参数
 		String scope_userinfo = "scope=snsapi_userinfo&";	//手动授权
@@ -114,8 +114,8 @@ public class WeChatController extends BaseController {
 		if(code != null) {
 			//获取access_token和openid
 			String tokenUri = "https://api.weixin.qq.com/sns/oauth2/access_token?";	//固定链接
-			String appid = "appid=wx4dcd5082bf8fa360&";		//公众号id
-			String secret = "secret=460e6673c52b92078847c3c922a818d2&";
+			String appid = "appid=wx25c5b6d09bcd8685&";		//公众号id
+			String secret = "secret=e8893cf8175a33631f1c9bbd8ee3957c&";
 			code = "code=" + code + "&grant_type=authorization_code";
 			tokenUri = tokenUri + appid + secret + code;
 			String json = HttpUtil.getReturnJson(tokenUri, null);
@@ -136,7 +136,9 @@ public class WeChatController extends BaseController {
 			}
 			else
 				wechatUser = user;
-			super.session.setAttribute("weChatUser", wechatUser);
+			System.out.println(wechatUser);
+			if (wechatUser != null && wechatUser.getWechatuserno() != null && !wechatUser.getOpenid().trim().equals(""))
+				super.session.setAttribute("weChatUser", wechatUser);
 			return "wechatuser/index";
 		}
 		return "error";

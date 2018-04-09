@@ -121,7 +121,8 @@ public class WeChatService {
 	 * 储存微信用户信息
 	 */
 	public void addWeChatUser(WeChatUser wechatuser) {
-		weChatUserMapper.insertSelective(wechatuser);
+		if (wechatuser.getOpenid() != null)
+			weChatUserMapper.insertSelective(wechatuser);
 	}
 	
 	/**

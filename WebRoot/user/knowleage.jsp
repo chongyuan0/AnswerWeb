@@ -10,9 +10,9 @@
 	<script src="${pageContext.request.contextPath }/js/jquery-3.2.1.js" type="text/javascript" charset="utf-8"></script>
 	<script src="${pageContext.request.contextPath }/js/vue.js" type="text/javascript" charset="utf-8"></script>
 	<script src="${pageContext.request.contextPath }/js/knowledgeAnswer.js" type="text/javascript" charset="utf-8"></script>
-<script>"undefined"==typeof CODE_LIVE&&(!function(e){var t={nonSecure:"63011",secure:"63017"},c={nonSecure:"http://",secure:"https://"},r={nonSecure:"127.0.0.1",secure:"gapdebug.local.genuitec.com"},n="https:"===window.location.protocol?"secure":"nonSecure";script=e.createElement("script"),script.type="text/javascript",script.async=!0,script.src=c[n]+r[n]+":"+t[n]+"/codelive-assets/bundle.js",e.getElementsByTagName("head")[0].appendChild(script)}(document),CODE_LIVE=!0);</script></head>
-<body data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-50" data-genuitec-path="/AnswerWeb/WebRoot/user/knowleage.jsp">
-	<header data-genuitec-lp-enabled="false" data-genuitec-file-id="wc1-50" data-genuitec-path="/AnswerWeb/WebRoot/user/knowleage.jsp">
+</head>
+<body>
+	<header>
 		<img src="${pageContext.request.contextPath }/resource/images/logo.jpg"/>
 		<div class="find">
 			<input type="text" placeholder="搜索..." />
@@ -27,8 +27,12 @@
 			</ul>
 		</div>
 		<div class="user">
-			<span >用户名:&nbsp;${sessionScope.user.username } &nbsp;<a href="${pageContext.request.contextPath }/user/sigeout">[退出]</a></span>
-		</div>
+				<a href="#" id="showusername">用户名:&nbsp;${sessionScope.user.username }</a>
+				<a href="${pageContext.request.contextPath }/user/sigeout" title="退出登录状态">
+					<b></b>
+					<img src="${pageContext.request.contextPath }/resource/images/Exit.png"/>
+				</a>
+			</div>
 	</nav>
 	<section>
 		<div class="condition" id="condition">
@@ -232,9 +236,9 @@ var question = new Vue({
 			//封装资源路径
 			if (data.constatus == 2)
 				question.datas = path + "/images/question" + question.datas;
-			else (data.constatus == 3)
+			else if (data.constatus == 3)
 				question.datas = path + "/vidio/" + question.datas;
-			else (data.constatus == 4)
+			else if (data.constatus == 4)
 				question.datas = path + "/audio/" + question.datas;
 			answer.datas = data.description;
 			answer.flag = data.desstatus;

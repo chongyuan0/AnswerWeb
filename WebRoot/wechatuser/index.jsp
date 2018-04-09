@@ -198,7 +198,6 @@
 							</div>
 						</div>
 					</div>
-              	  <h1>页面二</h1>
                 </div>
             </div>
         </div>
@@ -281,11 +280,7 @@ var wechatuserRecords = new Vue({
 	methods:{
 		load:function(){
 			$.ajax({
-<<<<<<< HEAD
-				url:"${pageContext.request.contextPath}/getAllRecords?wechatuserno=${weChatUser.wechatuserno}",
-=======
-				url:"${pageContext.request.contextPath}/getAllRecords?wechatuserno="+ ${weChatUser.wechatuserno},
->>>>>>> 1721a2bf46a4d2d8a99afc4e11f69526ef636d96
+				url:"${pageContext.request.contextPath}/getAllRecords?wechatuserno=${sessionScope.weChatUser.wechatuserno}",
 				type:"POST",
 				success:function(list){
 					wechatuserRecords.recordsList = list;
