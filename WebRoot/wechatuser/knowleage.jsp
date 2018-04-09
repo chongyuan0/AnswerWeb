@@ -22,6 +22,9 @@
 	width: 24px;
 	height: 24px;
 }
+.weui-media-box__desc{
+	overflow: visible;
+}
 </style>
 </head>
 <body>
@@ -36,10 +39,16 @@
 	<div class="weui-panel weui-panel_access">
         <div class="weui-panel__bd">
           <div class="weui-media-box weui-media-box_text" v-if="flag == 1">
-            <p class="weui-media-box__desc">{{datas}}</p>
+            <textarea class="weui-textarea" placeholder="请输入文本" rows="3" disable>{{datas}}</textarea>
           </div>
           <div v-if="flag == 2">
-          	<img alt="" src="${pageContext.request.contextPath }/resource/images/logo.jpg">
+          	<img :src="datas"/>
+          </div>
+          <div v-if="flag == 3">
+          	<video :src="datas" controls></video>
+          </div>
+          <div v-if="flag == 4">
+          	<audio :src="datas" controls></audio>
           </div>
         </div>
       </div>
@@ -78,10 +87,11 @@
 	<div class="weui-panel weui-panel_access answer">
         <div class="weui-panel__bd">
           <div class="weui-media-box weui-media-box_text" v-if="flag == 1">
-            <p class="weui-media-box__desc" style="font-size:12px;">{{rightanswer}}<br/>{{datas}}</p>
+            <textarea class="weui-textarea" placeholder="请输入文本" rows="3" disable>{{rightanswer}}
+{{datas}}</textarea>
           </div>
           <div v-if="flag == 2">
-          	<img alt="" src="${pageContext.request.contextPath }/resource/images/logo.jpg">
+          	<img :src="datas"/>
           </div>
         </div>
     </div>
@@ -200,8 +210,17 @@ var question = new Vue({
 		load: function(data) {
 			question.datas = data.content;
 			question.flag = data.constatus;
+			//封装资源路径
+			if (data.constatus == 2)
+				question.datas = path + "/images/question" + question.datas;
+			else if (data.constatus == 3)
+				question.datas = path + "/vidio/" + question.datas;
+			else if (data.constatus == 4)
+				question.datas = path + "/audio/" + question.datas;
 			answer.datas = data.description;
 			answer.flag = data.desstatus;
+			if (answer.flag == 2)
+				answer.datas = path + "/images/answer" + answer.datas;
 		}
 	}
 });

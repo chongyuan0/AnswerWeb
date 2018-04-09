@@ -122,14 +122,14 @@
 						答题情况
 					</div>
 					<div>
-						<table v-if="record.length != 0">
-							<thead>
+						<table v-if="record.length != 0" class="table table-striped">
+							<thead style="font-size: 18px;">
 								<th>题目类型</th>
 								<th>答对题数</th>
 								<th>答错题数</th>
 							</thead>
 							<tbody>
-								<tr v-for="re in record">
+								<tr v-for="re in record" style="font-size: 15px;">
 									<th>{{re.typename}}</th>
 									<th>{{re.acnumber}}</th>
 									<th>{{re.erunmber}}</th>

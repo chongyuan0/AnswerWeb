@@ -21,10 +21,10 @@ public class WeChatUser {
     
     @Override
 	public String toString() {
-		return "openid=" + openid + "\nnickname=" + nickname
+		return  "openid=" + openid + "\nnickname=" + nickname
 				+ "\nsex=" + sex + "\nprovince=" + province
 				+ "\ncity=" + city + "\ncountry=" + country
-				+ "\nheadimgurl=" + headimgurl;
+				+ "\nheadimgurl=" + headimgurl + "\nwechatuserno=" + wechatuserno;
 	}
 
     public Integer getWechatuserno() {

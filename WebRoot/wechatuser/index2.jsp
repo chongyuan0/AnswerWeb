@@ -21,8 +21,23 @@
 .myclick{
 	display: block;
 }
-.third {
-	
+#questionType{
+	margin-top: 0;
+	background: #99d4f1;
+}
+#first_p{
+	padding-left: 5px;
+    color: #FFE;
+    font-size: 21px;
+    font-weight: bold;
+}
+
+#weui-cell_id{
+	width: 332px;
+    padding: 10px 15px;
+    background: #fff;
+    margin: 0 0 10px 14px;
+    border-radius: 4px;
 }
 </style>
 </head>
