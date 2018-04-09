@@ -131,10 +131,9 @@ table{
 						<div class="account-details">
 
 							<span class="account-name">${admins.adminname}</span> <span
-								class="account-role"><c:choose>
-									<c:when test="${admin.adminflag==1}">普通管理员</c:when>
-									<c:otherwise>超级管理员</c:otherwise>
-								</c:choose></span> <span class="account-actions"> 
+								class="account-role">
+									<c:choose><c:when test="${admins.adminflag == 1}">普通管理员</c:when><c:otherwise>超级管理员</c:otherwise></c:choose>
+								</span> <span class="account-actions"> 
 							</span>
 
 						</div>
@@ -212,11 +211,11 @@ table{
 														type="text" name="questionno" value="${question.questionno }"
 														class="input-mini" style="height:25px" /> <label>内容类型：</label>
 													<select id="exampleForm_constatus" class="input-small" name="constatus">
-														<option <c:if test="${question.constatus==null}">selected</c:if>ion>
-														<option value="1">文本</option>
-														<option value="2">图片</option>
-														<option value="4">语音</option>
-														<option value="3">视频</option>
+														<option <c:if test="${question.constatus==null}">selected</c:if>></option>
+														<option value="1"  <c:if test="${question.constatus==1}">selected</c:if>>文本</option>
+														<option value="2" <c:if test="${question.constatus==2}">selected</c:if>>图片</option>
+														<option value="4" <c:if test="${question.constatus==4}">selected</c:if>>语音</option>
+														<option value="3" <c:if test="${question.constatus==3}">selected</c:if>>视频</option>
 													</select>
 														
 													<label>题目类型：</label> 

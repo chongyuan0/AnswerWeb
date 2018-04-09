@@ -110,7 +110,7 @@
 
 							<span class="account-name">${admins.adminname}</span> <span
 								class="account-role"><c:choose>
-									<c:when test="${admin.adminflag==1}">普通管理员</c:when>
+									<c:when test="${admins.adminflag==1}">普通管理员</c:when>
 									<c:otherwise>超级管理员</c:otherwise>
 								</c:choose></span> <span class="account-actions">
 							</span>
