@@ -221,7 +221,7 @@ function showQuestion(number){
 	selection.load(q.option);
 }
 
-var path = "${pageContext.request.contextPath}/resource";
+var path = "http://answerweb.gz.bcebos.com/resource";
 //显示题目
 var question = new Vue({
 	el: "#question",
@@ -235,7 +235,7 @@ var question = new Vue({
 			question.flag = data.constatus;
 			//封装资源路径
 			if (data.constatus == 2)
-				question.datas = path + "/images/question" + question.datas;
+				question.datas = path + "/images/question/" + question.datas;
 			else if (data.constatus == 3)
 				question.datas = path + "/video/" + question.datas;
 			else if (data.constatus == 4)

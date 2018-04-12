@@ -199,7 +199,7 @@ function showQuestion(number){
 	selection.load(q.option);
 }
 
-var path = "${pageContext.request.contextPath}/resource";
+var path = "http://answerweb.gz.bcebos.com/resource";
 //显示题目
 var question = new Vue({
 	el: "#question",

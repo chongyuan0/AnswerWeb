@@ -27,16 +27,16 @@
 				<div class="form">
 					<div class="input">
 						<label for="">用户名</label>
-						<input type="text" id="user" placeholder="用户名" name="username" />
+						<input type="text" id="user" placeholder="用户名" name="username" required />
 					</div>
 					<div class="input">
 						<label for="">密&nbsp;&nbsp;&nbsp;码</label>
-						<input type="password" name="password" placeholder="密码" />
+						<input type="password" name="password" placeholder="密码" required />
 					</div>
 					
 					<div class="input">
 						<label for="">邮&nbsp;&nbsp;&nbsp;箱</label>
-						<input type="email" name="email" placeholder="邮箱" />
+						<input type="email" name="email" placeholder="邮箱" required />
 					</div>
 					<div class="input">
 						<input type="radio" name="sex" value="男" checked/>男
