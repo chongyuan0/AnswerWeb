@@ -1,5 +1,6 @@
 package cn.edu.lingnan.utils;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -26,35 +27,73 @@ public class BOSUtil {
 	
 
 	/**
-	 * 
+	 * @author huang
 	 * @param file 文件对象
 	 * @param path 存储路径，例如/resource/images/type/test.txt
 	 * @return 成功失败
 	 * 将文件上传都BOS对象存储中
 	 */
 	public static boolean upload(MultipartFile file, String path) {
-		System.out.println(file.getName());
-		System.out.println(path);
 		//创建BOS client
 		BosClientConfiguration config = new BosClientConfiguration();
 		config.setCredentials(new DefaultBceCredentials(ACCESS_KEY_ID, SECRET_ACCESS_KEY));
 		config.setEndpoint("gz.bcebos.com");
 		BosClient client = new BosClient(config);
 		
-		try {
-			InputStream inputStream = file.getInputStream();
-			client.putObject(BUCKET_NAME, path, inputStream);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
+//		try {
+//			InputStream inputStream = file.getInputStream();
+//			client.putObject(BUCKET_NAME, path, inputStream);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			return false;
+//		}
 		
-		/*  测试用例
+		/*  测试用例*/
 		InputStream inputStream = new ByteArrayInputStream("hello java".getBytes());
 		client.putObject(BUCKET_NAME, path, inputStream);
-		*/
-		
 		return true;
+	}
+	
+	/**
+	 * @author huang
+	 * @param filepath	原文件路径
+	 * @param newpath	移动的路径
+	 * @return
+	 * 移动BOS的文件
+	 */
+	public static boolean moveFile(String filepath, String newpath) {
+		BosClientConfiguration config = new BosClientConfiguration();
+		config.setCredentials(new DefaultBceCredentials(ACCESS_KEY_ID, SECRET_ACCESS_KEY));
+		config.setEndpoint("gz.bcebos.com");
+		BosClient client = new BosClient(config);
+		client.copyObject(BUCKET_NAME, filepath, BUCKET_NAME, newpath);
+		return true;
+	}
+	
+	/**
+	 * @author huang
+	 * @param filepath 删除文件路径
+	 * @return
+	 * 删除BOS文件
+	 */
+	public static boolean deleteFile(String filepath) {
+		BosClientConfiguration config = new BosClientConfiguration();
+		config.setCredentials(new DefaultBceCredentials(ACCESS_KEY_ID, SECRET_ACCESS_KEY));
+		config.setEndpoint("gz.bcebos.com");
+		BosClient client = new BosClient(config);
+		try {
+			client.getObjectMetadata(BUCKET_NAME, filepath);
+			client.deleteObject(BUCKET_NAME, filepath);
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+	
+	public static void main(String[] args) {
+//		upload(null, "/temp/text.txt");
+//		moveFile("/temp/text.txt", "/resource/images/type/test.txt");
+		deleteFile("/temp/text.txt");
 	}
 	
 }

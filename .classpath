@@ -18,11 +18,6 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/BOS">
-		<attributes>
-			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
-		</attributes>
-	</classpathentry>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/bce-java-sdk-0.10.28-javadoc.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/bce-java-sdk-0.10.28-sources.jar"/>
 	<classpathentry kind="lib" path="WebRoot/WEB-INF/lib/bce-java-sdk-0.10.28.jar"/>
