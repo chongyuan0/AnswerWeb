@@ -221,7 +221,7 @@ function showQuestion(number){
 	selection.load(q.option);
 }
 
-var path = "${pageContext.request.contextPath}/resource/";
+var path = "http://answerweb.gz.bcebos.com/resource";
 //显示题目
 var question = new Vue({
 	el: "#question",
@@ -235,15 +235,15 @@ var question = new Vue({
 			question.flag = data.constatus;
 			//封装资源路径
 			if (data.constatus == 2)
-				question.datas = path + "/images/question" + question.datas;
+				question.datas = path + "/images/question/" + question.datas;
 			else if (data.constatus == 3)
-				question.datas = path + "/vidio/" + question.datas;
+				question.datas = path + "/video/" + question.datas;
 			else if (data.constatus == 4)
 				question.datas = path + "/audio/" + question.datas;
 			answer.datas = data.description;
 			answer.flag = data.desstatus;
 			if (answer.flag == 2)
-				answer.datas = path + "/images/answer" + answer.datas;
+				answer.datas = path + "/images/answer/" + answer.datas;
 		}
 	}
 });
@@ -274,7 +274,8 @@ var selection = new Vue({
 				selection.flag = 1;	//单选
 			else {
 				selection.flag = 2;	//多选
-				question.datas = "(多选)" + question.datas;			
+				if(question.flag == 1)
+					question.datas = "(多选)" + question.datas;			
 			}
 		}
 	}

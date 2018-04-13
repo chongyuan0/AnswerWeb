@@ -152,21 +152,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											</c:if>
 											
 											<c:if test="${question.constatus == 2}">
-												<input type="hidden" name="content"  value="${question.content}"/>
+												<input id="question_content" type="hidden" name="content"  value="${question.content}"/>
 												<input type="file" id="updateQuestion_content" name="file">
-												<img id="showfile" style="hight:150px;width:300px;" src="${pageContext.request.contextPath }/resource/images/question/${question.content}"/>
+												<img id="showfile" style="hight:150px;width:300px;" src="http://answerweb.gz.bcebos.com/resource/images/question/${question.content}"/>
 											</c:if>
 											
 											<c:if test="${question.constatus == 3}">
-												<input type="hidden" name="content" value="${question.content}"/>
+												<input id="question_content" type="hidden" name="content" value="${question.content}"/>
 												<input type="file" id="updateQuestion_content" name="file">
-												<embed id="showfile" src="${pageContext.request.contextPath }/resource/video/${question.content}">
+												<embed id="showfile" src="http://answerweb.gz.bcebos.com/resource/video/${question.content}">
 											</c:if>
 											
 											<c:if test="${question.constatus == 4}">
-												<input type="hidden" name="content" value="${question.content}"/>
+												<input id="question_content" type="hidden" name="content" value="${question.content}"/>
 												<input type="file" id="updateQuestion_content" name="file">
-												<embed id="showfile" src="${pageContext.request.contextPath }/resource/audio/${question.content}">
+												<embed id="showfile" src="http://answerweb.gz.bcebos.com/resource/audio/${question.content}">
 											</c:if>
 											
 											</div>
@@ -198,7 +198,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<c:if test="${question.desstatus == 2}">
 												<input type="hidden" id="description" name="description" value="${question.description}"/>
 												<input type="file" name="desFile" id="updateQuestion_description"/>
-												<img id="showimg" style="height:150px;width:300px;" src="${pageContext.request.contextPath }/resource/images/answer/${question.description}"/>
+												<img id="showimg" style="height:150px;width:300px;" src="http://answerweb.gz.bcebos.com/resource/images/answer/${question.description}"/>
 											</c:if>
 											</div>
 										</div>
@@ -284,7 +284,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:150px;height:150px;";
-				showfile.src="${pageContext.request.contextPath}/resource/images/type/upload.jpg";
+				showfile.src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg";
 				showfile.id="showfile";
 				
 				$("#div_content").empty().append(input_file).append(fileContent).append(showfile);
@@ -319,11 +319,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							}
 			                $("#fileContent").val(data);
 			                if(strExtension=="mp4"){
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/video/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/video/'+data);
 			                }else if(strExtension == "mp3"){
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/audio/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/audio/'+data);
 			                }else{
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/images/question/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/question/'+data);
 			                }
 			            },
 			            error : function() {
@@ -364,15 +364,19 @@ $("#updateQuestion_content").change(function(){
 								showfile.style="width:200px;height:150px;";
 								showfile.autostart="false";
 								showfile.flashvars="autoplay=false&play=false"
+								
+								
+								
 								$("#div_content").append(showfile);
 							}
-			                $("#fileContent").val(data);
+			                $("#question_content").val(data);
 			                if(strExtension=="mp4"){
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/video/'+data);
+			                	$
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/video/'+data);
 			                }else if(strExtension == "mp3"){
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/audio/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/audio/'+data);
 			                }else{
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/images/question/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/question/'+data);
 			                }
 			            },
 			            error : function() {
@@ -399,7 +403,7 @@ $("#updateQuestion_content").change(function(){
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:300px;height:150px;";
-				showfile.src="${pageContext.request.contextPath}/resource/images/type/upload.jpg";
+				showfile.src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg";
 				showfile.id="showimg";
 				
 				var fileContent = document.createElement("input");
@@ -428,7 +432,7 @@ $("#updateQuestion_content").change(function(){
 			            success : function(data) {
 			            	
 			                $("#description").val(data);
-				            $("#showimg").attr("src", '${pageContext.request.contextPath}/resource/images/answer/'+data);
+				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/answer/'+data);
 			                
 			            },
 			            error : function() {
@@ -458,7 +462,7 @@ $("#updateQuestion_description").change(function(){
 			            success : function(data) {
 			            	
 			                $("#description").val(data);
-				            $("#showimg").attr("src", '${pageContext.request.contextPath}/resource/images/answer/'+data);
+				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/answer/'+data);
 			                
 			            },
 			            error : function() {

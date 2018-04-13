@@ -535,7 +535,7 @@ table{
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:150px;height:150px;";
-				showfile.src="${pageContext.request.contextPath}/resource/images/type/upload.jpg";
+				showfile.src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg";
 				showfile.id="showfile";
 				
 				$("#div_content").empty().append(input_file).append(fileContent).append(showfile);
@@ -570,11 +570,11 @@ table{
 							}
 			                $("#fileContent").val(data);
 			                if(strExtension=="mp4"){
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/video/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/video/'+data);
 			                }else if(strExtension == "mp3"){
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/audio/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/audio/'+data);
 			                }else{
-				                $("#showfile").attr("src", '${pageContext.request.contextPath}/resource/images/question/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/question/'+data);
 			                }
 			            },
 			            error : function() {
@@ -633,7 +633,7 @@ table{
 			            success : function(data) {
 			            	
 			                $("#description").val(data);
-				            $("#showimg").attr("src", '${pageContext.request.contextPath}/resource/images/answer/'+data);
+				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/answer/'+data);
 			                
 			            },
 			            error : function() {

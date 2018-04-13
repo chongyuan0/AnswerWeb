@@ -22,9 +22,11 @@ import cn.edu.lingnan.pojo.Options;
 import cn.edu.lingnan.pojo.OptionsList;
 import cn.edu.lingnan.pojo.Question;
 import cn.edu.lingnan.pojo.QuestionExample;
+import cn.edu.lingnan.pojo.UploadFile;
 import cn.edu.lingnan.service.OptionsService;
 import cn.edu.lingnan.service.QuestionService;
 import cn.edu.lingnan.service.QuestionTypeService;
+import cn.edu.lingnan.utils.BOSUtil;
 
 @Controller
 public class QuestionController extends BaseController {
@@ -114,47 +116,31 @@ public class QuestionController extends BaseController {
 			) throws IllegalStateException, IOException {
 		if(desFile == null){
 		String strExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
-		String path = session.getServletContext().getRealPath("/resource/images/question");
+		String path = "/resource/images/question/";
 		if(strExtension.equals("mp3")){
-			path = session.getServletContext().getRealPath("/resource/audio");
+			path = "/resource/audio/";
 		}else if(strExtension.equals("mp4")){
-			path = session.getServletContext().getRealPath("/resource/video");
+			path = "/resource/video/";
 		}
 
 		// fileName唯一性
 		int a = ThreadLocalRandom.current().nextInt(100,999);
 		String fileName =+ a +"-"+ System.currentTimeMillis()+ file.getOriginalFilename();
-
-		File targetFile = new File(path, fileName);
-
-		if (!targetFile.exists()) {
-			targetFile.mkdirs();
-		}
-		/**
-		 * MultipartFile接口中定义了如下很多有用的方法。 使用getSize()方法获得文件长度，以此决定允许上传的文件大小。
-		 * 使用isEmpty()方法判断上传文件是否为空文件，以此决定是否拒绝空文件。
-		 * 使用getInputStream()方法将文件读取为java.io.InputStream流对象。
-		 * 使用getContentType()方法获得文件类型，以此决定允许上传的文件类型。
-		 * 使用transferTo（dest）方法将上传文件写到服务器上指定的文件
-		 */
-		file.transferTo(targetFile);
-		//String fileUrl = request.getContextPath() + "/resource/images/type/" + fileName;
+	 
+        String filePath = path+fileName;
+		BOSUtil.upload(file, filePath);
 		return fileName;
 		
 		//这是答案详解图片的预览
 		}else{
-			String path = session.getServletContext().getRealPath("/resource/images/answer");
+			String path = "/resource/images/answer/";
 			// fileName唯一性
 			int a = ThreadLocalRandom.current().nextInt(100,999);
 			String fileName =+ a +"-"+ System.currentTimeMillis()+ desFile.getOriginalFilename();
 
-			File targetFile = new File(path, fileName);
-
-			if (!targetFile.exists()) {
-				targetFile.mkdirs();
-			}
-			
-			desFile.transferTo(targetFile);
+	        
+	        String filePath = path+fileName;
+			BOSUtil.upload(desFile, filePath);
 			return fileName;
 		}
 	}

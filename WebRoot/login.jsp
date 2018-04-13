@@ -27,11 +27,11 @@
 				<div class="form">
 					<div class="input">
 						<label for="">邮&nbsp;&nbsp;&nbsp;箱</label>
-						<input type="text" id="user" placeholder="用户名" name="email" />
+						<input type="text" id="user" placeholder="用户名" name="email" required />
 					</div>
 					<div class="input">
 						<label for="">密&nbsp;&nbsp;&nbsp;码</label>
-						<input type="password" name="password" placeholder="密码" />
+						<input type="password" name="password" placeholder="密码" required />
 					</div>
 					<div class="input">
 						<input type="submit" name="submit" value="登录" />

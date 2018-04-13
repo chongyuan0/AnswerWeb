@@ -132,7 +132,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label">预览图片：</label>
 											<div class="controls">
-												<img src="${pageContext.request.contextPath}/resource/images/type/upload.jpg" style="width:150px;height:150px;" id="showimg"/>
+												<img src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg" style="width:150px;height:150px;" id="showimg"/>
 											</div>
 										</div>
 										
@@ -196,7 +196,7 @@ $(function(){
             type : 'POST',
             url : '${pageContext.request.contextPath}/addQuestionTypeImages',
             success : function(data) {
-                $("#showimg").attr("src", '${pageContext.request.contextPath}/resource/images/type/'+data);
+                $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/type/'+data);
                 $("#filename").val(data);
             },
             error : function() {

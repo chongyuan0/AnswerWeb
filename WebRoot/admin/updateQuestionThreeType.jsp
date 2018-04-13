@@ -81,8 +81,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								class="icon-home"></i> 用户管理
 						</a></li>
 
-						<li><a
-							href="${pageContext.request.contextPath}/selectQuestion">
+						<li ><a
+							href="${pageContext.request.contextPath}/selectQuestion?toid=1">
 								<i class="icon-th-list"></i> 试题库管理
 						</a></li>
 
@@ -150,10 +150,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label class="control-label">预览图片：</label>
 											<div class="controls">
 													<c:if test="${ questionType.imageurl == null || questionType.imageurl == ''}">
-														<img src="${pageContext.request.contextPath}/resource/images/type/upload.jpg" style="width:150px;height:150px;" id="showimg"/>
+														<img src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg" style="width:150px;height:150px;" id="showimg"/>
 													</c:if>
 													<c:if test="${ questionType.imageurl != null }">
-														<img src="${pageContext.request.contextPath}/resource/images/type/${questionType.imageurl}" style="width:150px;height:150px;" id="showimg"/>
+														<img src="http://answerweb.gz.bcebos.com/resource/images/type/${questionType.imageurl}" style="width:150px;height:150px;" id="showimg"/>
 													</c:if>
 											</div>
 										</div>
@@ -218,7 +218,7 @@ $(function(){
             type : 'POST',
             url : '${pageContext.request.contextPath}/addQuestionTypeImages',
             success : function(data) {
-                $("#showimg").attr("src", '${pageContext.request.contextPath}/resource/images/type/'+data);
+                $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/type/'+data);
                 $("#filename").val(data);
             },
             error : function() {

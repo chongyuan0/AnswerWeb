@@ -240,7 +240,7 @@ $(function () {
 
 });
 
-var path = "${pageContext.request.contextPath}/resource/images/type/"; 
+var path = "http://answerweb.gz.bcebos.com/resource/images/type/"; 
 
 
 var questiontype = new Vue({

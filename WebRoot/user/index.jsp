@@ -61,11 +61,11 @@
 						<div class="form">
 							<div class="input">
 								<label for="">用户名</label>
-								<input type="text"  :value="user.username" readonly id="username" name="username"/>
+								<input type="text"  :value="user.username" readonly required id="username" name="username"/>
 							</div>
 							<div class="input" id="sex">
 								<label for="">性别</label>
-								<input type="text"  :value="user.sex" readonly />
+								<input type="text"  :value="user.sex" readonly required />
 							</div>
 							<div class="input" style="display:none" id="radiosex">
 								<input type="radio" name="sex" value="男" checked/>男
@@ -73,7 +73,7 @@
 							</div>
 							<div class="input" style="clear: both;">
 								<label for="">邮箱</label>
-								<input type="email" name="email" id="email"  :value="user.email" readonly/>
+								<input type="email" name="email" id="email"  :value="user.email" readonly required/>
 							</div>
 							<div class="input" >
 								<input type="button" value="修改" id="updateinfo" />
@@ -95,15 +95,15 @@
 						<div class="form">
 							<div class="input">
 								<label for="">原密码</label>
-								<input type="password" placeholder="原密码" name="oldpsw" id="oldpsw" />
+								<input type="password" placeholder="原密码" name="oldpsw" id="oldpsw" required />
 							</div>
 							<div class="input">
 								<label for="">新密码</label>
-								<input type="password"  placeholder="新密码" name="newpsw" id="newpsw"  />
+								<input type="password"  placeholder="新密码" name="newpsw" required id="newpsw"  />
 							</div>
 							<div class="input">
 								<label for="">确认新密码</label>
-								<input type="password"  placeholder="确认新密码" name="confirmpsw" id="confirmpsw" />
+								<input type="password"  placeholder="确认新密码" required name="confirmpsw" id="confirmpsw" />
 							</div>
 							<div class="input">
 								<input type="submit" value="修改" />
@@ -261,7 +261,7 @@ function alterpsw(){
 	return false;
 };
 		
-	var path = "${pageContext.request.contextPath}/resource/images/type/";
+	var path = "http://answerweb.gz.bcebos.com/resource/images/type/";
 	var first = new Vue({
 		el: '#first',
 		data: {
