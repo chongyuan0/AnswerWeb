@@ -54,12 +54,12 @@
 	<div v-for="(se,index) in second">
 		<a class="weui-cell weui-cell_access myclick" href="javascript:;" v-on:click="loadthird(se.typeno,index)">
 		    <div class="weui-cell__bd">
-		      <p>{{se.typename}}</p>
+		      <p id="first_p">{{se.typename}}</p>
 		    </div>
 		    <div class="weui-cell__ft"></div>
 	    </a>
 	    <div id=third v-if="index == flag">
-	    	<a class="weui-cell weui-cell_access" href="javascript:;" v-for="th in third" v-on:click="redirectJsp(th.typeno)">
+	    	<a id="weui-cell_id" class="weui-cell weui-cell_access" href="javascript:;" v-for="th in third" v-on:click="redirectJsp(th.typeno)">
 			    <div class="weui-cell__bd">
 			      <p>{{th.typename}}</p>
 			    </div>
