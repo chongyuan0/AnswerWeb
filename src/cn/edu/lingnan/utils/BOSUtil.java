@@ -1,6 +1,5 @@
 package cn.edu.lingnan.utils;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -21,6 +20,11 @@ public class BOSUtil {
 	private final static String SECRET_ACCESS_KEY = "5df094ac33b94021b7ed9827122d8927";
 	private final static String BUCKET_NAME = "answerweb";	//上传的文件夹名称
 	
+	/*private final static String ACCESS_KEY_ID = "55fa371503834e4a8a3fa67d6a89cd10";	
+	private final static String SECRET_ACCESS_KEY = "8d15e88309954f938c3a65a5855619a5";
+	private final static String BUCKET_NAME = "cn-edu-lingnan";*/
+	
+
 	/**
 	 * 
 	 * @param file 文件对象
@@ -29,6 +33,8 @@ public class BOSUtil {
 	 * 将文件上传都BOS对象存储中
 	 */
 	public static boolean upload(MultipartFile file, String path) {
+		System.out.println(file.getName());
+		System.out.println(path);
 		//创建BOS client
 		BosClientConfiguration config = new BosClientConfiguration();
 		config.setCredentials(new DefaultBceCredentials(ACCESS_KEY_ID, SECRET_ACCESS_KEY));
@@ -51,11 +57,4 @@ public class BOSUtil {
 		return true;
 	}
 	
-	public static void main(String[] args) {
-		if (upload(null, "/resource/images/type/test.txt"))
-			System.out.println("上传成功");
-		else 
-			System.out.println("上传失败");
-	}
-
 }

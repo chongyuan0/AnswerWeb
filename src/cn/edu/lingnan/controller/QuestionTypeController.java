@@ -1,18 +1,15 @@
 package cn.edu.lingnan.controller;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,9 +17,10 @@ import org.springframework.web.multipart.MultipartFile;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
-import cn.edu.lingnan.dao.QuestionTypePlus;
 import cn.edu.lingnan.pojo.QuestionType;
+import cn.edu.lingnan.pojo.UploadFile;
 import cn.edu.lingnan.service.QuestionTypeService;
+import cn.edu.lingnan.utils.BOSUtil;
 
 @Controller
 public class QuestionTypeController extends BaseController {
@@ -205,26 +203,18 @@ public class QuestionTypeController extends BaseController {
 	public String addQuestionTypeImages(@RequestParam(value = "file", required = false) MultipartFile file
 			) throws IllegalStateException, IOException {
 		
-		String path = session.getServletContext().getRealPath("/resource/images/type");
+		
 
 		// fileName唯一性
 		int a = ThreadLocalRandom.current().nextInt(10000, 99999);
 		String fileName =+ a +"-"+ System.currentTimeMillis() + "-"+file.getOriginalFilename();
 
-		File targetFile = new File(path, fileName);
-
-		if (!targetFile.exists()) {
-			targetFile.mkdirs();
-		}
-		/**
-		 * MultipartFile接口中定义了如下很多有用的方法。 使用getSize()方法获得文件长度，以此决定允许上传的文件大小。
-		 * 使用isEmpty()方法判断上传文件是否为空文件，以此决定是否拒绝空文件。
-		 * 使用getInputStream()方法将文件读取为java.io.InputStream流对象。
-		 * 使用getContentType()方法获得文件类型，以此决定允许上传的文件类型。
-		 * 使用transferTo（dest）方法将上传文件写到服务器上指定的文件
-		 */
-		file.transferTo(targetFile);
-		//String fileUrl = request.getContextPath() + "/resource/images/type/" + fileName;
+		//重命名文件
+        MultipartFile uploadFile = new UploadFile(fileName, file.getInputStream());  
+        
+        String typeImagesPath = "/resource/images/type/"+fileName;
+		BOSUtil.upload(uploadFile, typeImagesPath);
+		
 		return fileName;
 	}
 	
