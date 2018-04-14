@@ -44,17 +44,17 @@ public class BOSUtil {
 		config.setEndpoint("gz.bcebos.com");
 		BosClient client = new BosClient(config);
 		
-//		try {
-//			InputStream inputStream = file.getInputStream();
-//			client.putObject(BUCKET_NAME, path, inputStream);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
+		try {
+			InputStream inputStream = file.getInputStream();
+			client.putObject(BUCKET_NAME, path, inputStream);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
 		
 		/*  测试用例*/
-		InputStream inputStream = new ByteArrayInputStream("hello java".getBytes());
-		client.putObject(BUCKET_NAME, path, inputStream);
+		/*InputStream inputStream = new ByteArrayInputStream("hello java".getBytes());
+		client.putObject(BUCKET_NAME, path, inputStream);*/
 		return true;
 	}
 	
@@ -98,7 +98,7 @@ public class BOSUtil {
 		for (int i=1; i<=10; i++) {
 			upload(null, "/temp/text" + i + ".txt");
 		}
-//		moveFile("/temp/text.txt", "/resource/images/type/test.txt");
+//		moveFile("/temp/text.txt", "/resource/images/ /test.txt");
 //		deleteFile("/temp/text.txt");
 	}
 	

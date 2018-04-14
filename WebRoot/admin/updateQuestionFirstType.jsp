@@ -122,6 +122,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</div>
 										
 										<input type="hidden" id="typeno" name="typeno" value="${questionType.typeno }"></input>					
+										<input type="hidden" id="oldImageUrl" name="oldImageUrl" value="${questionType.imageurl}"></input>					
+										
+										
 										<c:if test="${ questionType.imageurl == null || questionType.imageurl == ''}">
 											<input type="hidden" id="filename" name="imageurl" value="upload.jpg"></input>
 										</c:if>
@@ -200,7 +203,7 @@ $(function(){
             type : 'POST',
             url : '${pageContext.request.contextPath}/addQuestionTypeImages',
             success : function(data) {
-                $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/type/'+data);
+                $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
                 $("#filename").val(data);
             },
             error : function() {

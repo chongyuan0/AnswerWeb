@@ -234,10 +234,10 @@ table{
 							<thead>
 								<tr>
 									<th style="width:6%">编号</th>
+									<th style="whdth:10%">题目类型</th>
 									<th style="width:20%">题目内容</th>
-									<th style="width:21%">题目描述</th>
-									<th style="whdth:10%">内容类型</th>
-									<th style="width:21%">答案详解</th>
+									<th style="width:21%">答案类型</th>
+									<th style="width:21%">答案内容</th>
 									<th style="width:10%">题目类别</th>
 									<th style="width:12%">操作</th>
 								</tr>
@@ -246,21 +246,33 @@ table{
 							<tbody>
 							  <c:forEach items="${pageInfo.list}" var="question">
 							    <tr>
+							    	
 									<td>${question.questionno}</td>
-									<td>${question.content}</td>
-									<td>
-										${question.description }
-									</td>
+									
 									<td>
 										<c:if test="${question.constatus == 1}">文本</c:if>
 										<c:if test="${question.constatus == 2}">图片</c:if>
 										<c:if test="${question.constatus == 3}">视频</c:if>
 										<c:if test="${question.constatus == 4}">语音</c:if>
 									</td>
+									
+									<td>
+										<c:if test="${question.constatus == 1}">${question.content}</c:if>
+										<c:if test="${question.constatus == 2}">图片题目</c:if>
+										<c:if test="${question.constatus == 3}">视频题目</c:if>
+										<c:if test="${question.constatus == 4}">语音题目</c:if>
+									</td>
+									
 									<td>
 										<c:if test="${question.desstatus == 1}">文本</c:if>
 										<c:if test="${question.desstatus == 2}">图片</c:if>
 									</td>
+									
+									<td>
+										<c:if test="${question.desstatus == 1}">${question.description }</c:if>
+										<c:if test="${question.desstatus == 2}">图片答案</c:if>
+									</td>
+									
 									<td>
 										<c:forEach items="${questionTypeList}" var="questionType">
 											<c:if test="${question.typeno == questionType.typeno }">${questionType.typename}</c:if>
@@ -535,7 +547,7 @@ table{
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:150px;height:150px;";
-				showfile.src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg";
+				showfile.src="http://answerweb.gz.bcebos.com/temp/upload.jpg";
 				showfile.id="showfile";
 				
 				$("#div_content").empty().append(input_file).append(fileContent).append(showfile);
@@ -570,11 +582,11 @@ table{
 							}
 			                $("#fileContent").val(data);
 			                if(strExtension=="mp4"){
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/video/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }else if(strExtension == "mp3"){
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/audio/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }else{
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/question/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }
 			            },
 			            error : function() {
@@ -633,7 +645,7 @@ table{
 			            success : function(data) {
 			            	
 			                $("#description").val(data);
-				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/answer/'+data);
+				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                
 			            },
 			            error : function() {

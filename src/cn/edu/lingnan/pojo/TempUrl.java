@@ -1,5 +1,7 @@
 package cn.edu.lingnan.pojo;
 
+import java.util.Date;
+
 public class TempUrl {
     private Integer tempurlid;
 
@@ -7,7 +9,16 @@ public class TempUrl {
 
     private String newdate;
 
-    public Integer getTempurlid() {
+    
+    
+	public TempUrl(Integer tempurlid, String fileurl, String newdate) {
+		super();
+		this.tempurlid = tempurlid;
+		this.fileurl = fileurl;
+		this.newdate = newdate;
+	}
+
+	public Integer getTempurlid() {
         return tempurlid;
     }
 
