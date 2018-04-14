@@ -47,10 +47,12 @@
 		<table tableName="options" domainObjectName="Options"></table>
 		<table tableName="question" domainObjectName="Question"></table>
 		<table tableName="questiontype" domainObjectName="QuestionType"></table>
-		<table tableName="records" domainObjectName="Records"></table>-->
+		<table tableName="records" domainObjectName="Records"></table>
 		
 		<table tableName="records" domainObjectName="Records"></table>
-		<table tableName="wechatuser" domainObjectName="WeChatUser"></table>
+		<table tableName="wechatuser" domainObjectName="WeChatUser"></table>-->
+		<table tableName="user" domainObjectName="User"></table>
+		<table tableName="tempUrl" domainObjectName="TempUrl"></table>
 		
 		
 

@@ -13,6 +13,8 @@ public class User {
 
     private Integer status;
 
+    private String newdate;
+
     public Integer getUserno() {
         return userno;
     }
@@ -59,5 +61,13 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getNewdate() {
+        return newdate;
+    }
+
+    public void setNewdate(String newdate) {
+        this.newdate = newdate == null ? null : newdate.trim();
     }
 }

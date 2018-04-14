@@ -503,6 +503,76 @@ public class UserExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andNewdateIsNull() {
+            addCriterion("newdate is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateIsNotNull() {
+            addCriterion("newdate is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateEqualTo(String value) {
+            addCriterion("newdate =", value, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateNotEqualTo(String value) {
+            addCriterion("newdate <>", value, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateGreaterThan(String value) {
+            addCriterion("newdate >", value, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateGreaterThanOrEqualTo(String value) {
+            addCriterion("newdate >=", value, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateLessThan(String value) {
+            addCriterion("newdate <", value, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateLessThanOrEqualTo(String value) {
+            addCriterion("newdate <=", value, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateLike(String value) {
+            addCriterion("newdate like", value, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateNotLike(String value) {
+            addCriterion("newdate not like", value, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateIn(List<String> values) {
+            addCriterion("newdate in", values, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateNotIn(List<String> values) {
+            addCriterion("newdate not in", values, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateBetween(String value1, String value2) {
+            addCriterion("newdate between", value1, value2, "newdate");
+            return (Criteria) this;
+        }
+
+        public Criteria andNewdateNotBetween(String value1, String value2) {
+            addCriterion("newdate not between", value1, value2, "newdate");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

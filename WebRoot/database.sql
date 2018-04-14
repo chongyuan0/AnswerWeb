@@ -18,7 +18,8 @@ create table user(
 	password varchar(40) not null,	-- 用户密码
 	email varchar(50) UNIQUE KEY not null,	-- 用户邮箱
 	sex varchar(4),		-- 用户性别
-	status int default 0 -- 用户是否通过邮箱验证 , 0未通过, 1通过
+	status int default 0, -- 用户是否通过邮箱验证 , 0未通过, 1通过
+	newdate varchar(15)
 );
 
 -- 创建题目类型表
@@ -90,6 +91,12 @@ create table admins(
 	adminname varchar(30) not null,	-- 管理员名称
 	password varchar(40) not null,	-- 管理员密码
 	adminflag int default 1	-- 管理员权限, 1普通 2超级
+);
+
+create table tempUrl(
+	tempUrlID int auto_increment primary key,
+	fileUrl varchar(200),
+	newdate varchar(15)
 );
 
 

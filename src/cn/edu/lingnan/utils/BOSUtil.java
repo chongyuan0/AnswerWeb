@@ -3,12 +3,16 @@ package cn.edu.lingnan.utils;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import com.baidubce.auth.DefaultBceCredentials;
 import com.baidubce.services.bos.BosClient;
 import com.baidubce.services.bos.BosClientConfiguration;
+import com.baidubce.services.bos.model.BosObjectSummary;
+import com.baidubce.services.bos.model.ListObjectsResponse;
 
 /**
  * 
@@ -91,9 +95,11 @@ public class BOSUtil {
 	}
 	
 	public static void main(String[] args) {
-//		upload(null, "/temp/text.txt");
+		for (int i=1; i<=10; i++) {
+			upload(null, "/temp/text" + i + ".txt");
+		}
 //		moveFile("/temp/text.txt", "/resource/images/type/test.txt");
-		deleteFile("/temp/text.txt");
+//		deleteFile("/temp/text.txt");
 	}
 	
 }

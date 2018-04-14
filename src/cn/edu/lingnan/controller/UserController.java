@@ -120,6 +120,8 @@ public class UserController extends BaseController {
 			return "register";
 		}
 		// 注册用户
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+		user.setNewdate(format.format(new Date()));
 		int flag = userService.register(user);
 		if (flag > 0) {
 			user1 = userService.findUserByEmail(user.getEmail());

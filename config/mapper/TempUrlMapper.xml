@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.edu.lingnan.dao.UserMapper">
-  <resultMap id="BaseResultMap" type="cn.edu.lingnan.pojo.User">
-    <id column="userno" jdbcType="INTEGER" property="userno" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="status" jdbcType="INTEGER" property="status" />
+<mapper namespace="cn.edu.lingnan.dao.TempUrlMapper">
+  <resultMap id="BaseResultMap" type="cn.edu.lingnan.pojo.TempUrl">
+    <id column="tempUrlID" jdbcType="INTEGER" property="tempurlid" />
+    <result column="fileUrl" jdbcType="VARCHAR" property="fileurl" />
     <result column="newdate" jdbcType="VARCHAR" property="newdate" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -69,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    userno, username, password, email, sex, status, newdate
+    tempUrlID, fileUrl, newdate
   </sql>
-  <select id="selectByExample" parameterType="cn.edu.lingnan.pojo.UserExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="cn.edu.lingnan.pojo.TempUrlExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from user
+    from tempurl
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,102 +84,64 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from user
-    where userno = #{userno,jdbcType=INTEGER}
+    from tempurl
+    where tempUrlID = #{tempurlid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from user
-    where userno = #{userno,jdbcType=INTEGER}
+    delete from tempurl
+    where tempUrlID = #{tempurlid,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="cn.edu.lingnan.pojo.UserExample">
-    delete from user
+  <delete id="deleteByExample" parameterType="cn.edu.lingnan.pojo.TempUrlExample">
+    delete from tempurl
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="cn.edu.lingnan.pojo.User">
-    insert into user (userno, username, password, 
-      email, sex, status, 
-      newdate)
-    values (#{userno,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
-      #{newdate,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="cn.edu.lingnan.pojo.TempUrl">
+    insert into tempurl (tempUrlID, fileUrl, newdate
+      )
+    values (#{tempurlid,jdbcType=INTEGER}, #{fileurl,jdbcType=VARCHAR}, #{newdate,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="cn.edu.lingnan.pojo.User">
-    insert into user
+  <insert id="insertSelective" parameterType="cn.edu.lingnan.pojo.TempUrl">
+    insert into tempurl
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userno != null">
-        userno,
+      <if test="tempurlid != null">
+        tempUrlID,
       </if>
-      <if test="username != null">
-        username,
-      </if>
-      <if test="password != null">
-        password,
-      </if>
-      <if test="email != null">
-        email,
-      </if>
-      <if test="sex != null">
-        sex,
-      </if>
-      <if test="status != null">
-        status,
+      <if test="fileurl != null">
+        fileUrl,
       </if>
       <if test="newdate != null">
         newdate,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userno != null">
-        #{userno,jdbcType=INTEGER},
+      <if test="tempurlid != null">
+        #{tempurlid,jdbcType=INTEGER},
       </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=INTEGER},
+      <if test="fileurl != null">
+        #{fileurl,jdbcType=VARCHAR},
       </if>
       <if test="newdate != null">
         #{newdate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="cn.edu.lingnan.pojo.UserExample" resultType="java.lang.Long">
-    select count(*) from user
+  <select id="countByExample" parameterType="cn.edu.lingnan.pojo.TempUrlExample" resultType="java.lang.Long">
+    select count(*) from tempurl
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update user
+    update tempurl
     <set>
-      <if test="record.userno != null">
-        userno = #{record.userno,jdbcType=INTEGER},
+      <if test="record.tempurlid != null">
+        tempUrlID = #{record.tempurlid,jdbcType=INTEGER},
       </if>
-      <if test="record.username != null">
-        username = #{record.username,jdbcType=VARCHAR},
-      </if>
-      <if test="record.password != null">
-        password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.email != null">
-        email = #{record.email,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sex != null">
-        sex = #{record.sex,jdbcType=VARCHAR},
-      </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=INTEGER},
+      <if test="record.fileurl != null">
+        fileUrl = #{record.fileurl,jdbcType=VARCHAR},
       </if>
       <if test="record.newdate != null">
         newdate = #{record.newdate,jdbcType=VARCHAR},
@@ -194,50 +152,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update user
-    set userno = #{record.userno,jdbcType=INTEGER},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      email = #{record.email,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=INTEGER},
+    update tempurl
+    set tempUrlID = #{record.tempurlid,jdbcType=INTEGER},
+      fileUrl = #{record.fileurl,jdbcType=VARCHAR},
       newdate = #{record.newdate,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.lingnan.pojo.User">
-    update user
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.lingnan.pojo.TempUrl">
+    update tempurl
     <set>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        status = #{status,jdbcType=INTEGER},
+      <if test="fileurl != null">
+        fileUrl = #{fileurl,jdbcType=VARCHAR},
       </if>
       <if test="newdate != null">
         newdate = #{newdate,jdbcType=VARCHAR},
       </if>
     </set>
-    where userno = #{userno,jdbcType=INTEGER}
+    where tempUrlID = #{tempurlid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="cn.edu.lingnan.pojo.User">
-    update user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
-      status = #{status,jdbcType=INTEGER},
+  <update id="updateByPrimaryKey" parameterType="cn.edu.lingnan.pojo.TempUrl">
+    update tempurl
+    set fileUrl = #{fileurl,jdbcType=VARCHAR},
       newdate = #{newdate,jdbcType=VARCHAR}
-    where userno = #{userno,jdbcType=INTEGER}
+    where tempUrlID = #{tempurlid,jdbcType=INTEGER}
   </update>
 </mapper>
