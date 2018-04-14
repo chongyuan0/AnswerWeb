@@ -115,6 +115,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<fieldset>
 									
 										<div class="control-group">											
+											<label class="control-label">目录编号：</label>
+											<div class="controls">
+												<input type="text" disabled style="width:100px;" value="${questionType.typeno }" />
+											</div>
+										</div>
+										
+										<div class="control-group">											
 											<label class="control-label">目录名称：</label>
 											<div class="controls">
 												<input type="text" class="input-medium " id="typename" name="typename" value="${questionType.typename }" />

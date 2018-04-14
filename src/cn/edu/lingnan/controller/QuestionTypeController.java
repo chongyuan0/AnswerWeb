@@ -358,9 +358,15 @@ public class QuestionTypeController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteQuestionFirstType")
 	public String deleteQuestionFirstType(@RequestParam(value = "typeno") Integer typeno,Integer pn) {
+		QuestionType questionType = questionTypeService.getQuestionTypeByPrimaryKey(typeno);
+		
 		questionTypeService.deleteQuestionType(typeno);
 		session.setAttribute("toid",1);
 		session.setAttribute("FirstTypepn", pn);
+		
+		//删除一级菜单图片
+		BOSUtil.deleteFile("/resource/images/type/"+questionType.getImageurl());
+		
 		return "/admin/questionType";
 	}
 
@@ -372,9 +378,15 @@ public class QuestionTypeController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteQuestionSecondType")
 	public String deleteQuestionSecondType(@RequestParam(value = "typeno") Integer typeno,Integer pn) {
+		QuestionType questionType = questionTypeService.getQuestionTypeByPrimaryKey(typeno);
+		
 		questionTypeService.deleteQuestionType(typeno);
 		session.setAttribute("toid",2);
 		session.setAttribute("SecondTypepn", pn);
+		
+		//删除二级菜单图片
+		BOSUtil.deleteFile("/resource/images/type/"+questionType.getImageurl());
+		
 		return "/admin/questionType";
 	}
 
@@ -386,9 +398,14 @@ public class QuestionTypeController extends BaseController {
 	 */
 	@RequestMapping(value = "/deleteQuestionThreeType")
 	public String deleteQuestionThreeType(@RequestParam(value = "typeno") Integer typeno,Integer pn) {
+		QuestionType questionType = questionTypeService.getQuestionTypeByPrimaryKey(typeno);
+		
 		questionTypeService.deleteQuestionType(typeno);
 		session.setAttribute("toid",3);
 		session.setAttribute("ThreeTypepn", pn);
+		
+		//删除三级菜单图片
+		BOSUtil.deleteFile("/resource/images/type/"+questionType.getImageurl());
 		return "/admin/questionType";
 	}
 	

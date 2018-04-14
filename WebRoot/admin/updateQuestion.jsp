@@ -119,6 +119,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<input type="hidden" name="oldDescription" value="${question.description}" />
 									
 									<div class="control-group">											
+											<label class="control-label">题目编号：</label>
+											<div class="controls">
+												<input type="text" disabled value="${question.questionno}" style="width:90px;"/>
+											</div>
+									</div>
+									
+									<div class="control-group">											
 											<label class="control-label">试题类型：</label>
 											<div class="controls">
 											<select id="typeno" 
