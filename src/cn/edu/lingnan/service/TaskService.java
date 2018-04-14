@@ -39,7 +39,6 @@ public class TaskService {
 	public void timerDeleteBosTemp() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		Long nowdate = Long.parseLong(format.format(new Date()));
-		//找出数据库5分钟前的数据
 		String oldtime = new Long(nowdate-10000).toString();
 		TempUrlExample tempExample = new TempUrlExample();
 		Criteria criteria = tempExample.createCriteria();
