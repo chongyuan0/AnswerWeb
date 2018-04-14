@@ -35,19 +35,19 @@ public class TaskService {
 	 * @author huang
 	 * 定时清理BOS中当前时间5分钟前的文件
 	 */
-	@Scheduled(cron="0 0/5 * * * ?")
+	@Scheduled(cron="0 0 0/1 * * ?")
 	public void timerDeleteBosTemp() {
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		Long nowdate = Long.parseLong(format.format(new Date()));
 		//找出数据库5分钟前的数据
-		String oldtime = new Long(nowdate-500).toString();
+		String oldtime = new Long(nowdate-10000).toString();
 		TempUrlExample tempExample = new TempUrlExample();
 		Criteria criteria = tempExample.createCriteria();
 		criteria.andNewdateLessThan(oldtime);
 		List<TempUrl> tempList = tempUrlMapper.selectByExample(tempExample);
 		for(TempUrl t : tempList) {
-			BOSUtil.deleteFile("temp/" + t.getFileurl());
 			tempUrlMapper.deleteByPrimaryKey(t.getTempurlid());
+			BOSUtil.deleteFile("temp/" + t.getFileurl());
 		}
 	}
 	
@@ -57,7 +57,7 @@ public class TaskService {
 	 */
 	@Scheduled(cron = "0 30 2 * * ?")
 	public void timerDeleteNoValidatorUser(){
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		Long nowdate = Long.parseLong(format.format(new Date()));
 		//找出数据库1天前的数据
 		String oldtime = new Long(nowdate-1000000).toString();

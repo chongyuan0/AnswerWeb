@@ -10,9 +10,12 @@ public class TempUrl {
     private String newdate;
 
     
+    public TempUrl(String fileurl, String newdate) {
+		this.fileurl = fileurl;
+		this.newdate = newdate;
+	}
     
 	public TempUrl(Integer tempurlid, String fileurl, String newdate) {
-		super();
 		this.tempurlid = tempurlid;
 		this.fileurl = fileurl;
 		this.newdate = newdate;

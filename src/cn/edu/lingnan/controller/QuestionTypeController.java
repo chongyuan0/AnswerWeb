@@ -244,8 +244,8 @@ public class QuestionTypeController extends BaseController {
 		BOSUtil.upload(file, typeImagesTempPath);
 		
 		//插入上传记录
-		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
-		TempUrl tempUrl = new TempUrl(null,fileName,format.format(new Date()));
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		TempUrl tempUrl = new TempUrl(fileName,format.format(new Date()));
 		tempUrlService.addTempUrl(tempUrl);
 		
 		return fileName;
