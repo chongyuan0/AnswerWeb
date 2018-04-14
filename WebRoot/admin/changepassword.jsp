@@ -171,12 +171,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								
 								
 								<div class="tabbable">
+								<ul class="nav nav-tabs">
+										<li class="active"><a
+											href="#1" data-toggle="tab">修改密码</a></li>
+										<li ><a
+											href="#2" data-toggle="tab">注册管理员</a></li>
+									</ul>
 						
-						
-						<br />
 						
 							<div class="tab-content">
-								<div class="tab-pane active">
+								<div class="tab-pane active" id="1">
 								<form class="form-horizontal" action="${pageContext.request.contextPath}/changeAdminPassword" method="post">
 									<fieldset>
 									<input type="hidden" name="adminid" value="${admins.adminid}" />
@@ -190,14 +194,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label" for="password3">原密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="oldPassword" value="" />
+												<input type="password" class="input-medium" name="oldPassword" value=""  required/>
 											</div> <!-- /controls -->				
 										</div> <!-- /control-group -->
 
 										<div class="control-group">											
 											<label class="control-label" for="password1">新密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="password" />
+												<input type="password" class="input-medium" name="password" required/>
 											</div> <!-- /controls -->				
 										</div> <!-- /control-group -->
 										
@@ -205,7 +209,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label" for="password2">确认密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="comfirePassword" />
+												<input type="password" class="input-medium" name="comfirePassword" required/>
 											</div> 			
 										</div> 
 										

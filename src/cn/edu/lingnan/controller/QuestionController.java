@@ -105,7 +105,7 @@ public class QuestionController extends BaseController {
 			path = "/resource/video/";
 			//将文件从临时文件夹移动到目标文件夹
 			BOSUtil.moveFile("/temp/"+question.getContent(),path+question.getContent());
-		}else if(strExtension.equals("jpg")&&strExtension.equals("gif") && strExtension.equals("png") && strExtension.equals("bmp")){
+		}else if(strExtension.equals("jpg")||strExtension.equals("gif") ||strExtension.equals("png") || strExtension.equals("bmp")){
 			//将文件从临时文件夹移动到目标文件夹
 			BOSUtil.moveFile("/temp/"+question.getContent(),path+question.getContent());
 			}
@@ -273,9 +273,31 @@ public class QuestionController extends BaseController {
 	 */
 	@RequestMapping(value="/deleteQuestion")
 	public String deleteQuestion(@RequestParam("questionno") Integer questionno,@RequestParam("pn") Integer pn){
+		Question question = questionService.getQuestionByKey(questionno);
+		
 		questionService.deleteQuestion(questionno);
 		redirectAttributes.addAttribute("pn", pn);
 		redirectAttributes.addAttribute("toid",1);
+		
+		//删除题目内容对应的资源
+		if(question.getConstatus()!=1){
+			String contentExtension = question.getContent().substring(question.getContent().lastIndexOf('.') + 1);
+			String path = "/resource/images/question/";
+			if(contentExtension.equals("mp3")){
+				path = "/resource/audio/";
+				BOSUtil.deleteFile(path+question.getContent());
+			}else if(contentExtension.equals("mp4")){
+				path = "/resource/video/";
+				BOSUtil.deleteFile(path+question.getContent());
+			}else if(contentExtension.equals("jpg") || contentExtension.equals("gif") || contentExtension.equals("png") || contentExtension.equals("bmp")){
+				BOSUtil.deleteFile(path+question.getContent());
+			}
+		}
+		//删除题目答案对应的资源
+		if(question.getDesstatus()==2){
+			BOSUtil.deleteFile("/resource/images/answer/"+question.getDescription());
+		}
+		
 		return "redirect:/selectQuestion";
 	}
 	
