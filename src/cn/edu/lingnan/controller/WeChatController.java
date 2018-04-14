@@ -44,7 +44,7 @@ public class WeChatController extends BaseController {
 	@Autowired
 	private QuestionTypeService questionTypeservice;
 	
-	public static final String SERVER = "http://cxhupq.natappfree.cc";
+	public static final String SERVER = "http://chongyuann.duapp.com";
 	
 	/**
 	 * @author huang

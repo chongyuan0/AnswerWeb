@@ -13,7 +13,7 @@ public class TempUrlService {
 	private TempUrlMapper tempUrlMapper;
 	
 	public void addTempUrl(TempUrl tempUrl){
-		tempUrlMapper.insert(tempUrl);
+		tempUrlMapper.insertSelective(tempUrl);
 	}
 	
 }

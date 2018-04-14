@@ -59,7 +59,7 @@ public class BOSUtil {
 	}
 	
 	/**
-	 * @author huang
+	 * @author huange
 	 * @param filepath	原文件路径
 	 * @param newpath	移动的路径
 	 * @return
