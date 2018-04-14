@@ -39,7 +39,7 @@ public class TaskService {
 	public void timerDeleteBosTemp() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
 		Long nowdate = Long.parseLong(format.format(new Date()));
-		//找出数据库1分钟前的数据
+		//找出数据库5分钟前的数据
 		String oldtime = new Long(nowdate-500).toString();
 		TempUrlExample tempExample = new TempUrlExample();
 		Criteria criteria = tempExample.createCriteria();
@@ -53,13 +53,13 @@ public class TaskService {
 	
 	/**
 	 * @author huang
-	 * 每天2：30清理没有验证的用户
+	 * 每天2：30清理一天前没有验证的用户
 	 */
 	@Scheduled(cron = "0 30 2 * * ?")
 	public void timerDeleteNoValidatorUser(){
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
 		Long nowdate = Long.parseLong(format.format(new Date()));
-		//找出数据库一天前的数据
+		//找出数据库1天前的数据
 		String oldtime = new Long(nowdate-1000000).toString();
 		UserExample userExample = new UserExample();
 		cn.edu.lingnan.pojo.UserExample.Criteria criteria = userExample.createCriteria();

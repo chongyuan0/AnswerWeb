@@ -59,7 +59,7 @@ public class BOSUtil {
 	}
 	
 	/**
-	 * @author huang
+	 * @author huange
 	 * @param filepath	原文件路径
 	 * @param newpath	移动的路径
 	 * @return
@@ -95,9 +95,9 @@ public class BOSUtil {
 	}
 	
 	public static void main(String[] args) {
-		for (int i=1; i<=10; i++) {
-			upload(null, "/temp/text" + i + ".txt");
-		}
+//		for (int i=1; i<=10; i++) {
+			upload(null, "/temp/text" + "1.txt");
+//		}
 //		moveFile("/temp/text.txt", "/resource/images/type/test.txt");
 //		deleteFile("/temp/text.txt");
 	}
