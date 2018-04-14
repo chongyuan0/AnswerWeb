@@ -5,7 +5,6 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>添加一级菜单</title>
@@ -117,7 +116,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label">目录名称：</label>
 											<div class="controls">
-												<input type="text" class="input-medium " id="typename" name="typename"  />
+												<input type="text" class="input-medium " id="typename" name="typename"  required="required"/>
+												<span id="validataMessage" style="color:red;"></span>
 											</div>
 										</div>
 																		
@@ -126,7 +126,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label">菜单图片：</label>
 											<div class="controls">
-												<input type="file" class="input-medium" id="image_input" name="file" />
+												<input type="file" class="input-medium" id="image_input" name="file" required="required"/>
 											</div>
 										</div>
 										<div class="control-group">											
@@ -139,7 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												
 										</div>									
 										<div class="form-actions">
-											<input type="submit" class="btn btn-primary" value="提交添加" onclick="return validEmpty()"/>
+											<input type="submit"  id="input_submit" class="btn btn-primary" value="提交添加" />
 										</div>
 									</fieldset>
 								</form>
@@ -169,17 +169,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script src="${pageContext.request.contextPath}/js/WebCalendar.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-function validEmpty(){
-	//  获取输入框的值
-	var name = document.getElementById('typename').value;
-	if(name == null || name == '' ){
-		alert("名称不能为空！");
-		return false;
-	}
-	
-	
-	return true;
-}
+$("#typename").change(function(){
+	$.ajax({
+		url:"${pageContext.request.contextPath}/validataFirstType?typename="+$("#typename").val(),
+		type:"POST",
+		success:function(data){
+			/* data为真，说明已经存在当前目录名 */
+			if(data){
+				$("#validataMessage").text("已存在目录名，请重新输入");
+				$("#input_submit").attr("disabled","disabled");
+			}else{
+				$("#validataMessage").text("");
+				$("#input_submit").removeAttr("disabled");
+			}
+		}
+	});
+});
+
 
 $(function(){
     $("#image_input").change(function(){

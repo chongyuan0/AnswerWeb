@@ -202,5 +202,17 @@ public class QuestionTypeService {
 		}
 
 	}
+	
+	/**
+	 * 根据目录名查出一级菜单
+	 * @param typename
+	 */
+	public List<QuestionType> getQuestionFirstTypeByName(String typename) {
+		QuestionTypeExample firstExample = new QuestionTypeExample();
+		Criteria criteria = firstExample.createCriteria();
+		criteria.andBelongtypenoIsNull();
+		criteria.andTypenameEqualTo(typename);
+		return  questionTypeMapper.selectByExample(firstExample);
+	}
 
 }

@@ -363,7 +363,7 @@ table{
 										<div class="control-group">											
 											<label class="control-label">题目内容：</label>
 											<div id="div_content" class="controls">
-												<textarea style="overflow-x:hidden" id="addQuestion_content" name="content"></textarea>
+												<textarea style="overflow-x:hidden" id="addQuestion_content" name="content" required="required"></textarea>
 											</div>
 										</div>
 									
@@ -383,7 +383,7 @@ table{
 										<div class="control-group">											
 											<label class="control-label">答案详解：</label>
 											<div id="div_des" class="controls">
-											<textarea style="overflow-x:hidden" id="addQuestion_description" name="description"></textarea>
+											<textarea style="overflow-x:hidden" id="addQuestion_description" name="description" required="required"></textarea>
 											</div>
 										</div>
 										
@@ -410,9 +410,7 @@ table{
 											<label class="control-label">候选答案${status.count}：</label>
 											<div class="controls">
 												<input name="optionsList[${status.count-1}].questionno" value="" type="hidden"/>
-												<textarea style="overflow-x:hidden" name="optionsList[${status.count-1}].content">
-												
-												</textarea>
+												<textarea style="overflow-x:hidden" name="optionsList[${status.count-1}].content" required="required"></textarea>
 												<select
 														id="" class="input-mini disabled"
 														name="optionsList[${status.count-1}].status">
@@ -424,7 +422,7 @@ table{
 									</c:forEach>
 										
 										<div class="form-actions">
-											<input type="submit" class="btn btn-primary" value="添加" onclick="return validEmpty()"/>
+											<input type="submit" class="btn btn-primary" value="添加"/>
 										</div>
 										</div>									
 									</fieldset>
@@ -527,6 +525,7 @@ table{
 				input_text.style="overflow-x:hidden";
 				input_text.id="addQuestion_content";
 				input_text.name="content";
+				input_text.required="required";
 				
 				
 				
@@ -538,6 +537,12 @@ table{
 				input_file.type="file";
 				input_file.name="file";
 				input_file.id="addQuestion_content";
+				input_file.required="required";
+				
+				var message = document.createElement("span");
+				message.innerText="";
+				message.style="color:red;";
+				message.id="message";
 				
 				var fileContent = document.createElement("input");
 				fileContent.type="hidden";
@@ -550,9 +555,14 @@ table{
 				showfile.src="http://answerweb.gz.bcebos.com/temp/upload.jpg";
 				showfile.id="showfile";
 				
-				$("#div_content").empty().append(input_file).append(fileContent).append(showfile);
+				$("#div_content").empty().append(input_file).append(fileContent).append(showfile).append(message);
 				
 				$("#addQuestion_content").change(function(){
+					
+					/* 显示正在上传 */
+					$("#message").attr("style","color:red;");
+					$("#message").text("正在上传");
+					
 			        var imagePath = $("#addQuestion_content").val();
 			        if (imagePath == '') {
 			            return false;
@@ -578,9 +588,23 @@ table{
 								showfile.style="width:200px;height:150px;";
 								showfile.autostart="false";
 								showfile.flashvars="autoplay=false&play=false"
-								$("#div_content").append(showfile);
+								
+									/* 显示进度条 */
+									$("#message").remove();
+									var message = document.createElement("span");
+									message.innerText="上传完毕";
+									message.style="color:green;";
+									message.id="message";
+									
+									$("#div_content").append(showfile).append(message);
+								
 							}
 			                $("#fileContent").val(data);
+			                
+			                /* 修改进度条 */
+							$("#message").attr("style","color:green;");
+							$("#message").text("上传完毕");
+			                
 			                if(strExtension=="mp4"){
 				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }else if(strExtension == "mp3"){
@@ -606,12 +630,14 @@ table{
 				input_text.style="overflow-x:hidden";
 				input_text.id="addQuestion_description";
 				input_text.name="description";
+				input_text.required="required";
 				$("#div_des").empty().append(input_text);
 			}else{
 				var input_file = document.createElement("input");
 				input_file.type="file";
 				input_file.id="addQuestion_description";
 				input_file.name="desFile";
+				input_file.required="required";
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:150px;height:150px;";

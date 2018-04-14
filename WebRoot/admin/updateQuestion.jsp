@@ -5,7 +5,6 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>更新试题信息</title>
@@ -155,26 +154,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label class="control-label">题目内容：</label>
 											<div id="div_content" class="controls">
 											<c:if test="${question.constatus ==1}">
-												<textarea id="question_content" name="content">
-													${question.content }
-												</textarea>
+												<textarea id="question_content" name="content" required="required">${question.content }</textarea>
 											</c:if>
 											
 											<c:if test="${question.constatus == 2}">
 												<input id="question_content" type="hidden" name="content"  value="${question.content}"/>
-												<input type="file" id="updateQuestion_content" name="file">
+												<input type="file" id="updateQuestion_content" name="file" >
 												<img id="showfile" style="hight:150px;width:300px;" src="http://answerweb.gz.bcebos.com/resource/images/question/${question.content}"/>
 											</c:if>
 											
 											<c:if test="${question.constatus == 3}">
 												<input id="question_content" type="hidden" name="content" value="${question.content}"/>
-												<input type="file" id="updateQuestion_content" name="file">
+												<input type="file" id="updateQuestion_content" name="file" >
 												<embed id="showfile" src="http://answerweb.gz.bcebos.com/resource/video/${question.content}">
 											</c:if>
 											
 											<c:if test="${question.constatus == 4}">
 												<input id="question_content" type="hidden" name="content" value="${question.content}"/>
-												<input type="file" id="updateQuestion_content" name="file">
+												<input type="file" id="updateQuestion_content" name="file" >
 												<embed id="showfile" src="http://answerweb.gz.bcebos.com/resource/audio/${question.content}">
 											</c:if>
 											
@@ -200,13 +197,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label class="control-label">答案详解：</label>
 											<div id="div_des" class="controls">
 											<c:if test="${question.desstatus == 1}">
-												<textarea id="description" name="description">
-													${question.description }
-												</textarea>
+												<textarea id="description" name="description" required="required">${question.description }</textarea>
 											</c:if>
 											<c:if test="${question.desstatus == 2}">
 												<input type="hidden" id="description" name="description" value="${question.description}"/>
-												<input type="file" name="desFile" id="updateQuestion_description"/>
+												<input type="file" name="desFile" id="updateQuestion_description" />
 												<img id="showimg" style="height:150px;width:300px;" src="http://answerweb.gz.bcebos.com/resource/images/answer/${question.description}"/>
 											</c:if>
 											</div>
@@ -219,9 +214,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="controls">
 												<input name="optionsList[${status.count-1}].optionsno" value="${options.optionsno }" type="hidden"/>
 												<input name="optionsList[${status.count-1}].questionno" value="${options.questionno }" type="hidden"/>
-												<textarea name="optionsList[${status.count-1}].content">
-													${options.content }
-												</textarea>
+												<textarea name="optionsList[${status.count-1}].content" required="required">${options.content }</textarea>
 												<select
 														id="" class="input-mini disabled"
 														name="optionsList[${status.count-1}].status">
@@ -273,6 +266,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				input_text.style="overflow-x:hidden";
 				input_text.id="updateQuestion_content";
 				input_text.name="content";
+				input_text.required="required";
 				
 				
 				
@@ -284,6 +278,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				input_file.type="file";
 				input_file.name="file";
 				input_file.id="updateQuestion_content";
+				input_file.required="required";
+				
+				var message = document.createElement("span");
+				message.innerText="";
+				message.style="color:red;";
+				message.id="message";
 				
 				var fileContent = document.createElement("input");
 				fileContent.type="hidden";
@@ -296,9 +296,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				showfile.src="http://answerweb.gz.bcebos.com/temp/upload.jpg";
 				showfile.id="showfile";
 				
-				$("#div_content").empty().append(input_file).append(fileContent).append(showfile);
+				$("#div_content").empty().append(input_file).append(fileContent).append(showfile).append(message);
 				
 				$("#updateQuestion_content").change(function(){
+				
+					/* 显示正在上传 */
+					$("#message").attr("style","color:red;");
+					$("#message").text("正在上传");
+				
 			        var imagePath = $("#updateQuestion_content").val();
 			        if (imagePath == '') {
 			            return false;
@@ -321,12 +326,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 								$("#showfile").remove();
 								var showfile = document.createElement("embed");
 								showfile.id="showfile";
-								showfile.style="width:200px;height:150px;";
+								showfile.style="width:150px;height:150px;";
 								showfile.autostart="false";
 								showfile.flashvars="autoplay=false&play=false"
-								$("#div_content").append(showfile);
+								
+								/* 显示进度条 */
+								$("#message").remove();
+								var message = document.createElement("span");
+								message.innerText="上传完毕";
+								message.style="color:green;";
+								message.id="message";
+								
+								$("#div_content").append(showfile).append(message);
 							}
 			                $("#fileContent").val(data);
+			                
+			                /* 修改进度条 */
+							$("#message").attr("style","color:green;");
+							$("#message").text("上传完毕");
+			                
 			                if(strExtension=="mp4"){
 				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }else if(strExtension == "mp3"){
@@ -402,12 +420,14 @@ $("#updateQuestion_content").change(function(){
 				input_text.style="overflow-x:hidden";
 				input_text.id="addQuestion_description";
 				input_text.name="description";
+				input_text.required="required";
 				$("#div_des").empty().append(input_text);
 			}else{
 				var input_file = document.createElement("input");
 				input_file.type="file";
 				input_file.id="updateQuestion_description";
 				input_file.name="desFile";
+				input_file.required="required";
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:300px;height:150px;";

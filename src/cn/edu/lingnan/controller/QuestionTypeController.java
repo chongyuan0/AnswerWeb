@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,17 +117,20 @@ public class QuestionTypeController extends BaseController {
 	
 	/**
 	 * 更新一级菜单第二步，在页面显示所有信息
-	 * 
+	 * 使用JSR303验证
 	 * @author lizhi
 	 */
 	@RequestMapping("/updateQuestionFirstTypeSecond")
-	public String updateQuestionFirstTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map,String oldImageUrl) {
+	public String updateQuestionFirstTypeSecond(@Valid QuestionType questionType,Integer pn,Map<String,Object> map,String oldImageUrl) {
 		
-		//将文件从临时文件夹移动到目标文件夹
-		BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
-		//删除目标文件夹中原来的文件
-		if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
-			BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+		//如果图片资源变化，则需要更新资源
+		if(!questionType.getImageurl().equals(oldImageUrl)){
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
+			//删除目标文件夹中原来的文件
+			if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
+				BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+			}
 		}
 		
 		questionTypeService.updateQuestionTypeByPrimaryKey(questionType);
@@ -158,12 +163,17 @@ public class QuestionTypeController extends BaseController {
 	@RequestMapping("/updateQuestionSecondTypeSecond")
 	public String updateQuestionSecondTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map,String oldImageUrl) {
 		
-		//将文件从临时文件夹移动到目标文件夹
-		BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
-		//删除目标文件夹中原来的文件
-		if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
-			BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+		//如果图片资源变化，则需要更新资源
+		if(!questionType.getImageurl().equals(oldImageUrl)){
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
+			//删除目标文件夹中原来的文件
+			if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
+				BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+			}
 		}
+		
+		
 		
 		//更新二级菜单
 		questionTypeService.updateQuestionTypeByPrimaryKey(questionType);
@@ -201,11 +211,14 @@ public class QuestionTypeController extends BaseController {
 	 */
 	@RequestMapping("/updateQuestionThreeTypeSecond")
 	public String updateQuestionThreeTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map,String oldImageUrl) {
-		//将文件从临时文件夹移动到目标文件夹
-		BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
-		//删除目标文件夹中原来的文件
-		if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
-			BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+		//如果图片资源变化，则需要更新资源
+		if(!questionType.getImageurl().equals(oldImageUrl)){
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
+			//删除目标文件夹中原来的文件
+			if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
+				BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+			}
 		}
 		
 		//更新三级菜单
@@ -407,6 +420,21 @@ public class QuestionTypeController extends BaseController {
 		//删除三级菜单图片
 		BOSUtil.deleteFile("/resource/images/type/"+questionType.getImageurl());
 		return "/admin/questionType";
+	}
+	
+	/**
+	 * 根据目录名查看一级菜单是否存在重复目录名
+	 * @param typename
+	 * @return  存在返回true
+	 */
+	@ResponseBody
+	@RequestMapping("/validataFirstType")
+	public boolean validataFirstType(String typename){
+		if(questionTypeService.getQuestionFirstTypeByName(typename).size()!=0){
+			return true;
+		}
+		return false;
+		
 	}
 	
 }

@@ -131,7 +131,7 @@ public class QuestionController extends BaseController {
 		
 		//对答案图片进行更新
 		if(question.getDesstatus()==2){
-			if(question.getDescription()!=oldDescription){
+			if(!question.getDescription().equals(oldDescription)){
 				String path = "/resource/images/answer/";
 				//移动答案图片
 				BOSUtil.moveFile("/temp/"+question.getDescription(),path+question.getDescription());
