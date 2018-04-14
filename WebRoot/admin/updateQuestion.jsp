@@ -115,6 +115,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 									<fieldset>
 										
 										<input type="hidden" name="questionno" value="${question.questionno}" />
+										<input type="hidden" name="oldContent" value="${question.content}" />
+										<input type="hidden" name="oldDescription" value="${question.description}" />
 									
 									<div class="control-group">											
 											<label class="control-label">试题类型：</label>
@@ -284,7 +286,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:150px;height:150px;";
-				showfile.src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg";
+				showfile.src="http://answerweb.gz.bcebos.com/temp/upload.jpg";
 				showfile.id="showfile";
 				
 				$("#div_content").empty().append(input_file).append(fileContent).append(showfile);
@@ -319,11 +321,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							}
 			                $("#fileContent").val(data);
 			                if(strExtension=="mp4"){
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/video/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }else if(strExtension == "mp3"){
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/audio/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }else{
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/question/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }
 			            },
 			            error : function() {
@@ -371,12 +373,11 @@ $("#updateQuestion_content").change(function(){
 							}
 			                $("#question_content").val(data);
 			                if(strExtension=="mp4"){
-			                	$
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/video/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }else if(strExtension == "mp3"){
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/audio/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }else{
-				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/question/'+data);
+				                $("#showfile").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                }
 			            },
 			            error : function() {
@@ -403,7 +404,7 @@ $("#updateQuestion_content").change(function(){
 				
 				var showfile = document.createElement("img");
 				showfile.style="width:300px;height:150px;";
-				showfile.src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg";
+				showfile.src="http://answerweb.gz.bcebos.com/temp/upload.jpg";
 				showfile.id="showimg";
 				
 				var fileContent = document.createElement("input");
@@ -432,7 +433,7 @@ $("#updateQuestion_content").change(function(){
 			            success : function(data) {
 			            	
 			                $("#description").val(data);
-				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/answer/'+data);
+				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                
 			            },
 			            error : function() {
@@ -462,7 +463,7 @@ $("#updateQuestion_description").change(function(){
 			            success : function(data) {
 			            	
 			                $("#description").val(data);
-				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/answer/'+data);
+				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
 			                
 			            },
 			            error : function() {

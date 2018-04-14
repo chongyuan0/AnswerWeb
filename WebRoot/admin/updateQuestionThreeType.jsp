@@ -138,6 +138,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										
 										
 											<input type="hidden" id="filename" name="imageurl" value="${questionType.imageurl }"></input>
+											<input type="hidden" id="oldImageUrl" name="oldImageUrl" value="${questionType.imageurl }"></input>
 		
 																		
 										<div class="control-group">											
@@ -150,7 +151,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<label class="control-label">预览图片：</label>
 											<div class="controls">
 													<c:if test="${ questionType.imageurl == null || questionType.imageurl == ''}">
-														<img src="http://answerweb.gz.bcebos.com/resource/images/type/upload.jpg" style="width:150px;height:150px;" id="showimg"/>
+														<img src="http://answerweb.gz.bcebos.com/temp/upload.jpg" style="width:150px;height:150px;" id="showimg"/>
 													</c:if>
 													<c:if test="${ questionType.imageurl != null }">
 														<img src="http://answerweb.gz.bcebos.com/resource/images/type/${questionType.imageurl}" style="width:150px;height:150px;" id="showimg"/>
@@ -218,7 +219,7 @@ $(function(){
             type : 'POST',
             url : '${pageContext.request.contextPath}/addQuestionTypeImages',
             success : function(data) {
-                $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/resource/images/type/'+data);
+                $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
                 $("#filename").val(data);
             },
             error : function() {

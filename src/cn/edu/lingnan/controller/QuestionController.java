@@ -1,16 +1,15 @@
 package cn.edu.lingnan.controller;
 
-import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,11 +20,11 @@ import com.github.pagehelper.PageInfo;
 import cn.edu.lingnan.pojo.Options;
 import cn.edu.lingnan.pojo.OptionsList;
 import cn.edu.lingnan.pojo.Question;
-import cn.edu.lingnan.pojo.QuestionExample;
-import cn.edu.lingnan.pojo.UploadFile;
+import cn.edu.lingnan.pojo.TempUrl;
 import cn.edu.lingnan.service.OptionsService;
 import cn.edu.lingnan.service.QuestionService;
 import cn.edu.lingnan.service.QuestionTypeService;
+import cn.edu.lingnan.service.TempUrlService;
 import cn.edu.lingnan.utils.BOSUtil;
 
 @Controller
@@ -39,6 +38,9 @@ public class QuestionController extends BaseController {
 	
 	@Autowired
 	private OptionsService optionsService;
+	
+	@Autowired
+	private TempUrlService tempUrlService;
 	
 
 	/**
@@ -89,7 +91,57 @@ public class QuestionController extends BaseController {
 	 * @author lizhi
 	 */
 	@RequestMapping("/updateQuestionSecond")
-	public String updateQuestionSecond(Question question,@RequestParam("pn") Integer pn,OptionsList optionsList){
+	public String updateQuestionSecond(Question question,@RequestParam("pn") Integer pn,OptionsList optionsList,String oldContent,String oldDescription){
+		
+		//如果不同文件名，就要移动
+		if(!question.getContent().equals(oldContent)){
+		String strExtension = question.getContent().substring(question.getContent().lastIndexOf('.') + 1);
+		String path = "/resource/images/question/";
+		if(strExtension.equals("mp3")){
+			path = "/resource/audio/";
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+question.getContent(),path+question.getContent());
+		}else if(strExtension.equals("mp4")){
+			path = "/resource/video/";
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+question.getContent(),path+question.getContent());
+		}else if(strExtension.equals("jpg")&&strExtension.equals("gif") && strExtension.equals("png") && strExtension.equals("bmp")){
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+question.getContent(),path+question.getContent());
+			}
+		}
+		
+		//如果不同文件名，就要删除原来的
+		if(!question.getContent().equals(oldContent)){
+			//把原来的文件删除
+			String path="";
+			String oldExtension = oldContent.substring(oldContent.lastIndexOf('.') + 1);
+			String oldpath = "/resource/images/question/";
+			if(oldExtension.equals("mp3")){
+				path = "/resource/audio/";
+				BOSUtil.deleteFile(path+oldContent);
+			}else if(oldExtension.equals("mp4")){
+				path = "/resource/video/";
+				BOSUtil.deleteFile(path+oldContent);
+			}else if(oldExtension.equals("jpg")||oldExtension.equals("gif") || oldExtension.equals("png") || oldExtension.equals("bmp")){
+				BOSUtil.deleteFile(path+oldContent);
+			}
+		}
+		
+		
+		//对答案图片进行更新
+		if(question.getDesstatus()==2){
+			if(question.getDescription()!=oldDescription){
+				String path = "/resource/images/answer/";
+				//移动答案图片
+				BOSUtil.moveFile("/temp/"+question.getDescription(),path+question.getDescription());
+				//删除原来的答案图片
+				BOSUtil.deleteFile(path+oldDescription);
+			}
+		}
+		
+		
+		
 		questionService.updateSelective(question);
 		for(Options options:optionsList.getOptionsList()){
 			optionsService.updateByPrimaryKey(options);
@@ -115,20 +167,26 @@ public class QuestionController extends BaseController {
 	public String addQuestionFile(@RequestParam(value = "file", required = false) MultipartFile file,@RequestParam(value="desFile",required=false) MultipartFile desFile
 			) throws IllegalStateException, IOException {
 		if(desFile == null){
-		String strExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
+	/*	String strExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
 		String path = "/resource/images/question/";
 		if(strExtension.equals("mp3")){
 			path = "/resource/audio/";
 		}else if(strExtension.equals("mp4")){
 			path = "/resource/video/";
-		}
+		}*/
 
 		// fileName唯一性
 		int a = ThreadLocalRandom.current().nextInt(100,999);
 		String fileName =+ a +"-"+ System.currentTimeMillis()+ file.getOriginalFilename();
 	 
-        String filePath = path+fileName;
-		BOSUtil.upload(file, filePath);
+		 //上传到临时文件夹
+        String typeImagesTempPath = "/temp/"+fileName;
+		BOSUtil.upload(file, typeImagesTempPath);
+		
+		//插入上传记录
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+		TempUrl tempUrl = new TempUrl(null,fileName,format.format(new Date()));
+		tempUrlService.addTempUrl(tempUrl);
 		return fileName;
 		
 		//这是答案详解图片的预览
@@ -138,9 +196,14 @@ public class QuestionController extends BaseController {
 			int a = ThreadLocalRandom.current().nextInt(100,999);
 			String fileName =+ a +"-"+ System.currentTimeMillis()+ desFile.getOriginalFilename();
 
-	        
-	        String filePath = path+fileName;
-			BOSUtil.upload(desFile, filePath);
+			 //上传到临时文件夹
+	        String typeImagesTempPath = "/temp/"+fileName;
+			BOSUtil.upload(desFile, typeImagesTempPath);
+			
+			//插入上传记录
+			SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+			TempUrl tempUrl = new TempUrl(null,fileName,format.format(new Date()));
+			tempUrlService.addTempUrl(tempUrl);
 			return fileName;
 		}
 	}
@@ -156,6 +219,32 @@ public class QuestionController extends BaseController {
 	@RequestMapping("/addQuestion")
 	public String addQuestion(Question question,OptionsList optionsList,@RequestParam("pn") Integer pn) throws IllegalStateException, IOException{
 		
+		
+		String strExtension = question.getContent().substring(question.getContent().lastIndexOf('.') + 1);
+		String path = "/resource/images/question/";
+		if(strExtension.equals("mp3")){
+			path = "/resource/audio/";
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+question.getContent(),path+question.getContent());
+		}else if(strExtension.equals("mp4")){
+			path = "/resource/video/";
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+question.getContent(),path+question.getContent());
+		}else if(strExtension.equals("jpg") || strExtension.equals("gif") || strExtension.equals("png") || strExtension.equals("bmp")){
+			//将文件从临时文件夹移动到目标文件夹
+			BOSUtil.moveFile("/temp/"+question.getContent(),path+question.getContent());
+		}
+		
+		
+		//移动答案图片
+		if(question.getDesstatus()==2){
+				String desImapgePath = "/resource/images/answer/";
+				//移动答案图片
+				BOSUtil.moveFile("/temp/"+question.getDescription(),desImapgePath+question.getDescription());
+		}
+		
+		
+		//插入数据库
 		questionService.insertQuestion(question);
 		for(Options options:optionsList.getOptionsList()){
 			options.setQuestionno(question.getQuestionno());

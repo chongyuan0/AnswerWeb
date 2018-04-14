@@ -1,13 +1,14 @@
 package cn.edu.lingnan.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,8 +19,10 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import cn.edu.lingnan.pojo.QuestionType;
+import cn.edu.lingnan.pojo.TempUrl;
 import cn.edu.lingnan.pojo.UploadFile;
 import cn.edu.lingnan.service.QuestionTypeService;
+import cn.edu.lingnan.service.TempUrlService;
 import cn.edu.lingnan.utils.BOSUtil;
 
 @Controller
@@ -28,6 +31,8 @@ public class QuestionTypeController extends BaseController {
 	@Autowired
 	private QuestionTypeService questionTypeService;
 
+	@Autowired
+	private TempUrlService tempUrlService;
 	
 
 	/**
@@ -114,7 +119,15 @@ public class QuestionTypeController extends BaseController {
 	 * @author lizhi
 	 */
 	@RequestMapping("/updateQuestionFirstTypeSecond")
-	public String updateQuestionFirstTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map) {
+	public String updateQuestionFirstTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map,String oldImageUrl) {
+		
+		//将文件从临时文件夹移动到目标文件夹
+		BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
+		//删除目标文件夹中原来的文件
+		if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
+			BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+		}
+		
 		questionTypeService.updateQuestionTypeByPrimaryKey(questionType);
 		map.put("toid", 1);
 		map.put("FirstTypepn", pn);
@@ -143,7 +156,15 @@ public class QuestionTypeController extends BaseController {
 	 * @author lizhi
 	 */
 	@RequestMapping("/updateQuestionSecondTypeSecond")
-	public String updateQuestionSecondTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map) {
+	public String updateQuestionSecondTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map,String oldImageUrl) {
+		
+		//将文件从临时文件夹移动到目标文件夹
+		BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
+		//删除目标文件夹中原来的文件
+		if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
+			BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+		}
+		
 		//更新二级菜单
 		questionTypeService.updateQuestionTypeByPrimaryKey(questionType);
 		
@@ -179,7 +200,14 @@ public class QuestionTypeController extends BaseController {
 	 * @author lizhi
 	 */
 	@RequestMapping("/updateQuestionThreeTypeSecond")
-	public String updateQuestionThreeTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map) {
+	public String updateQuestionThreeTypeSecond(QuestionType questionType,Integer pn,Map<String,Object> map,String oldImageUrl) {
+		//将文件从临时文件夹移动到目标文件夹
+		BOSUtil.moveFile("/temp/"+questionType.getImageurl(),"/resource/images/type/"+questionType.getImageurl());
+		//删除目标文件夹中原来的文件
+		if(oldImageUrl !=""&&oldImageUrl!=null&&!oldImageUrl.equals("upload.jpg")){
+			BOSUtil.deleteFile("/resource/images/type/"+oldImageUrl);
+		}
+		
 		//更新三级菜单
 		questionTypeService.updateQuestionTypeByPrimaryKey(questionType);
 		
@@ -209,11 +237,16 @@ public class QuestionTypeController extends BaseController {
 		int a = ThreadLocalRandom.current().nextInt(10000, 99999);
 		String fileName =+ a +"-"+ System.currentTimeMillis() + "-"+file.getOriginalFilename();
 
-		//重命名文件
-        MultipartFile uploadFile = new UploadFile(fileName, file.getInputStream());  
         
-        String typeImagesPath = "/resource/images/type/"+fileName;
-		BOSUtil.upload(uploadFile, typeImagesPath);
+        //String typeImagesPath = "/resource/images/type/"+fileName;
+        //上传到临时文件夹
+        String typeImagesTempPath = "/temp/"+fileName;
+		BOSUtil.upload(file, typeImagesTempPath);
+		
+		//插入上传记录
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddhhmmss");
+		TempUrl tempUrl = new TempUrl(null,fileName,format.format(new Date()));
+		tempUrlService.addTempUrl(tempUrl);
 		
 		return fileName;
 	}
@@ -226,6 +259,11 @@ public class QuestionTypeController extends BaseController {
 	 */
 	@RequestMapping("/addQuestionFirstType")
 	public String addQuestionFirstType(@RequestParam(value="filename",required=false) String filename,@RequestParam("typename") String typename){
+		
+		//将文件从临时文件夹移动到目标文件夹
+		BOSUtil.moveFile("/temp/"+filename,"/resource/images/type/"+filename);
+		
+		//插入数据库
 		QuestionType questionType = new QuestionType();
 		questionType.setTypename(typename);
 		questionType.setImageurl(filename);
@@ -259,6 +297,11 @@ public class QuestionTypeController extends BaseController {
 	 */
 	@RequestMapping("/addQuestionSecondTypeSecond")
 	public String addQuestionSecondTypeSecond(@RequestParam(value="filename",required=false) String filename,@RequestParam("typename") String typename,Integer belongtypeno){
+		
+		//将文件从临时文件夹移动到目标文件夹
+		BOSUtil.moveFile("/temp/"+filename,"/resource/images/type/"+filename);
+				
+		//插入数据库
 		QuestionType questionType = new QuestionType();
 		questionType.setTypename(typename);
 		questionType.setImageurl(filename);
@@ -292,6 +335,10 @@ public class QuestionTypeController extends BaseController {
 	 */
 	@RequestMapping("/addQuestionThreeTypeSecond")
 	public String addQuestionThreeTypeSecond(@RequestParam(value="filename",required=false) String filename,@RequestParam("typename") String typename,Integer belongtypeno){
+		//将文件从临时文件夹移动到目标文件夹
+		BOSUtil.moveFile("/temp/"+filename,"/resource/images/type/"+filename);
+				
+		//插入数据库
 		QuestionType questionType = new QuestionType();
 		questionType.setTypename(typename);
 		questionType.setImageurl(filename);
