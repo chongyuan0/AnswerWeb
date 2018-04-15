@@ -5,7 +5,6 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>更新用户信息</title>
@@ -119,26 +118,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label">用户名称：</label>
 											<div class="controls">
-												<input type="text" class="input-medium " id="username" name="username" value="${user.username}" />
+												<input type="text" class="input-medium " id="username" name="username" value="${user.username}" onkeyup="this.value=this.value.replace(/\s+/g,'')" required="required"/>
 											</div>
 										</div>
 										<div class="control-group">											
 											<label class="control-label">用户密码：</label>
 											<div class="controls">
-												<input type="text" class="input-medium" id="password" name="password" value="${user.password}" />
+												<input type="password" class="input-medium" id="password" name="password" value="${user.password}" required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"/>
 											</div>
 										</div>										
 										<div class="control-group">											
 											<label class="control-label">用户邮箱：</label>
 											<div class="controls">
-												<input type="text" class="input-medium" id="email" name="email" value="${user.email}" />
+												<input type="email" class="input-medium" id="email" name="email" value="${user.email}" required="required"/>
+												<span style="color:red;" id="validMessage"></span>
 											</div>
 										</div>
 										<div class="control-group">											
 											<label class="control-label">邮箱验证状态：</label>
 											<div class="controls">
 												<select id="status"
-														class="input-small " name="status">
+														class="input-small " name="status" required="required">
 														<option <c:if test="${user.status==NULL}">selected</c:if>></option>
 												        <option value="1" <c:if test="${user.status == 1}">selected</c:if>>已验证</option>
 												        <option value="0" <c:if test="${user.status == 0}">selected</c:if>>未验证</option>
@@ -152,7 +152,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 											<div class="controls">
 												<select
 														id="sex" class="input-mini disabled"
-														name="sex">
+														name="sex" required="required">
 														<option <c:if test="${user.sex==null}">selected</c:if>></option>
 												    
 												        <option value="男" <c:if test="${user.sex == '男'}">selected</c:if>>男</option>
@@ -163,7 +163,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</div>		
 										</div>									
 										<div class="form-actions">
-											<input type="submit" class="btn btn-primary" value="提交修改" onclick="return validEmpty()"/>
+											<input id="input_submit" type="submit" class="btn btn-primary" value="提交修改" />
+											<input type="button" class="btn btn-primary" onclick="javascript:history.back(-1);" value="返回">
 										</div>
 									</fieldset>
 								</form>
@@ -186,7 +187,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 </div>
 <!-- javascript================================================== -->
+<script src="${pageContext.request.contextPath}/js/jquery-1.7.2.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath}/js/WebCalendar.js" type="text/javascript"></script>
 <script type="text/javascript">
+
+$("#email").change(function(){
+	$.ajax({
+		url:"${pageContext.request.contextPath}/validEmail?email="+$("#email").val(),
+		type:"POST",
+		success:function(data){
+			if(data){
+				$("#validMessage").text("此邮箱可用");
+				$("#validMessage").attr("style","color:green");
+				$("#input_submit").removeAttr("disabled");
+			}
+			else{
+				$("#validMessage").text("此邮箱不可用");
+				$("#validMessage").attr("style","color:red");
+				$("#input_submit").attr("disabled","disabled");
+			}
+		}
+	});
+});
+
 function validEmpty(){
 	//  获取输入框的值
 	var name = document.getElementById('username').value;
@@ -209,8 +233,6 @@ function validEmpty(){
 }
 </script>
 
-<script src="${pageContext.request.contextPath}/js/jquery-1.7.2.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath}/js/WebCalendar.js" type="text/javascript"></script>
+
   </body>
 </html>

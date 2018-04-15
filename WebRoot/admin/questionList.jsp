@@ -195,9 +195,9 @@ table{
 
 								<div class="tabbable">
 									<ul class="nav nav-tabs">
-										<li <c:if test="${toid==1}">class="active"</c:if>><a
+										<li id="oneTab" <c:if test="${toid==1}">class="active"</c:if>><a
 											href="#1" data-toggle="tab">试题信息</a></li>
-										<li <c:if test="${toid==2}">class="active"</c:if>><a
+										<li id="twoTab" <c:if test="${toid==2}">class="active"</c:if>><a
 											href="#2" data-toggle="tab">添加试题</a></li>
 									</ul>
 
@@ -363,7 +363,7 @@ table{
 										<div class="control-group">											
 											<label class="control-label">题目内容：</label>
 											<div id="div_content" class="controls">
-												<textarea style="overflow-x:hidden" id="addQuestion_content" name="content" required="required"></textarea>
+												<textarea style="overflow-x:hidden" id="addQuestion_content" name="content" required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"></textarea>
 											</div>
 										</div>
 									
@@ -383,7 +383,7 @@ table{
 										<div class="control-group">											
 											<label class="control-label">答案详解：</label>
 											<div id="div_des" class="controls">
-											<textarea style="overflow-x:hidden" id="addQuestion_description" name="description" required="required"></textarea>
+											<textarea style="overflow-x:hidden" id="addQuestion_description" name="description" required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"></textarea>
 											</div>
 										</div>
 										
@@ -410,7 +410,7 @@ table{
 											<label class="control-label">候选答案${status.count}：</label>
 											<div class="controls">
 												<input name="optionsList[${status.count-1}].questionno" value="" type="hidden"/>
-												<textarea style="overflow-x:hidden" name="optionsList[${status.count-1}].content" required="required"></textarea>
+												<textarea style="overflow-x:hidden" name="optionsList[${status.count-1}].content" required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"></textarea>
 												<select
 														id="" class="input-mini disabled"
 														name="optionsList[${status.count-1}].status">
@@ -423,6 +423,7 @@ table{
 										
 										<div class="form-actions">
 											<input type="submit" class="btn btn-primary" value="添加"/>
+											<a id="backToOne" href="#1" data-toggle="tab" class="btn btn-primary">返回</a>
 										</div>
 										</div>									
 									</fieldset>
@@ -487,6 +488,13 @@ table{
 	<script src="<%=basePath%>js/charts/bar.js"></script>
 	
 	<script type="text/javascript">
+	
+		$("#backToOne").click(function(){
+			$("#oneTab").addClass("active");
+			$("#twoTab").removeClass("active");
+		});
+	
+	
 		function form_pagination(pageNo){
 	  		$("#exampleForm").attr("action","${pageContext.request.contextPath}/selectQuestion?pn="+pageNo+"&toid=1");
 	  		$("#exampleForm").submit();
@@ -526,6 +534,7 @@ table{
 				input_text.id="addQuestion_content";
 				input_text.name="content";
 				input_text.required="required";
+				input_text.onkeyup="this.value=this.value.replace(/\s+/g,'')";
 				
 				
 				
@@ -576,7 +585,7 @@ table{
 			        }
 			        $("#edit-profile").ajaxSubmit({
 			            type : 'POST',
-			            url : '${pageContext.request.contextPath}/addQuestionFile',
+			            url : '${pageContext.request.contextPath}/addQuestionFile?flag=1',
 			            success : function(data) {
 			            	/* <embed autostart="false" play="false"  flashvars="autoplay=false&play=false" menu="false" hidden="false" loop="false" 
 							src="${pageContext.request.contextPath}/resource/images/type/63519-1523185519322-a59836cd9522f795669c5624de3b379e.mp4" />
@@ -631,6 +640,7 @@ table{
 				input_text.id="addQuestion_description";
 				input_text.name="description";
 				input_text.required="required";
+				input_text.onkeyup="this.value=this.value.replace(/\s+/g,'')";
 				$("#div_des").empty().append(input_text);
 			}else{
 				var input_file = document.createElement("input");
@@ -649,11 +659,19 @@ table{
 				fileContent.value="upload.jpg";
 				fileContent.id="description";
 				
+				var answermessage = document.createElement("span");
+				answermessage.innerText="";
+				answermessage.style="color:green;";
+				answermessage.id="answermessage";
 				
-				
-				$("#div_des").empty().append(input_file).append(showfile).append(fileContent);
+				$("#div_des").empty().append(input_file).append(showfile).append(fileContent).append(answermessage);
 				
 				$("#addQuestion_description").change(function(){
+					
+					/* 修改进度条 */
+					$("#answermessage").attr("style","color:red;");
+					$("#answermessage").text("正在上传");
+					
 			        var imagePath = $("#addQuestion_description").val();
 			        if (imagePath == '') {
 			            return false;
@@ -667,11 +685,15 @@ table{
 			        }
 			        $("#edit-profile").ajaxSubmit({
 			            type : 'POST',
-			            url : '${pageContext.request.contextPath}/addQuestionFile',
+			            url : '${pageContext.request.contextPath}/addQuestionFile?flag=2',
 			            success : function(data) {
 			            	
 			                $("#description").val(data);
 				            $("#showimg").attr("src", 'http://answerweb.gz.bcebos.com/temp/'+data);
+				            
+				            /* 修改进度条 */
+							$("#answermessage").attr("style","color:green;");
+							$("#answermessage").text("上传完毕");
 			                
 			            },
 			            error : function() {

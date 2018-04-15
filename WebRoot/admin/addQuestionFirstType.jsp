@@ -116,7 +116,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label">目录名称：</label>
 											<div class="controls">
-												<input type="text" class="input-medium " id="typename" name="typename"  required="required"/>
+												<input type="text" class="input-medium " id="typename" name="typename"  required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"/>
 												<span id="validataMessage" style="color:red;"></span>
 											</div>
 										</div>
@@ -140,6 +140,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										</div>									
 										<div class="form-actions">
 											<input type="submit"  id="input_submit" class="btn btn-primary" value="提交添加" />
+											<input type="button" class="btn btn-primary" onclick="javascript:history.back(-1);" value="返回">
 										</div>
 									</fieldset>
 								</form>

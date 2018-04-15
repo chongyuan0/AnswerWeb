@@ -5,7 +5,6 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -194,14 +193,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label" for="password3">原密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="oldPassword" value=""  required/>
+												<input type="password" class="input-medium" name="oldPassword" value=""  required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"/>
 											</div> <!-- /controls -->				
 										</div> <!-- /control-group -->
 
 										<div class="control-group">											
 											<label class="control-label" for="password1">新密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="password" required/>
+												<input type="password" class="input-medium" name="password" required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"/>
 											</div> <!-- /controls -->				
 										</div> <!-- /control-group -->
 										
@@ -209,7 +208,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label" for="password2">确认密码</label>
 											<div class="controls">
-												<input type="password" class="input-medium" name="comfirePassword" required/>
+												<input type="password" class="input-medium" name="comfirePassword" required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"/>
 											</div> 			
 										</div> 
 										
