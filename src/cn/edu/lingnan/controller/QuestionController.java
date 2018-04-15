@@ -131,7 +131,7 @@ public class QuestionController extends BaseController {
 		
 		//对答案图片进行更新
 		if(question.getDesstatus()==2){
-			if(question.getDescription()!=oldDescription){
+			if(!question.getDescription().equals(oldDescription)){
 				String path = "/resource/images/answer/";
 				//移动答案图片
 				BOSUtil.moveFile("/temp/"+question.getDescription(),path+question.getDescription());
@@ -165,8 +165,8 @@ public class QuestionController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/addQuestionFile", produces = "text/html;charset=UTF-8")
 	public String addQuestionFile(@RequestParam(value = "file", required = false) MultipartFile file,@RequestParam(value="desFile",required=false) MultipartFile desFile
-			) throws IllegalStateException, IOException {
-		if(desFile == null){
+			,@RequestParam(value="flag",required=false) Integer flag	) throws IllegalStateException, IOException {
+		if(flag == 1){
 	/*	String strExtension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf('.') + 1);
 		String path = "/resource/images/question/";
 		if(strExtension.equals("mp3")){
@@ -190,7 +190,7 @@ public class QuestionController extends BaseController {
 		return fileName;
 		
 		//这是答案详解图片的预览
-		}else{
+		}else if(flag == 2){
 			String path = "/resource/images/answer/";
 			// fileName唯一性
 			int a = ThreadLocalRandom.current().nextInt(100,999);
@@ -206,6 +206,7 @@ public class QuestionController extends BaseController {
 			tempUrlService.addTempUrl(tempUrl);
 			return fileName;
 		}
+		return "error";
 	}
 	
 	

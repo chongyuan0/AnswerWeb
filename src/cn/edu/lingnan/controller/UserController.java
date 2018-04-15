@@ -393,5 +393,21 @@ public class UserController extends BaseController {
 		return "redirect:selectUserByExample";
 	}
 
-
+	/**
+	 * 检查是否邮箱重复
+	 * @return
+	 */
+	@RequestMapping("/validEmail")
+	@ResponseBody
+	public boolean validEmail(String email){
+		User user = new User();
+		user.setEmail(email);
+		//如果不存在此邮箱，返回true
+		if(userService.selectUserByExample(user).size()==0){
+			return true;
+		}
+		return false;
+	}
+	
+	
 }

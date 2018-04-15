@@ -1,5 +1,7 @@
 package cn.edu.lingnan.filter;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -8,6 +10,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 public class CommonInterceptor implements HandlerInterceptor {
 
+	private List<String> excludedUrls;
+  
+	
 	@Override
 	public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
 			throws Exception {
@@ -24,6 +29,8 @@ public class CommonInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
+		
+		
 		if (request.getSession().getAttribute("admins") == null) {
 			String XRequested = request.getHeader("X-Requested-With");
 			if ("XMLHttpRequest".equals(XRequested)) {

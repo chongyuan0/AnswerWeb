@@ -1,12 +1,14 @@
 package cn.edu.lingnan.pojo;
 
+import javax.validation.constraints.NotNull;
+
 public class QuestionType {
     private Integer typeno;
-
+    @NotNull
     private String typename;
 
     private Integer belongtypeno;
-
+    @NotNull
     private String imageurl;
 
     public Integer getTypeno() {

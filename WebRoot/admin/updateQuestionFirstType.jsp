@@ -5,7 +5,6 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
     <title>更新一级菜单</title>
@@ -124,7 +123,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 										<div class="control-group">											
 											<label class="control-label">目录名称：</label>
 											<div class="controls">
-												<input type="text" class="input-medium " id="typename" name="typename" value="${questionType.typename }" />
+												<input type="text" class="input-medium " id="typename" name="typename" value="${questionType.typename }" required="required" onkeyup="this.value=this.value.replace(/\s+/g,'')"/>
 											</div>
 										</div>
 										
@@ -155,7 +154,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 												
 										</div>									
 										<div class="form-actions">
-											<input type="submit" class="btn btn-primary" value="提交修改" onclick="return validEmpty()"/>
+											<input type="submit" class="btn btn-primary" value="更新" />
+											<input type="button" class="btn btn-primary" onclick="javascript:history.back(-1);" value="返回">
 										</div>
 									</fieldset>
 								</form>
