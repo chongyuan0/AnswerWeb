@@ -35,11 +35,11 @@ public class TaskService {
 	 * @author huang
 	 * 定时清理BOS中当前时间5分钟前的文件
 	 */
-	@Scheduled(cron="0 0 0/1 * * ?")
+	@Scheduled(cron="0 0/5 * * * ?")
 	public void timerDeleteBosTemp() {
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
 		Long nowdate = Long.parseLong(format.format(new Date()));
-		String oldtime = new Long(nowdate-10000).toString();
+		String oldtime = new Long(nowdate-500).toString();
 		TempUrlExample tempExample = new TempUrlExample();
 		Criteria criteria = tempExample.createCriteria();
 		criteria.andNewdateLessThan(oldtime);
