@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -74,7 +73,7 @@
 												<div class="item-title label">姓名</div>
 												<div class="item-input">
 													<input id="nickname" type="text" placeholder="呢称" name="nickname"
-														value="${weChatUser.nickname}">
+														v-bind:value="nickname" required="required">
 													<input id="wechatuserno" type="hidden" value="${weChatUser.wechatuserno }"/>
 												</div>
 											</div>
@@ -105,12 +104,15 @@
 											<div class="item-inner">
 											<div class="item-title label">性别</div>
 												<div class="item-input">
-													<select id="sex" name="sex">
+													<select v-if="sex == '男'" id="sex" name="sex" required="required">
 					
-														<option value="男"
-															<c:if test="${weChatUser.sex == '男' }">selected</c:if>>Male</option>
-														<option value="女"
-															<c:if test="${weChatUser.sex == '女' }">selected</c:if>>Female</option>
+														<option value="男" selected>Male</option>
+														<option value="女" >Female</option>
+													</select>
+													<select v-if="sex == '女'" id="sex" name="sex" required="required">
+					
+														<option value="男" >Male</option>
+														<option value="女" selected>Female</option>
 													</select>
 												</div>
 											</div>
@@ -125,8 +127,9 @@
 											<div class="item-inner">
 											<div class="item-title label">地址</div>
 												<div class="item-input">
-													<input name="address" type="text" id='city' value="${weChatUser.province } ${weChatUser.city } ${weChatUser.country }" />
-													<!-- <input type="date" placeholder="Birth day" value="2014-04-30"> -->
+													<input name="province" type="text" id='province' v-bind:value="province" required="required"/>
+													<input name="city" type="text" id='city' v-bind:value="city" required="required"/>
+													<input name="country" type="text" id='country' v-bind:value="country" required="required"/>
 												</div>
 											</div>
 										</div>
@@ -192,7 +195,7 @@
 											class="button button-big button-fill button-danger">取消</a>
 									</div>
 									<div class="col-50">
-										<a id="save" href="#" class="button button-big button-fill button-success">提交</a>
+										<a id="save" href="#" v-on:click="updateInfo()" class="button button-big button-fill button-success">提交</a>
 									</div>
 								</div>
 							</div>
@@ -267,6 +270,44 @@ var questiontype = new Vue({
 	}
 });
 
+/* ------------------------------个人信息VUE ----------------------------------------- */
+var wechatuser = new Vue({
+	el:"user",
+	data:{
+		nickname:null,
+		sex:null,
+		province:null,
+		city:null,
+		country:null
+	},
+	mounted(){
+		this.load();
+	},
+	methods:{
+		load:function(){
+			wechatuser.nickname = "${weChatUser.nickname}",
+			wechatuser.sex = "${weChatUser.sex}",
+			wechatuser.province = "${weChatUser.province}",
+			wechatuser.city = "${weChatUser.city}",
+			wechatuser.country = "${weChatUser.country}"
+		},
+		updateInfo:function(){
+			$.ajax({
+				url:"${pageContext.request.contextPath}/updateWechatUser?nickname="+$("#nickname").val()+"&sex="+$("#sex").val()+"&province="+$("#province").val()+"&city="+$("#city").val()+"&country="+$("#country").val()+"&wechatuserno=${weChatUser.wechatuserno}",
+				type:"POST",
+				success:function(data){
+					wechatuser.nickname = data.nickname,
+					wechatuser.sex = data.sex,
+					wechatuser.province = data.province,
+					wechatuser.city = data.city,
+					wechatuser.country = data.country
+				}
+			})
+		}
+	}
+});
+
+/* -------------------------------------个人记录VUE----------------------------------- */
 var wechatuserRecords = new Vue({
 	el:"#user",
 	data:{
