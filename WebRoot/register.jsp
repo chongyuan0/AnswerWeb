@@ -20,7 +20,7 @@
 			<div class="topic">
 				注册
 			</div>
-			<div class="error">
+			<div class="error_m">
 				${error}
 			</div>
 			<form action="${pageContext.request.contextPath }/register" method="post">
@@ -39,8 +39,15 @@
 						<input type="email" name="email" placeholder="邮箱" required />
 					</div>
 					<div class="input">
-						<input type="radio" name="sex" value="男" checked/>男
-						<input type="radio" name="sex" value="女" />女
+						<label for="">性&nbsp;&nbsp;&nbsp;别</label>
+						<input type="radio" name="sex" value="man" checked/>男
+						<input type="radio" name="sex" value="woman" />女
+					</div>
+					<div class="input yanzheng">
+						<label for="">验证码</label>
+						<input type="text" name="code" placeholder="密码" />
+						<span id=""><img id="validateCode" src="Number.jsp"/></span>
+						<span id=""><a id="changeCode" href="javascript:">看不清，换一张</a></span>
 					</div>
 					<div class="input">
 						<input type="submit" name="submit" value="注册" />

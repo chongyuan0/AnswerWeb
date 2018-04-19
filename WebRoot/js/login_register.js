@@ -33,5 +33,11 @@ $(function(){
 		}
 		return true;
 	}
+	
+	$("#changeCode").click(function(event){
+		$("#validateCode").attr("src","Number.jsp?ran"+Math.random());
+		event.preventDefault();
+		return false;	
+	});
 
 })

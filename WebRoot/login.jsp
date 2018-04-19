@@ -33,6 +33,12 @@
 						<label for="">密&nbsp;&nbsp;&nbsp;码</label>
 						<input type="password" name="password" placeholder="密码" required />
 					</div>
+					<div class="input yanzheng">
+						<label for="">验证码</label>
+						<input type="text" name="code" placeholder="密码" />
+						<span id=""><img id="validateCode" src="Number.jsp"/></span>
+						<span id=""><a id="changeCode" href="javascript:">看不清，换一张</a></span>
+					</div>
 					<div class="input">
 						<input type="submit" name="submit" value="登录" />
 					</div>

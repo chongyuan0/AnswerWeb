@@ -127,3 +127,20 @@ input[type="submit"]:hover{
     margin-top: 5px;
 	border-right:1px solid darkgrey ;	
 }
+/*--------------------------------------验证*/
+.yanzheng{
+	text-align: center;
+}
+.yanzheng span{
+	
+}
+.yanzheng span img{
+	width: 100px;
+	height: 60px;
+	margin: 10px 0 0 6px;
+}
+.yanzheng span a{	
+	width: 200px;
+	height: 200px;
+	font-size: 12px;
+}

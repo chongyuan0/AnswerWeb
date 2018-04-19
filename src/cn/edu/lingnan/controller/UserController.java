@@ -52,9 +52,14 @@ public class UserController extends BaseController {
 	 * @return
 	 */
 	@RequestMapping(value = "login")
-	public String login(User user, ModelMap model) {
+	public String login(User user, String code, ModelMap model) {
 		if(super.session.getAttribute("user") != null)
 			return "user/index";
+		String oldcode = (String)super.session.getAttribute("numberRand");
+		if ( !oldcode.equals(code)) {
+			model.put("loginerror", "验证码错误");
+			return "login";
+		}
 		List<User> userlist = userService.login(user);
 		// 不存在用户
 		if (userlist.size() <= 0) {
@@ -102,7 +107,12 @@ public class UserController extends BaseController {
 	 * 用户注册
 	 */
 	@RequestMapping(value = "register")
-	public String register(@Valid User user, BindingResult result, Map<String, Object> map) {
+	public String register(@Valid User user,String code, BindingResult result, Map<String, Object> map) {
+		String oldcode = (String)super.session.getAttribute("numberRand");
+		if ( !oldcode.equals(code)) {
+			map.put("error", "验证码错误");
+			return "register";
+		}
 		//判断输入是否合法
 		if (result.hasErrors()) {
 			List<ObjectError> list = result.getAllErrors();

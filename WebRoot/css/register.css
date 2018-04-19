@@ -41,10 +41,10 @@ a:hover{
 
 .login{
 	position: absolute;
-	top: 70px;
+	top: 34px;
     right: 9%;
 	width: 400px;
-	height: 500px;
+	height: 605px;
 	border-radius: 3px;
 	background: #fff;
 	opacity: 0.95;
@@ -109,13 +109,21 @@ input[type="radio"]{
 	width: 63px;
     height: 18px;
     box-shadow: none;
-    margin-left: 49px;
+    margin-left: 20px;
 }
 
 .email_error{
 	color: red;
     font-size: 16px;
     margin-left: 73px;
+}
+
+.error_m{
+	/*display: none;*/
+	font-size: 12px;
+    margin-left: 107px;
+    margin-bottom: -20px;
+    color: red;
 }
 
 .bottom ul{
@@ -128,4 +136,20 @@ input[type="radio"]{
 .bottom ul li a{
 	color: #005AA0;
 }
-
+/*--------------------------------------验证*/
+.yanzheng{
+	text-align: center;
+}
+.yanzheng span{
+	
+}
+.yanzheng span img{
+	width: 100px;
+	height: 60px;
+	margin: 10px 0 0 6px;
+}
+.yanzheng span a{	
+	width: 200px;
+	height: 200px;
+	font-size: 12px;
+}
