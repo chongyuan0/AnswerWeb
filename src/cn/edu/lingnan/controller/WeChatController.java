@@ -175,13 +175,16 @@ public class WeChatController extends BaseController {
 	 */
 	@ResponseBody
 	@RequestMapping("/updateWechatUser")
-	public void updateWechatUser(@RequestParam("wechatuserno") Integer wechatuserno, @RequestParam(value="nickname" ,required=false)String nickname,String sex,String address){
+	public WeChatUser updateWechatUser(@RequestParam("wechatuserno") Integer wechatuserno, @RequestParam(value="nickname" ,required=false)String nickname,String sex,String province,String city,String country){
 		
 		WeChatUser weChatUser = weChatService.getWechatUser(wechatuserno);
 		weChatUser.setSex(sex);
 		weChatUser.setNickname(nickname);
+		weChatUser.setProvince(province);
+		weChatUser.setCity(city);
+		weChatUser.setCountry(country);
 		
-		//分解地址
+		/*//分解地址
 		List<String> update_addrs = new ArrayList<String>();
 		String[] str_addrs = address.split(" ");
 		for(String addr:str_addrs){
@@ -198,8 +201,9 @@ public class WeChatController extends BaseController {
 			weChatUser.setCountry(update_addrs.get(2));
 		}else if(update_addrs.size() == 1){
 			weChatUser.setProvince(update_addrs.get(0));
-		}
+		}*/
 		weChatService.updateWeChatUser(weChatUser);
+		return weChatService.getWechatUser(wechatuserno);
 	}
 	
 }
