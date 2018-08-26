@@ -25,10 +25,6 @@ public class BOSUtil {
 	private final static String SECRET_ACCESS_KEY = "5df094ac33b94021b7ed9827122d8927";
 	private final static String BUCKET_NAME = "answerweb";	//上传的文件夹名称
 	
-	/*private final static String ACCESS_KEY_ID = "55fa371503834e4a8a3fa67d6a89cd10";	
-	private final static String SECRET_ACCESS_KEY = "8d15e88309954f938c3a65a5855619a5";
-	private final static String BUCKET_NAME = "cn-edu-lingnan";*/
-	
 
 	/**
 	 * @author huang
